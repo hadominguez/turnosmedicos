@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ef2ed1e45e584d869adc5001fc68329a" Name="Diagram1">
+        <EntityTypeShape EntityType="TurnosMedicosModel.Agenda" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.Consultorio" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.Especialidad" Width="1.5" PointX="0.75" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.Estado" Width="1.5" PointX="3.75" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.Medico" Width="1.5" PointX="0.75" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.MedicoHorario" Width="1.5" PointX="9" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.MedicoObraSocial" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.ObraSocial" Width="1.5" PointX="0.75" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.ObraSocialTarifa" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.Paciente" Width="1.5" PointX="3.75" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.PacienteHistorial" Width="1.5" PointX="8.25" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.PacienteObraSocial" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.Perfil" Width="1.5" PointX="4.5" PointY="19.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.PerfilPermiso" Width="1.5" PointX="6.75" PointY="19.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.Permiso" Width="1.5" PointX="4.5" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.Persona" Width="1.5" PointX="1.5" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.Turno" Width="1.5" PointX="6" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.Usuario" Width="1.5" PointX="6.75" PointY="15" IsExpanded="true" />
+        <AssociationConnector Association="TurnosMedicosModel.FK__MedicoHorario_Consultorio" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_Turno_Consultorio" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_Medico_Especialidad" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_ObraSocialTarifa_Especialidad" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_Turno_Especialidad" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_Turno_Estado" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK__MedicoHorario_Medico" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_Medico_Persona" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_MedicoObraSocial_Medico" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_Turno_Medico" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_MedicoObraSocial_ObraSocial" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_ObraSocialTarifa_ObraSocial" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_PacienteObraSocial_ObraSocial" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_Turno_ObraSocial" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_Paciente_Persona" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_PacienteHistorial_Paciente" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_PacienteObraSocial_Paciente" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_Turno_Paciente" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_PacienteHistorial_Turno" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_PerfilPermiso_Perfil" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_Usuario_Perfil" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_PerfilPermiso_Permiso" ManuallyRouted="false" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_Usuario_Persona" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TurnosMedicosModelStoreContainer" CdmEntityContainer="TurnosMedicosEntities">
+    <EntitySetMapping Name="Agenda">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.Agenda">
+        <MappingFragment StoreEntitySet="Agenda">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Consultorio">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.Consultorio">
+        <MappingFragment StoreEntitySet="Consultorio">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Especialidad">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.Especialidad">
+        <MappingFragment StoreEntitySet="Especialidad">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Tiempo" ColumnName="Tiempo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Estado">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.Estado">
+        <MappingFragment StoreEntitySet="Estado">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Medico">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.Medico">
+        <MappingFragment StoreEntitySet="Medico">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
+          <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+          <ScalarProperty Name="EspecialidadId" ColumnName="EspecialidadId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MedicoHorario">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.MedicoHorario">
+        <MappingFragment StoreEntitySet="MedicoHorario">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MedicoId" ColumnName="MedicoId" />
+          <ScalarProperty Name="ConsultorioId" ColumnName="ConsultorioId" />
+          <ScalarProperty Name="Dia" ColumnName="Dia" />
+          <ScalarProperty Name="Inicio" ColumnName="Inicio" />
+          <ScalarProperty Name="Fin" ColumnName="Fin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MedicoObraSocial">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.MedicoObraSocial">
+        <MappingFragment StoreEntitySet="MedicoObraSocial">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MedicoId" ColumnName="MedicoId" />
+          <ScalarProperty Name="ObraSocialId" ColumnName="ObraSocialId" />
+          <ScalarProperty Name="Numero" ColumnName="Numero" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ObraSocial">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.ObraSocial">
+        <MappingFragment StoreEntitySet="ObraSocial">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ObraSocialTarifa">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.ObraSocialTarifa">
+        <MappingFragment StoreEntitySet="ObraSocialTarifa">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ObraSocialId" ColumnName="ObraSocialId" />
+          <ScalarProperty Name="EspecialidadId" ColumnName="EspecialidadId" />
+          <ScalarProperty Name="tarifa" ColumnName="tarifa" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Paciente">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.Paciente">
+        <MappingFragment StoreEntitySet="Paciente">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PacienteHistorial">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.PacienteHistorial">
+        <MappingFragment StoreEntitySet="PacienteHistorial">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PacienteId" ColumnName="PacienteId" />
+          <ScalarProperty Name="TurnoId" ColumnName="TurnoId" />
+          <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PacienteObraSocial">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.PacienteObraSocial">
+        <MappingFragment StoreEntitySet="PacienteObraSocial">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PacienteId" ColumnName="PacienteId" />
+          <ScalarProperty Name="ObraSocialId" ColumnName="ObraSocialId" />
+          <ScalarProperty Name="NumeroAfiliado" ColumnName="NumeroAfiliado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Perfil">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.Perfil">
+        <MappingFragment StoreEntitySet="Perfil">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PerfilPermiso">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.PerfilPermiso">
+        <MappingFragment StoreEntitySet="PerfilPermiso">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PerfilId" ColumnName="PerfilId" />
+          <ScalarProperty Name="PermisoId" ColumnName="PermisoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Permiso">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.Permiso">
+        <MappingFragment StoreEntitySet="Permiso">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Persona">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.Persona">
+        <MappingFragment StoreEntitySet="Persona">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DNI" ColumnName="DNI" />
+          <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+          <ScalarProperty Name="Calle" ColumnName="Calle" />
+          <ScalarProperty Name="Numero" ColumnName="Numero" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+          <ScalarProperty Name="Celular" ColumnName="Celular" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Turno">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.Turno">
+        <MappingFragment StoreEntitySet="Turno">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="EstadoId" ColumnName="EstadoId" />
+          <ScalarProperty Name="MedicoId" ColumnName="MedicoId" />
+          <ScalarProperty Name="PacienteId" ColumnName="PacienteId" />
+          <ScalarProperty Name="ObraSocialId" ColumnName="ObraSocialId" />
+          <ScalarProperty Name="ConsultorioId" ColumnName="ConsultorioId" />
+          <ScalarProperty Name="EspecialidadId" ColumnName="EspecialidadId" />
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Hora" ColumnName="Hora" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="ObraSocialTarifa" ColumnName="ObraSocialTarifa" />
+          <ScalarProperty Name="CostoTotal" ColumnName="CostoTotal" />
+          <ScalarProperty Name="Pagado" ColumnName="Pagado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuario">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.Usuario">
+        <MappingFragment StoreEntitySet="Usuario">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="usuario1" ColumnName="usuario" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="Bloqueado" ColumnName="Bloqueado" />
+          <ScalarProperty Name="PerfilId" ColumnName="PerfilId" />
+          <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="TurnosMedicosEntities-Web.config Connection String" description="TurnosMedicosEntities Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/Models.DB.csdl|res://*/Models.DB.ssdl|res://*/Models.DB.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=MYPCPERSONAL\SQLEXPRESS;initial catalog=TurnosMedicos;user id=sa;password=zaq12wsx;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Turnos\ Medicos\\Turnos\ Medicos\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='TurnosMedicosEntities']/@connectionString" />
+  </parameter>
+</parameters>

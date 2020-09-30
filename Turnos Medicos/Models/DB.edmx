@@ -1,0 +1,1429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TurnosMedicosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Agenda">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Consultorio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Especialidad">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Tiempo" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Estado">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Medico">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonaId" Type="int" Nullable="false" />
+          <Property Name="Matricula" Type="int" Nullable="false" />
+          <Property Name="EspecialidadId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MedicoHorario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MedicoId" Type="int" Nullable="false" />
+          <Property Name="ConsultorioId" Type="int" Nullable="false" />
+          <Property Name="Dia" Type="int" Nullable="false" />
+          <Property Name="Inicio" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Fin" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MedicoObraSocial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MedicoId" Type="int" Nullable="false" />
+          <Property Name="ObraSocialId" Type="int" Nullable="false" />
+          <Property Name="Numero" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ObraSocial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="17" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ObraSocialTarifa">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ObraSocialId" Type="int" Nullable="false" />
+          <Property Name="EspecialidadId" Type="int" Nullable="false" />
+          <Property Name="tarifa" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Paciente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonaId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PacienteHistorial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PacienteId" Type="int" Nullable="false" />
+          <Property Name="TurnoId" Type="int" />
+          <Property Name="Observacion" Type="varchar" MaxLength="500" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PacienteObraSocial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PacienteId" Type="int" Nullable="false" />
+          <Property Name="ObraSocialId" Type="int" Nullable="false" />
+          <Property Name="NumeroAfiliado" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Perfil">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PerfilPermiso">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PerfilId" Type="int" Nullable="false" />
+          <Property Name="PermisoId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Permiso">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Persona">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DNI" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaNacimiento" Type="date" Nullable="false" />
+          <Property Name="Calle" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Numero" Type="int" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="Celular" Type="varchar" MaxLength="17" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Turno">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EstadoId" Type="int" Nullable="false" />
+          <Property Name="MedicoId" Type="int" Nullable="false" />
+          <Property Name="PacienteId" Type="int" />
+          <Property Name="ObraSocialId" Type="int" />
+          <Property Name="ConsultorioId" Type="int" Nullable="false" />
+          <Property Name="EspecialidadId" Type="int" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Hora" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ObraSocialTarifa" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="CostoTotal" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="Pagado" Type="bit" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="usuario" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Bloqueado" Type="bit" Nullable="false" />
+          <Property Name="PerfilId" Type="int" Nullable="false" />
+          <Property Name="PersonaId" Type="int" />
+        </EntityType>
+        <Association Name="FK_[MedicoHorario_Consultorio">
+          <End Role="Consultorio" Type="Self.Consultorio" Multiplicity="1" />
+          <End Role="MedicoHorario" Type="Self.MedicoHorario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consultorio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MedicoHorario">
+              <PropertyRef Name="ConsultorioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_[MedicoHorario_Medico">
+          <End Role="Medico" Type="Self.Medico" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MedicoHorario" Type="Self.MedicoHorario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medico">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MedicoHorario">
+              <PropertyRef Name="MedicoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Medico_Especialidad">
+          <End Role="Especialidad" Type="Self.Especialidad" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Medico" Type="Self.Medico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Especialidad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Medico">
+              <PropertyRef Name="EspecialidadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Medico_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Medico" Type="Self.Medico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Medico">
+              <PropertyRef Name="PersonaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MedicoObraSocial_Medico">
+          <End Role="Medico" Type="Self.Medico" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MedicoObraSocial" Type="Self.MedicoObraSocial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medico">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MedicoObraSocial">
+              <PropertyRef Name="MedicoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MedicoObraSocial_ObraSocial">
+          <End Role="ObraSocial" Type="Self.ObraSocial" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MedicoObraSocial" Type="Self.MedicoObraSocial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObraSocial">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MedicoObraSocial">
+              <PropertyRef Name="ObraSocialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ObraSocialTarifa_Especialidad">
+          <End Role="Especialidad" Type="Self.Especialidad" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ObraSocialTarifa" Type="Self.ObraSocialTarifa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Especialidad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ObraSocialTarifa">
+              <PropertyRef Name="EspecialidadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ObraSocialTarifa_ObraSocial">
+          <End Role="ObraSocial" Type="Self.ObraSocial" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ObraSocialTarifa" Type="Self.ObraSocialTarifa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObraSocial">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ObraSocialTarifa">
+              <PropertyRef Name="ObraSocialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paciente_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paciente">
+              <PropertyRef Name="PersonaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PacienteHistorial_Paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+          <End Role="PacienteHistorial" Type="Self.PacienteHistorial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PacienteHistorial">
+              <PropertyRef Name="PacienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PacienteHistorial_Turno">
+          <End Role="Turno" Type="Self.Turno" Multiplicity="0..1" />
+          <End Role="PacienteHistorial" Type="Self.PacienteHistorial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Turno">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PacienteHistorial">
+              <PropertyRef Name="TurnoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PacienteObraSocial_ObraSocial">
+          <End Role="ObraSocial" Type="Self.ObraSocial" Multiplicity="1" />
+          <End Role="PacienteObraSocial" Type="Self.PacienteObraSocial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObraSocial">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PacienteObraSocial">
+              <PropertyRef Name="ObraSocialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PacienteObraSocial_Paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+          <End Role="PacienteObraSocial" Type="Self.PacienteObraSocial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PacienteObraSocial">
+              <PropertyRef Name="PacienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PerfilPermiso_Perfil">
+          <End Role="Perfil" Type="Self.Perfil" Multiplicity="1" />
+          <End Role="PerfilPermiso" Type="Self.PerfilPermiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perfil">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PerfilPermiso">
+              <PropertyRef Name="PerfilId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PerfilPermiso_Permiso">
+          <End Role="Permiso" Type="Self.Permiso" Multiplicity="1" />
+          <End Role="PerfilPermiso" Type="Self.PerfilPermiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permiso">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PerfilPermiso">
+              <PropertyRef Name="PermisoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_Consultorio">
+          <End Role="Consultorio" Type="Self.Consultorio" Multiplicity="1" />
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consultorio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="ConsultorioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_Especialidad">
+          <End Role="Especialidad" Type="Self.Especialidad" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Especialidad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="EspecialidadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_Estado">
+          <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="EstadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_Medico">
+          <End Role="Medico" Type="Self.Medico" Multiplicity="1" />
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medico">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="MedicoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_ObraSocial">
+          <End Role="ObraSocial" Type="Self.ObraSocial" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObraSocial">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="ObraSocialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_Paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="0..1" />
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="PacienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Perfil">
+          <End Role="Perfil" Type="Self.Perfil" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perfil">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="PerfilId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="PersonaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TurnosMedicosModelStoreContainer">
+          <EntitySet Name="Agenda" EntityType="Self.Agenda" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Consultorio" EntityType="Self.Consultorio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Especialidad" EntityType="Self.Especialidad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estado" EntityType="Self.Estado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Medico" EntityType="Self.Medico" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MedicoHorario" EntityType="Self.MedicoHorario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MedicoObraSocial" EntityType="Self.MedicoObraSocial" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ObraSocial" EntityType="Self.ObraSocial" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ObraSocialTarifa" EntityType="Self.ObraSocialTarifa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PacienteHistorial" EntityType="Self.PacienteHistorial" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PacienteObraSocial" EntityType="Self.PacienteObraSocial" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Perfil" EntityType="Self.Perfil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PerfilPermiso" EntityType="Self.PerfilPermiso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Permiso" EntityType="Self.Permiso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Persona" EntityType="Self.Persona" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Turno" EntityType="Self.Turno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_[MedicoHorario_Consultorio" Association="Self.FK_[MedicoHorario_Consultorio">
+            <End Role="Consultorio" EntitySet="Consultorio" />
+            <End Role="MedicoHorario" EntitySet="MedicoHorario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_[MedicoHorario_Medico" Association="Self.FK_[MedicoHorario_Medico">
+            <End Role="Medico" EntitySet="Medico" />
+            <End Role="MedicoHorario" EntitySet="MedicoHorario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Medico_Especialidad" Association="Self.FK_Medico_Especialidad">
+            <End Role="Especialidad" EntitySet="Especialidad" />
+            <End Role="Medico" EntitySet="Medico" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Medico_Persona" Association="Self.FK_Medico_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Medico" EntitySet="Medico" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MedicoObraSocial_Medico" Association="Self.FK_MedicoObraSocial_Medico">
+            <End Role="Medico" EntitySet="Medico" />
+            <End Role="MedicoObraSocial" EntitySet="MedicoObraSocial" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MedicoObraSocial_ObraSocial" Association="Self.FK_MedicoObraSocial_ObraSocial">
+            <End Role="ObraSocial" EntitySet="ObraSocial" />
+            <End Role="MedicoObraSocial" EntitySet="MedicoObraSocial" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ObraSocialTarifa_Especialidad" Association="Self.FK_ObraSocialTarifa_Especialidad">
+            <End Role="Especialidad" EntitySet="Especialidad" />
+            <End Role="ObraSocialTarifa" EntitySet="ObraSocialTarifa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ObraSocialTarifa_ObraSocial" Association="Self.FK_ObraSocialTarifa_ObraSocial">
+            <End Role="ObraSocial" EntitySet="ObraSocial" />
+            <End Role="ObraSocialTarifa" EntitySet="ObraSocialTarifa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paciente_Persona" Association="Self.FK_Paciente_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Paciente" EntitySet="Paciente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PacienteHistorial_Paciente" Association="Self.FK_PacienteHistorial_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="PacienteHistorial" EntitySet="PacienteHistorial" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PacienteHistorial_Turno" Association="Self.FK_PacienteHistorial_Turno">
+            <End Role="Turno" EntitySet="Turno" />
+            <End Role="PacienteHistorial" EntitySet="PacienteHistorial" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PacienteObraSocial_ObraSocial" Association="Self.FK_PacienteObraSocial_ObraSocial">
+            <End Role="ObraSocial" EntitySet="ObraSocial" />
+            <End Role="PacienteObraSocial" EntitySet="PacienteObraSocial" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PacienteObraSocial_Paciente" Association="Self.FK_PacienteObraSocial_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="PacienteObraSocial" EntitySet="PacienteObraSocial" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PerfilPermiso_Perfil" Association="Self.FK_PerfilPermiso_Perfil">
+            <End Role="Perfil" EntitySet="Perfil" />
+            <End Role="PerfilPermiso" EntitySet="PerfilPermiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PerfilPermiso_Permiso" Association="Self.FK_PerfilPermiso_Permiso">
+            <End Role="Permiso" EntitySet="Permiso" />
+            <End Role="PerfilPermiso" EntitySet="PerfilPermiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_Consultorio" Association="Self.FK_Turno_Consultorio">
+            <End Role="Consultorio" EntitySet="Consultorio" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_Especialidad" Association="Self.FK_Turno_Especialidad">
+            <End Role="Especialidad" EntitySet="Especialidad" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_Estado" Association="Self.FK_Turno_Estado">
+            <End Role="Estado" EntitySet="Estado" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_Medico" Association="Self.FK_Turno_Medico">
+            <End Role="Medico" EntitySet="Medico" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_ObraSocial" Association="Self.FK_Turno_ObraSocial">
+            <End Role="ObraSocial" EntitySet="ObraSocial" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_Paciente" Association="Self.FK_Turno_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Perfil" Association="Self.FK_Usuario_Perfil">
+            <End Role="Perfil" EntitySet="Perfil" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Persona" Association="Self.FK_Usuario_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TurnosMedicosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Agenda">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="Consultorio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="MedicoHorario" Relationship="Self.FK__MedicoHorario_Consultorio" FromRole="Consultorio" ToRole="MedicoHorario" />
+          <NavigationProperty Name="Turno" Relationship="Self.FK_Turno_Consultorio" FromRole="Consultorio" ToRole="Turno" />
+        </EntityType>
+        <EntityType Name="Especialidad">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Tiempo" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Medico" Relationship="Self.FK_Medico_Especialidad" FromRole="Especialidad" ToRole="Medico" />
+          <NavigationProperty Name="ObraSocialTarifa" Relationship="Self.FK_ObraSocialTarifa_Especialidad" FromRole="Especialidad" ToRole="ObraSocialTarifa" />
+          <NavigationProperty Name="Turno" Relationship="Self.FK_Turno_Especialidad" FromRole="Especialidad" ToRole="Turno" />
+        </EntityType>
+        <EntityType Name="Estado">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Turno" Relationship="Self.FK_Turno_Estado" FromRole="Estado" ToRole="Turno" />
+        </EntityType>
+        <EntityType Name="Medico">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonaId" Type="Int32" Nullable="false" />
+          <Property Name="Matricula" Type="Int32" Nullable="false" />
+          <Property Name="EspecialidadId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Especialidad" Relationship="Self.FK_Medico_Especialidad" FromRole="Medico" ToRole="Especialidad" />
+          <NavigationProperty Name="MedicoHorario" Relationship="Self.FK__MedicoHorario_Medico" FromRole="Medico" ToRole="MedicoHorario" />
+          <NavigationProperty Name="Persona" Relationship="Self.FK_Medico_Persona" FromRole="Medico" ToRole="Persona" />
+          <NavigationProperty Name="MedicoObraSocial" Relationship="Self.FK_MedicoObraSocial_Medico" FromRole="Medico" ToRole="MedicoObraSocial" />
+          <NavigationProperty Name="Turno" Relationship="Self.FK_Turno_Medico" FromRole="Medico" ToRole="Turno" />
+        </EntityType>
+        <EntityType Name="MedicoHorario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MedicoId" Type="Int32" Nullable="false" />
+          <Property Name="ConsultorioId" Type="Int32" Nullable="false" />
+          <Property Name="Dia" Type="Int32" Nullable="false" />
+          <Property Name="Inicio" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Fin" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Consultorio" Relationship="Self.FK__MedicoHorario_Consultorio" FromRole="MedicoHorario" ToRole="Consultorio" />
+          <NavigationProperty Name="Medico" Relationship="Self.FK__MedicoHorario_Medico" FromRole="MedicoHorario" ToRole="Medico" />
+        </EntityType>
+        <EntityType Name="MedicoObraSocial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MedicoId" Type="Int32" Nullable="false" />
+          <Property Name="ObraSocialId" Type="Int32" Nullable="false" />
+          <Property Name="Numero" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Medico" Relationship="Self.FK_MedicoObraSocial_Medico" FromRole="MedicoObraSocial" ToRole="Medico" />
+          <NavigationProperty Name="ObraSocial" Relationship="Self.FK_MedicoObraSocial_ObraSocial" FromRole="MedicoObraSocial" ToRole="ObraSocial" />
+        </EntityType>
+        <EntityType Name="ObraSocial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="17" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="MedicoObraSocial" Relationship="Self.FK_MedicoObraSocial_ObraSocial" FromRole="ObraSocial" ToRole="MedicoObraSocial" />
+          <NavigationProperty Name="ObraSocialTarifa" Relationship="Self.FK_ObraSocialTarifa_ObraSocial" FromRole="ObraSocial" ToRole="ObraSocialTarifa" />
+          <NavigationProperty Name="PacienteObraSocial" Relationship="Self.FK_PacienteObraSocial_ObraSocial" FromRole="ObraSocial" ToRole="PacienteObraSocial" />
+          <NavigationProperty Name="Turno" Relationship="Self.FK_Turno_ObraSocial" FromRole="ObraSocial" ToRole="Turno" />
+        </EntityType>
+        <EntityType Name="ObraSocialTarifa">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ObraSocialId" Type="Int32" Nullable="false" />
+          <Property Name="EspecialidadId" Type="Int32" Nullable="false" />
+          <Property Name="tarifa" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Especialidad" Relationship="Self.FK_ObraSocialTarifa_Especialidad" FromRole="ObraSocialTarifa" ToRole="Especialidad" />
+          <NavigationProperty Name="ObraSocial" Relationship="Self.FK_ObraSocialTarifa_ObraSocial" FromRole="ObraSocialTarifa" ToRole="ObraSocial" />
+        </EntityType>
+        <EntityType Name="Paciente">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Persona" Relationship="Self.FK_Paciente_Persona" FromRole="Paciente" ToRole="Persona" />
+          <NavigationProperty Name="PacienteHistorial" Relationship="Self.FK_PacienteHistorial_Paciente" FromRole="Paciente" ToRole="PacienteHistorial" />
+          <NavigationProperty Name="PacienteObraSocial" Relationship="Self.FK_PacienteObraSocial_Paciente" FromRole="Paciente" ToRole="PacienteObraSocial" />
+          <NavigationProperty Name="Turno" Relationship="Self.FK_Turno_Paciente" FromRole="Paciente" ToRole="Turno" />
+        </EntityType>
+        <EntityType Name="PacienteHistorial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PacienteId" Type="Int32" Nullable="false" />
+          <Property Name="TurnoId" Type="Int32" />
+          <Property Name="Observacion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Paciente" Relationship="Self.FK_PacienteHistorial_Paciente" FromRole="PacienteHistorial" ToRole="Paciente" />
+          <NavigationProperty Name="Turno" Relationship="Self.FK_PacienteHistorial_Turno" FromRole="PacienteHistorial" ToRole="Turno" />
+        </EntityType>
+        <EntityType Name="PacienteObraSocial">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PacienteId" Type="Int32" Nullable="false" />
+          <Property Name="ObraSocialId" Type="Int32" Nullable="false" />
+          <Property Name="NumeroAfiliado" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ObraSocial" Relationship="Self.FK_PacienteObraSocial_ObraSocial" FromRole="PacienteObraSocial" ToRole="ObraSocial" />
+          <NavigationProperty Name="Paciente" Relationship="Self.FK_PacienteObraSocial_Paciente" FromRole="PacienteObraSocial" ToRole="Paciente" />
+        </EntityType>
+        <EntityType Name="Perfil">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PerfilPermiso" Relationship="Self.FK_PerfilPermiso_Perfil" FromRole="Perfil" ToRole="PerfilPermiso" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Perfil" FromRole="Perfil" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="PerfilPermiso">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PerfilId" Type="Int32" Nullable="false" />
+          <Property Name="PermisoId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Perfil" Relationship="Self.FK_PerfilPermiso_Perfil" FromRole="PerfilPermiso" ToRole="Perfil" />
+          <NavigationProperty Name="Permiso" Relationship="Self.FK_PerfilPermiso_Permiso" FromRole="PerfilPermiso" ToRole="Permiso" />
+        </EntityType>
+        <EntityType Name="Permiso">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="PerfilPermiso" Relationship="Self.FK_PerfilPermiso_Permiso" FromRole="Permiso" ToRole="PerfilPermiso" />
+        </EntityType>
+        <EntityType Name="Persona">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DNI" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Calle" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Numero" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="11" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Celular" Type="String" MaxLength="17" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Medico" Relationship="Self.FK_Medico_Persona" FromRole="Persona" ToRole="Medico" />
+          <NavigationProperty Name="Paciente" Relationship="Self.FK_Paciente_Persona" FromRole="Persona" ToRole="Paciente" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Persona" FromRole="Persona" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Turno">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EstadoId" Type="Int32" Nullable="false" />
+          <Property Name="MedicoId" Type="Int32" Nullable="false" />
+          <Property Name="PacienteId" Type="Int32" />
+          <Property Name="ObraSocialId" Type="Int32" />
+          <Property Name="ConsultorioId" Type="Int32" Nullable="false" />
+          <Property Name="EspecialidadId" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Hora" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ObraSocialTarifa" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="CostoTotal" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="Pagado" Type="Boolean" />
+          <NavigationProperty Name="Consultorio" Relationship="Self.FK_Turno_Consultorio" FromRole="Turno" ToRole="Consultorio" />
+          <NavigationProperty Name="Especialidad" Relationship="Self.FK_Turno_Especialidad" FromRole="Turno" ToRole="Especialidad" />
+          <NavigationProperty Name="Estado" Relationship="Self.FK_Turno_Estado" FromRole="Turno" ToRole="Estado" />
+          <NavigationProperty Name="Medico" Relationship="Self.FK_Turno_Medico" FromRole="Turno" ToRole="Medico" />
+          <NavigationProperty Name="ObraSocial" Relationship="Self.FK_Turno_ObraSocial" FromRole="Turno" ToRole="ObraSocial" />
+          <NavigationProperty Name="Paciente" Relationship="Self.FK_Turno_Paciente" FromRole="Turno" ToRole="Paciente" />
+          <NavigationProperty Name="PacienteHistorial" Relationship="Self.FK_PacienteHistorial_Turno" FromRole="Turno" ToRole="PacienteHistorial" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="usuario1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Bloqueado" Type="Boolean" Nullable="false" />
+          <Property Name="PerfilId" Type="Int32" Nullable="false" />
+          <Property Name="PersonaId" Type="Int32" />
+          <NavigationProperty Name="Perfil" Relationship="Self.FK_Usuario_Perfil" FromRole="Usuario" ToRole="Perfil" />
+          <NavigationProperty Name="Persona" Relationship="Self.FK_Usuario_Persona" FromRole="Usuario" ToRole="Persona" />
+        </EntityType>
+        <Association Name="FK__MedicoHorario_Consultorio">
+          <End Role="Consultorio" Type="Self.Consultorio" Multiplicity="1" />
+          <End Role="MedicoHorario" Type="Self.MedicoHorario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consultorio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MedicoHorario">
+              <PropertyRef Name="ConsultorioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_Consultorio">
+          <End Role="Consultorio" Type="Self.Consultorio" Multiplicity="1" />
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consultorio">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="ConsultorioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Medico_Especialidad">
+          <End Role="Especialidad" Type="Self.Especialidad" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Medico" Type="Self.Medico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Especialidad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Medico">
+              <PropertyRef Name="EspecialidadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ObraSocialTarifa_Especialidad">
+          <End Role="Especialidad" Type="Self.Especialidad" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ObraSocialTarifa" Type="Self.ObraSocialTarifa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Especialidad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ObraSocialTarifa">
+              <PropertyRef Name="EspecialidadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_Especialidad">
+          <End Role="Especialidad" Type="Self.Especialidad" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Especialidad">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="EspecialidadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_Estado">
+          <End Role="Estado" Type="Self.Estado" Multiplicity="1" />
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="EstadoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MedicoHorario_Medico">
+          <End Role="Medico" Type="Self.Medico" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MedicoHorario" Type="Self.MedicoHorario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medico">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MedicoHorario">
+              <PropertyRef Name="MedicoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Medico_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Medico" Type="Self.Medico" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Medico">
+              <PropertyRef Name="PersonaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MedicoObraSocial_Medico">
+          <End Role="Medico" Type="Self.Medico" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MedicoObraSocial" Type="Self.MedicoObraSocial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medico">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MedicoObraSocial">
+              <PropertyRef Name="MedicoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_Medico">
+          <End Role="Medico" Type="Self.Medico" Multiplicity="1" />
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medico">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="MedicoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MedicoObraSocial_ObraSocial">
+          <End Role="ObraSocial" Type="Self.ObraSocial" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MedicoObraSocial" Type="Self.MedicoObraSocial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObraSocial">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MedicoObraSocial">
+              <PropertyRef Name="ObraSocialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ObraSocialTarifa_ObraSocial">
+          <End Role="ObraSocial" Type="Self.ObraSocial" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ObraSocialTarifa" Type="Self.ObraSocialTarifa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObraSocial">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ObraSocialTarifa">
+              <PropertyRef Name="ObraSocialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PacienteObraSocial_ObraSocial">
+          <End Role="ObraSocial" Type="Self.ObraSocial" Multiplicity="1" />
+          <End Role="PacienteObraSocial" Type="Self.PacienteObraSocial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObraSocial">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PacienteObraSocial">
+              <PropertyRef Name="ObraSocialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_ObraSocial">
+          <End Role="ObraSocial" Type="Self.ObraSocial" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ObraSocial">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="ObraSocialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Paciente_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Paciente">
+              <PropertyRef Name="PersonaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PacienteHistorial_Paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+          <End Role="PacienteHistorial" Type="Self.PacienteHistorial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PacienteHistorial">
+              <PropertyRef Name="PacienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PacienteObraSocial_Paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+          <End Role="PacienteObraSocial" Type="Self.PacienteObraSocial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PacienteObraSocial">
+              <PropertyRef Name="PacienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Turno_Paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="0..1" />
+          <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Turno">
+              <PropertyRef Name="PacienteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PacienteHistorial_Turno">
+          <End Role="Turno" Type="Self.Turno" Multiplicity="0..1" />
+          <End Role="PacienteHistorial" Type="Self.PacienteHistorial" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Turno">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PacienteHistorial">
+              <PropertyRef Name="TurnoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PerfilPermiso_Perfil">
+          <End Role="Perfil" Type="Self.Perfil" Multiplicity="1" />
+          <End Role="PerfilPermiso" Type="Self.PerfilPermiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perfil">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PerfilPermiso">
+              <PropertyRef Name="PerfilId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Perfil">
+          <End Role="Perfil" Type="Self.Perfil" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Perfil">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="PerfilId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PerfilPermiso_Permiso">
+          <End Role="Permiso" Type="Self.Permiso" Multiplicity="1" />
+          <End Role="PerfilPermiso" Type="Self.PerfilPermiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permiso">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PerfilPermiso">
+              <PropertyRef Name="PermisoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Persona">
+          <End Role="Persona" Type="Self.Persona" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persona">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="PersonaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TurnosMedicosEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Agenda" EntityType="Self.Agenda" />
+          <EntitySet Name="Consultorio" EntityType="Self.Consultorio" />
+          <EntitySet Name="Especialidad" EntityType="Self.Especialidad" />
+          <EntitySet Name="Estado" EntityType="Self.Estado" />
+          <EntitySet Name="Medico" EntityType="Self.Medico" />
+          <EntitySet Name="MedicoHorario" EntityType="Self.MedicoHorario" />
+          <EntitySet Name="MedicoObraSocial" EntityType="Self.MedicoObraSocial" />
+          <EntitySet Name="ObraSocial" EntityType="Self.ObraSocial" />
+          <EntitySet Name="ObraSocialTarifa" EntityType="Self.ObraSocialTarifa" />
+          <EntitySet Name="Paciente" EntityType="Self.Paciente" />
+          <EntitySet Name="PacienteHistorial" EntityType="Self.PacienteHistorial" />
+          <EntitySet Name="PacienteObraSocial" EntityType="Self.PacienteObraSocial" />
+          <EntitySet Name="Perfil" EntityType="Self.Perfil" />
+          <EntitySet Name="PerfilPermiso" EntityType="Self.PerfilPermiso" />
+          <EntitySet Name="Permiso" EntityType="Self.Permiso" />
+          <EntitySet Name="Persona" EntityType="Self.Persona" />
+          <EntitySet Name="Turno" EntityType="Self.Turno" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK__MedicoHorario_Consultorio" Association="Self.FK__MedicoHorario_Consultorio">
+            <End Role="Consultorio" EntitySet="Consultorio" />
+            <End Role="MedicoHorario" EntitySet="MedicoHorario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_Consultorio" Association="Self.FK_Turno_Consultorio">
+            <End Role="Consultorio" EntitySet="Consultorio" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Medico_Especialidad" Association="Self.FK_Medico_Especialidad">
+            <End Role="Especialidad" EntitySet="Especialidad" />
+            <End Role="Medico" EntitySet="Medico" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ObraSocialTarifa_Especialidad" Association="Self.FK_ObraSocialTarifa_Especialidad">
+            <End Role="Especialidad" EntitySet="Especialidad" />
+            <End Role="ObraSocialTarifa" EntitySet="ObraSocialTarifa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_Especialidad" Association="Self.FK_Turno_Especialidad">
+            <End Role="Especialidad" EntitySet="Especialidad" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_Estado" Association="Self.FK_Turno_Estado">
+            <End Role="Estado" EntitySet="Estado" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MedicoHorario_Medico" Association="Self.FK__MedicoHorario_Medico">
+            <End Role="Medico" EntitySet="Medico" />
+            <End Role="MedicoHorario" EntitySet="MedicoHorario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Medico_Persona" Association="Self.FK_Medico_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Medico" EntitySet="Medico" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MedicoObraSocial_Medico" Association="Self.FK_MedicoObraSocial_Medico">
+            <End Role="Medico" EntitySet="Medico" />
+            <End Role="MedicoObraSocial" EntitySet="MedicoObraSocial" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_Medico" Association="Self.FK_Turno_Medico">
+            <End Role="Medico" EntitySet="Medico" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MedicoObraSocial_ObraSocial" Association="Self.FK_MedicoObraSocial_ObraSocial">
+            <End Role="ObraSocial" EntitySet="ObraSocial" />
+            <End Role="MedicoObraSocial" EntitySet="MedicoObraSocial" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ObraSocialTarifa_ObraSocial" Association="Self.FK_ObraSocialTarifa_ObraSocial">
+            <End Role="ObraSocial" EntitySet="ObraSocial" />
+            <End Role="ObraSocialTarifa" EntitySet="ObraSocialTarifa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PacienteObraSocial_ObraSocial" Association="Self.FK_PacienteObraSocial_ObraSocial">
+            <End Role="ObraSocial" EntitySet="ObraSocial" />
+            <End Role="PacienteObraSocial" EntitySet="PacienteObraSocial" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_ObraSocial" Association="Self.FK_Turno_ObraSocial">
+            <End Role="ObraSocial" EntitySet="ObraSocial" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Paciente_Persona" Association="Self.FK_Paciente_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Paciente" EntitySet="Paciente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PacienteHistorial_Paciente" Association="Self.FK_PacienteHistorial_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="PacienteHistorial" EntitySet="PacienteHistorial" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PacienteObraSocial_Paciente" Association="Self.FK_PacienteObraSocial_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="PacienteObraSocial" EntitySet="PacienteObraSocial" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Turno_Paciente" Association="Self.FK_Turno_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Turno" EntitySet="Turno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PacienteHistorial_Turno" Association="Self.FK_PacienteHistorial_Turno">
+            <End Role="Turno" EntitySet="Turno" />
+            <End Role="PacienteHistorial" EntitySet="PacienteHistorial" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PerfilPermiso_Perfil" Association="Self.FK_PerfilPermiso_Perfil">
+            <End Role="Perfil" EntitySet="Perfil" />
+            <End Role="PerfilPermiso" EntitySet="PerfilPermiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Perfil" Association="Self.FK_Usuario_Perfil">
+            <End Role="Perfil" EntitySet="Perfil" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PerfilPermiso_Permiso" Association="Self.FK_PerfilPermiso_Permiso">
+            <End Role="Permiso" EntitySet="Permiso" />
+            <End Role="PerfilPermiso" EntitySet="PerfilPermiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Persona" Association="Self.FK_Usuario_Persona">
+            <End Role="Persona" EntitySet="Persona" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TurnosMedicosModelStoreContainer" CdmEntityContainer="TurnosMedicosEntities">
+          <EntitySetMapping Name="Agenda">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.Agenda">
+              <MappingFragment StoreEntitySet="Agenda">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Consultorio">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.Consultorio">
+              <MappingFragment StoreEntitySet="Consultorio">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Especialidad">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.Especialidad">
+              <MappingFragment StoreEntitySet="Especialidad">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Tiempo" ColumnName="Tiempo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estado">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.Estado">
+              <MappingFragment StoreEntitySet="Estado">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medico">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.Medico">
+              <MappingFragment StoreEntitySet="Medico">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
+                <ScalarProperty Name="Matricula" ColumnName="Matricula" />
+                <ScalarProperty Name="EspecialidadId" ColumnName="EspecialidadId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MedicoHorario">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.MedicoHorario">
+              <MappingFragment StoreEntitySet="MedicoHorario">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MedicoId" ColumnName="MedicoId" />
+                <ScalarProperty Name="ConsultorioId" ColumnName="ConsultorioId" />
+                <ScalarProperty Name="Dia" ColumnName="Dia" />
+                <ScalarProperty Name="Inicio" ColumnName="Inicio" />
+                <ScalarProperty Name="Fin" ColumnName="Fin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MedicoObraSocial">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.MedicoObraSocial">
+              <MappingFragment StoreEntitySet="MedicoObraSocial">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MedicoId" ColumnName="MedicoId" />
+                <ScalarProperty Name="ObraSocialId" ColumnName="ObraSocialId" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObraSocial">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.ObraSocial">
+              <MappingFragment StoreEntitySet="ObraSocial">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ObraSocialTarifa">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.ObraSocialTarifa">
+              <MappingFragment StoreEntitySet="ObraSocialTarifa">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ObraSocialId" ColumnName="ObraSocialId" />
+                <ScalarProperty Name="EspecialidadId" ColumnName="EspecialidadId" />
+                <ScalarProperty Name="tarifa" ColumnName="tarifa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paciente">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.Paciente">
+              <MappingFragment StoreEntitySet="Paciente">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PacienteHistorial">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.PacienteHistorial">
+              <MappingFragment StoreEntitySet="PacienteHistorial">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PacienteId" ColumnName="PacienteId" />
+                <ScalarProperty Name="TurnoId" ColumnName="TurnoId" />
+                <ScalarProperty Name="Observacion" ColumnName="Observacion" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PacienteObraSocial">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.PacienteObraSocial">
+              <MappingFragment StoreEntitySet="PacienteObraSocial">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PacienteId" ColumnName="PacienteId" />
+                <ScalarProperty Name="ObraSocialId" ColumnName="ObraSocialId" />
+                <ScalarProperty Name="NumeroAfiliado" ColumnName="NumeroAfiliado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Perfil">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.Perfil">
+              <MappingFragment StoreEntitySet="Perfil">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PerfilPermiso">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.PerfilPermiso">
+              <MappingFragment StoreEntitySet="PerfilPermiso">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PerfilId" ColumnName="PerfilId" />
+                <ScalarProperty Name="PermisoId" ColumnName="PermisoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permiso">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.Permiso">
+              <MappingFragment StoreEntitySet="Permiso">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Persona">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.Persona">
+              <MappingFragment StoreEntitySet="Persona">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DNI" ColumnName="DNI" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="Numero" ColumnName="Numero" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Turno">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.Turno">
+              <MappingFragment StoreEntitySet="Turno">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EstadoId" ColumnName="EstadoId" />
+                <ScalarProperty Name="MedicoId" ColumnName="MedicoId" />
+                <ScalarProperty Name="PacienteId" ColumnName="PacienteId" />
+                <ScalarProperty Name="ObraSocialId" ColumnName="ObraSocialId" />
+                <ScalarProperty Name="ConsultorioId" ColumnName="ConsultorioId" />
+                <ScalarProperty Name="EspecialidadId" ColumnName="EspecialidadId" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="ObraSocialTarifa" ColumnName="ObraSocialTarifa" />
+                <ScalarProperty Name="CostoTotal" ColumnName="CostoTotal" />
+                <ScalarProperty Name="Pagado" ColumnName="Pagado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="TurnosMedicosModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="usuario1" ColumnName="usuario" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="Bloqueado" ColumnName="Bloqueado" />
+                <ScalarProperty Name="PerfilId" ColumnName="PerfilId" />
+                <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

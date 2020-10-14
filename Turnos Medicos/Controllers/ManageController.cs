@@ -6,9 +6,10 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Turnos_Medicos;
 using Turnos_Medicos.Models;
 
-namespace Turnos_Medicos.Controllers
+namespace mvcPet.UI.Web.Controllers
 {
     [Authorize]
     public class ManageController : Controller

@@ -6,7 +6,10 @@
 
 <h2>Listado de Turnos Diarios</h2>
 
+
+
 <table class="table">
+
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Estado.Nombre)
@@ -36,6 +39,7 @@
     </tr>
 
 @foreach (var item in Model) {
+
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Estado.Nombre)
@@ -85,14 +89,14 @@
         <td>
             @if (item.PacienteId.Equals(null))
             {
-                <input href="/Turnos/Asignar/@item.Id" value="Asignar" class="btn btn-sm btn-success" /><span>|</span>
+                <input href="/Turnos/Asignar/@item.Id" value="Asignar" class="btn btn-xs btn-success" /><span> </span>
             }
             else
             {
-                <input href="/Turnos/Cancelar/@item.Id" value="Cancelar" class="btn btn-sm btn-default" /><span>|</span>
+                <input href="/Turnos/Cancelar/@item.Id" value="Cancelar" class="btn btn-xs btn-warning" /><span> </span>
             }
-            <input href="/Turnos/Details/@item.Id" value="Ver" class="btn btn-sm btn-default" /><span>|</span>
-            <input href="/Turnos/Edit/@item.Id" value="Modificar" class="btn btn-sm btn-default" />
+            <input href="/Turnos/Details/@item.Id" value="Ver" class="btn btn-xs btn-info" /><span> </span>
+            <input href="/Turnos/Edit/@item.Id" value="Modificar" class="btn btn-xs btn-danger" />
         </td>
     </tr>
 }

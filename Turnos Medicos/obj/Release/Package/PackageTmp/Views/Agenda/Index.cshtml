@@ -5,6 +5,65 @@
 }
 
 <h2>Agenda</h2>
+
+
+<div id='calendar'></div>
+
+<!--
+<div id="calendarModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
+                <h4 id="modalTitle" class="modal-title"></h4>
+            </div>
+            <div id="modalBody" class="modal-body"> </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+
+<script>
+
+ document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: 'prev,next,today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+            },
+            header: {
+                left: 'prev',
+                center: 'title',
+                right: 'Siguiente'
+            },
+            locale: "es",
+            navLinks: true, // can click day/week names to navigate views
+            businessHours: true, // display business hours
+            editable: true,
+            selectable: true,
+            eventLimit: true,
+            events: 'http://localhost:50072/Agenda/Calendar'/*,
+            eventClick: function (event, jsEvent, view) {
+            $('#calendarModal #modalTitle').html(event.title);
+            $('#modalBody').html(event.description);
+            $('#eventUrl').attr('href', event.url);
+            $('#calendarModal').modal();
+        },*/
+
+        });
+
+
+        calendar.render();
+        });
+</script>
+
+
 <!--
 <h3>Filtrar</h3>
 @using (Html.BeginForm())
@@ -66,66 +125,75 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Estado.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha.Year) / 
-            @Html.DisplayFor(modelItem => item.Fecha.Month) /
-            @Html.DisplayFor(modelItem => item.Fecha.Day)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Hora.Hours) :
-            @if (item.Hora.Minutes < 10)
-            {
-                <span>0</span>
-                @Html.DisplayFor(modelItem => item.Hora.Minutes)
-            }
-            else
-            {
-                @Html.DisplayFor(modelItem => item.Hora.Minutes)
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Especialidad.Nombre)
-        </td>
-        <td>
-            @if (!item.MedicoId.Equals(null))
-            {
-                @Html.DisplayFor(modelItem => item.Medico.Persona.Apellido)
-                <span>, </span>
-                @Html.DisplayFor(modelItem => item.Medico.Persona.Nombre)
-            }
-        </td>
-        <td>
-            @if (!item.PacienteId.Equals(null))
-            {
-                @Html.DisplayFor(modelItem => item.Paciente.Persona.Apellido)
-                <span>, </span>
-                @Html.DisplayFor(modelItem => item.Paciente.Persona.Nombre)
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Consultorio.Nombre)
-        </td>
-        <td>
-            @if (item.PacienteId.Equals(null))
-            {
-                <input href="/Turnos/Asignar/@item.Id" value="Asignar" class="btn btn-sm btn-success" /><span>|</span>
-            }
-            else
-            {
-                <input href="/Turnos/Cancelar/@item.Id" value="Cancelar" class="btn btn-sm btn-default" /><span>|</span>
-            }
-            <input href="/Turnos/Details/@item.Id" value="Ver" class="btn btn-sm btn-default" /><span>|</span>
-            <input href="/Turnos/Delete/@item.Id" value="Eliminar Turno" class="btn btn-sm btn-default" />
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha.Year) /
+                @Html.DisplayFor(modelItem => item.Fecha.Month) /
+                @Html.DisplayFor(modelItem => item.Fecha.Day)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hora.Hours) :
+                @if (item.Hora.Minutes < 10)
+                {
+                    <span>0</span>
+                    @Html.DisplayFor(modelItem => item.Hora.Minutes)
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Hora.Minutes)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Especialidad.Nombre)
+            </td>
+            <td>
+                @if (!item.MedicoId.Equals(null))
+                {
+                    @Html.DisplayFor(modelItem => item.Medico.Persona.Apellido)
+                    <span>, </span>
+                    @Html.DisplayFor(modelItem => item.Medico.Persona.Nombre)
+                }
+            </td>
+            <td>
+                @if (!item.PacienteId.Equals(null))
+                {
+                    @Html.DisplayFor(modelItem => item.Paciente.Persona.Apellido)
+                    <span>, </span>
+                    @Html.DisplayFor(modelItem => item.Paciente.Persona.Nombre)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Consultorio.Nombre)
+            </td>
+            <td>
+                @if (item.PacienteId.Equals(null))
+                {
+                    <a href="/Turnos/Asignar/@item.Id">
+                        <button class="btn btn-xs btn-success">Asignar</button>
+                    </a>
+                }
+                else
+                {
+                    <a href="/Turnos/Cancelar/@item.Id">
+                        <button class="btn btn-xs btn-warning">Cancelar</button>
+                    </a>
+                }
+                <a href="/Turnos/Details/@item.Id">
+                    <button class="btn btn-xs btn-info">Ver</button>
+                </a>
+                <a href="/Turnos/Delete/@item.Id">
+                    <button class="btn btn-xs btn-danger">Eliminar Turno</button>
+                </a>
+            </td>
+        </tr>
+    }
 
 </table>

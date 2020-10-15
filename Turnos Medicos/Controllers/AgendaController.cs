@@ -92,7 +92,27 @@ namespace Turnos_Medicos.Controllers
             return RedirectToAction("Index", "Agenda");
         }
 
+        public ActionResult Calendar()
+        {
 
+
+          /*  var id = 1;*/
+            var turnoslist = (from turnos in db.Turno
+                              where turnos.Estado.Nombre == "Asignado"
+                              select turnos).ToList();
+
+            return Json(turnoslist.ToList().AsEnumerable().Select(e => new
+            {
+
+                title = e.Descripcion,
+                start = e.Fecha.ToString("yyyy-MM-dd"),
+                color = "yellow", 
+                textColor = "black"
+                /*
+                start = e.Fecha.GetDateTimeFormats("yyyy-MM-dd HH:mm:ss")
+                */
+            }), JsonRequestBehavior.AllowGet);
+        }
 
     }
-}
+    }

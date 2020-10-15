@@ -74,11 +74,11 @@
     <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Telefono" Type="String" MaxLength="17" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Activo" Type="Boolean" />
     <NavigationProperty Name="MedicoObraSocial" Relationship="Self.FK_MedicoObraSocial_ObraSocial" FromRole="ObraSocial" ToRole="MedicoObraSocial" />
     <NavigationProperty Name="ObraSocialTarifa" Relationship="Self.FK_ObraSocialTarifa_ObraSocial" FromRole="ObraSocial" ToRole="ObraSocialTarifa" />
     <NavigationProperty Name="PacienteObraSocial" Relationship="Self.FK_PacienteObraSocial_ObraSocial" FromRole="ObraSocial" ToRole="PacienteObraSocial" />
     <NavigationProperty Name="Turno" Relationship="Self.FK_Turno_ObraSocial" FromRole="ObraSocial" ToRole="Turno" />
+    <Property Name="Activo" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="ObraSocialTarifa">
     <Key>
@@ -132,7 +132,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="PerfilPermiso" Relationship="Self.FK_PerfilPermiso_Perfil" FromRole="Perfil" ToRole="PerfilPermiso" />
-    <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Perfil" FromRole="Perfil" ToRole="Usuario" />
+    <NavigationProperty Name="Usuario" Relationship="TurnosMedicosModel.FK_Usuario_Perfil" FromRole="Perfil" ToRole="Usuario" />
   </EntityType>
   <EntityType Name="PerfilPermiso">
     <Key>
@@ -168,7 +168,7 @@
     <Property Name="Celular" Type="String" MaxLength="17" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="Medico" Relationship="Self.FK_Medico_Persona" FromRole="Persona" ToRole="Medico" />
     <NavigationProperty Name="Paciente" Relationship="Self.FK_Paciente_Persona" FromRole="Persona" ToRole="Paciente" />
-    <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Persona" FromRole="Persona" ToRole="Usuario" />
+    <NavigationProperty Name="Usuario" Relationship="TurnosMedicosModel.FK_Usuario_Persona" FromRole="Persona" ToRole="Usuario" />
   </EntityType>
   <EntityType Name="Turno">
     <Key>
@@ -183,7 +183,7 @@
     <Property Name="EspecialidadId" Type="Int32" Nullable="false" />
     <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Hora" Type="Time" Nullable="false" Precision="7" />
-    <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
     <Property Name="ObraSocialTarifa" Type="Decimal" Precision="10" Scale="2" />
     <Property Name="CostoTotal" Type="Decimal" Precision="10" Scale="2" />
     <Property Name="Pagado" Type="Boolean" />
@@ -194,20 +194,6 @@
     <NavigationProperty Name="ObraSocial" Relationship="Self.FK_Turno_ObraSocial" FromRole="Turno" ToRole="ObraSocial" />
     <NavigationProperty Name="Paciente" Relationship="Self.FK_Turno_Paciente" FromRole="Turno" ToRole="Paciente" />
     <NavigationProperty Name="PacienteHistorial" Relationship="Self.FK_PacienteHistorial_Turno" FromRole="Turno" ToRole="PacienteHistorial" />
-  </EntityType>
-  <EntityType Name="Usuario">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Identificacion" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Bloqueado" Type="Boolean" Nullable="false" />
-    <Property Name="PerfilId" Type="Int32" Nullable="false" />
-    <Property Name="PersonaId" Type="Int32" />
-    <NavigationProperty Name="Perfil" Relationship="Self.FK_Usuario_Perfil" FromRole="Usuario" ToRole="Perfil" />
-    <NavigationProperty Name="Persona" Relationship="Self.FK_Usuario_Persona" FromRole="Usuario" ToRole="Persona" />
   </EntityType>
   <Association Name="FK__MedicoHorario_Consultorio">
     <End Role="Consultorio" Type="Self.Consultorio" Multiplicity="1" />
@@ -469,18 +455,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Usuario_Perfil">
-    <End Role="Perfil" Type="Self.Perfil" Multiplicity="1" />
-    <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Perfil">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Usuario">
-        <PropertyRef Name="PerfilId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_PerfilPermiso_Permiso">
     <End Role="Permiso" Type="Self.Permiso" Multiplicity="1" />
     <End Role="PerfilPermiso" Type="Self.PerfilPermiso" Multiplicity="*" />
@@ -493,20 +467,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Usuario_Persona">
-    <End Role="Persona" Type="Self.Persona" Multiplicity="0..1" />
-    <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Persona">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Usuario">
-        <PropertyRef Name="PersonaId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityContainer Name="TurnosMedicosEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Agenda" EntityType="Self.Agenda" />
     <EntitySet Name="Consultorio" EntityType="Self.Consultorio" />
     <EntitySet Name="Especialidad" EntityType="Self.Especialidad" />
     <EntitySet Name="Estado" EntityType="Self.Estado" />
@@ -523,7 +484,6 @@
     <EntitySet Name="Permiso" EntityType="Self.Permiso" />
     <EntitySet Name="Persona" EntityType="Self.Persona" />
     <EntitySet Name="Turno" EntityType="Self.Turno" />
-    <EntitySet Name="Usuario" EntityType="Self.Usuario" />
     <AssociationSet Name="FK__MedicoHorario_Consultorio" Association="Self.FK__MedicoHorario_Consultorio">
       <End Role="Consultorio" EntitySet="Consultorio" />
       <End Role="MedicoHorario" EntitySet="MedicoHorario" />
@@ -604,17 +564,56 @@
       <End Role="Perfil" EntitySet="Perfil" />
       <End Role="PerfilPermiso" EntitySet="PerfilPermiso" />
     </AssociationSet>
-    <AssociationSet Name="FK_Usuario_Perfil" Association="Self.FK_Usuario_Perfil">
-      <End Role="Perfil" EntitySet="Perfil" />
-      <End Role="Usuario" EntitySet="Usuario" />
-    </AssociationSet>
     <AssociationSet Name="FK_PerfilPermiso_Permiso" Association="Self.FK_PerfilPermiso_Permiso">
       <End Role="Permiso" EntitySet="Permiso" />
       <End Role="PerfilPermiso" EntitySet="PerfilPermiso" />
     </AssociationSet>
-    <AssociationSet Name="FK_Usuario_Persona" Association="Self.FK_Usuario_Persona">
+    <EntitySet Name="Usuario" EntityType="TurnosMedicosModel.Usuario" />
+    <AssociationSet Name="FK_Usuario_Perfil" Association="TurnosMedicosModel.FK_Usuario_Perfil">
+      <End Role="Perfil" EntitySet="Perfil" />
+      <End Role="Usuario" EntitySet="Usuario" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Usuario_Persona" Association="TurnosMedicosModel.FK_Usuario_Persona">
       <End Role="Persona" EntitySet="Persona" />
       <End Role="Usuario" EntitySet="Usuario" />
     </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Identificador" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Bloqueado" Type="Boolean" />
+    <Property Name="PerfilId" Type="Int32" Nullable="false" />
+    <Property Name="PersonaId" Type="Int32" />
+    <NavigationProperty Name="Perfil" Relationship="TurnosMedicosModel.FK_Usuario_Perfil" FromRole="Usuario" ToRole="Perfil" />
+    <NavigationProperty Name="Persona" Relationship="TurnosMedicosModel.FK_Usuario_Persona" FromRole="Usuario" ToRole="Persona" />
+  </EntityType>
+  <Association Name="FK_Usuario_Perfil">
+    <End Type="TurnosMedicosModel.Perfil" Role="Perfil" Multiplicity="1" />
+    <End Type="TurnosMedicosModel.Usuario" Role="Usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Perfil">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Usuario">
+        <PropertyRef Name="PerfilId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Usuario_Persona">
+    <End Type="TurnosMedicosModel.Persona" Role="Persona" Multiplicity="0..1" />
+    <End Type="TurnosMedicosModel.Usuario" Role="Usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Persona">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Usuario">
+        <PropertyRef Name="PersonaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

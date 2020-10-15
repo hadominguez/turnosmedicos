@@ -206,4 +206,3 @@ G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.csproj.CoreCompileInpu
 G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.csproj.CopyComplete
 G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.dll
 G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.pdb
-G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.csprojAssemblyReference.cache

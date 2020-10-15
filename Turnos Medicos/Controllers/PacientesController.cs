@@ -44,7 +44,8 @@ namespace Turnos_Medicos.Controllers
         public ActionResult Create()
         {
             ViewBag.PersonaId = new SelectList(db.Persona, "Id", "DNI");
-            return View();
+            
+            return View(new Persona());
         }
 
         // POST: Pacientes/Create

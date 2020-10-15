@@ -1,0 +1,64 @@
+﻿@model Turnos_Medicos.Models.MedicoHorario
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>MedicoHorario</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Dia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Inicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Inicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Consultorio.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Consultorio.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Medico.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Medico.Id)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

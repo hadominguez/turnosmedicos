@@ -98,14 +98,16 @@ namespace Turnos_Medicos.Controllers
             var persona = db.Persona.First(p => p.DNI == user.Identificador.ToString());
             if (persona != null)
             {
-                paciente = db.Paciente.FirstOrDefault(p => p.PersonaId == user.PersonaId);
+                paciente = db.Paciente.FirstOrDefault(p => p.PersonaId == persona.Id);
             }
             //
             // Model Validation 
             if (ModelState.IsValid && paciente != null)
             {
-
-                if (db.Usuario.Select(p => p.Email.Equals(user.Email)).ToList().Count >=1 )
+                var verificar = (from usuario in db.Usuario
+                                 where usuario.Email == user.Email
+                                 select usuario).ToList();
+                if (verificar.Count >= 1)
                 {
                     ModelState.AddModelError("EmailExist", "Email already exist");
                     return View(user);

@@ -1,0 +1,42 @@
+﻿@model Turnos_Medicos.Models.MedicoObraSocial
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MedicoObraSocial</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Numero)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Numero)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Medico.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Medico.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ObraSocial.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ObraSocial.Nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

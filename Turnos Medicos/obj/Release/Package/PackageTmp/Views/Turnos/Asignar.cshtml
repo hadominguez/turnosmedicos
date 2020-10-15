@@ -84,7 +84,7 @@
         <div class="form-group" >
             @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control", @maxlength = 40, @required = "true"} })
+                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control", @maxlength = 40} })
                 @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -124,7 +124,9 @@
 }
 
 <div>
-    <input href="/Turnos/Index" value="Volver" class="btn btn-default" />
+	<a href="/Turnos/Index">
+		<button class="btn btn-default" >Volver</button>
+	</a>
 </div>
 
 @section Scripts {

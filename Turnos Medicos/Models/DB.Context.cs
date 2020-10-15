@@ -25,7 +25,6 @@ namespace Turnos_Medicos.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Agenda> Agenda { get; set; }
         public virtual DbSet<Consultorio> Consultorio { get; set; }
         public virtual DbSet<Especialidad> Especialidad { get; set; }
         public virtual DbSet<Estado> Estado { get; set; }

@@ -26,7 +26,11 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+<<<<<<< HEAD
     <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+=======
+    <Use64BitIISExpress />
+>>>>>>> develop
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -168,20 +172,26 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AgendaController.cs" />
+    <Compile Include="Controllers\ConsultoriosController.cs" />
+    <Compile Include="Controllers\EspecialidadesController.cs" />
+    <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MedicoHorariosController.cs" />
+    <Compile Include="Controllers\MedicoObraSocialesController.cs" />
+    <Compile Include="Controllers\MedicosController.cs" />
+    <Compile Include="Controllers\ObraSocialesController.cs" />
+    <Compile Include="Controllers\ObraSocialTarifasController.cs" />
+    <Compile Include="Controllers\PacienteHistorialesController.cs" />
+    <Compile Include="Controllers\PacienteObraSocialesController.cs" />
+    <Compile Include="Controllers\PacientesController.cs" />
+    <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\TurnosController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Agenda.cs">
-      <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Consultorio.cs">
       <DependentUpon>DB.tt</DependentUpon>
@@ -207,8 +217,7 @@
     <Compile Include="Models\Estado.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Extended\UsuarioLogin.cs" />
     <Compile Include="Models\Medico.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -522,6 +531,70 @@
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
     <Content Include="Views\Agenda\Create.cshtml" />
     <Content Include="Views\Turnos\Cancelar.cshtml" />
+    <Content Include="Views\Consultorios\Create.cshtml" />
+    <Content Include="Views\Consultorios\Delete.cshtml" />
+    <Content Include="Views\Consultorios\Details.cshtml" />
+    <Content Include="Views\Consultorios\Edit.cshtml" />
+    <Content Include="Views\Consultorios\Index.cshtml" />
+    <Content Include="Views\Especialidades\Create.cshtml" />
+    <Content Include="Views\Especialidades\Delete.cshtml" />
+    <Content Include="Views\Especialidades\Details.cshtml" />
+    <Content Include="Views\Especialidades\Edit.cshtml" />
+    <Content Include="Views\Especialidades\Index.cshtml" />
+    <Content Include="Views\Estados\Create.cshtml" />
+    <Content Include="Views\Estados\Delete.cshtml" />
+    <Content Include="Views\Estados\Details.cshtml" />
+    <Content Include="Views\Estados\Edit.cshtml" />
+    <Content Include="Views\Estados\Index.cshtml" />
+    <Content Include="Views\Medicos\Create.cshtml" />
+    <Content Include="Views\Medicos\Delete.cshtml" />
+    <Content Include="Views\Medicos\Details.cshtml" />
+    <Content Include="Views\Medicos\Edit.cshtml" />
+    <Content Include="Views\Medicos\Index.cshtml" />
+    <Content Include="Views\MedicoHorarios\Create.cshtml" />
+    <Content Include="Views\MedicoHorarios\Delete.cshtml" />
+    <Content Include="Views\MedicoHorarios\Details.cshtml" />
+    <Content Include="Views\MedicoHorarios\Edit.cshtml" />
+    <Content Include="Views\MedicoHorarios\Index.cshtml" />
+    <Content Include="Views\MedicoObraSociales\Create.cshtml" />
+    <Content Include="Views\MedicoObraSociales\Delete.cshtml" />
+    <Content Include="Views\MedicoObraSociales\Details.cshtml" />
+    <Content Include="Views\MedicoObraSociales\Edit.cshtml" />
+    <Content Include="Views\MedicoObraSociales\Index.cshtml" />
+    <Content Include="Views\ObraSociales\Create.cshtml" />
+    <Content Include="Views\ObraSociales\Delete.cshtml" />
+    <Content Include="Views\ObraSociales\Details.cshtml" />
+    <Content Include="Views\ObraSociales\Edit.cshtml" />
+    <Content Include="Views\ObraSociales\Index.cshtml" />
+    <Content Include="Views\ObraSocialTarifas\Create.cshtml" />
+    <Content Include="Views\ObraSocialTarifas\Delete.cshtml" />
+    <Content Include="Views\ObraSocialTarifas\Details.cshtml" />
+    <Content Include="Views\ObraSocialTarifas\Edit.cshtml" />
+    <Content Include="Views\ObraSocialTarifas\Index.cshtml" />
+    <Content Include="Views\Pacientes\Create.cshtml" />
+    <Content Include="Views\Pacientes\Delete.cshtml" />
+    <Content Include="Views\Pacientes\Details.cshtml" />
+    <Content Include="Views\Pacientes\Edit.cshtml" />
+    <Content Include="Views\Pacientes\Index.cshtml" />
+    <Content Include="Views\PacienteHistoriales\Create.cshtml" />
+    <Content Include="Views\PacienteHistoriales\Delete.cshtml" />
+    <Content Include="Views\PacienteHistoriales\Details.cshtml" />
+    <Content Include="Views\PacienteHistoriales\Edit.cshtml" />
+    <Content Include="Views\PacienteHistoriales\Index.cshtml" />
+    <Content Include="Views\PacienteObraSociales\Create.cshtml" />
+    <Content Include="Views\PacienteObraSociales\Delete.cshtml" />
+    <Content Include="Views\PacienteObraSociales\Details.cshtml" />
+    <Content Include="Views\PacienteObraSociales\Edit.cshtml" />
+    <Content Include="Views\PacienteObraSociales\Index.cshtml" />
+    <Content Include="Views\Personas\Create.cshtml" />
+    <Content Include="Views\Personas\Delete.cshtml" />
+    <Content Include="Views\Personas\Details.cshtml" />
+    <Content Include="Views\Personas\Edit.cshtml" />
+    <Content Include="Views\Personas\Index.cshtml" />
+    <Content Include="Views\Usuarios\Login.cshtml" />
+    <Content Include="Views\Usuarios\Registration.cshtml" />
+    <Content Include="Views\Usuarios\Create.cshtml" />
+    <Content Include="Views\Turnos\Historial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

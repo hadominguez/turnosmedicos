@@ -95,8 +95,9 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input href="/Turnos/Index" value="Volver" class="btn btn-default" />
-            |
+			<a href="/Turnos/Index">
+				<button class="btn btn-default" >Volver</button>
+			</a>
             <input type="submit" value="Cancelar Turno" class="btn btn-success" />
         </div>
     }

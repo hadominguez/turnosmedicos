@@ -89,14 +89,25 @@
         <td>
             @if (item.PacienteId.Equals(null))
             {
-                <input href="/Turnos/Asignar/@item.Id" value="Asignar" class="btn btn-xs btn-success" /><span> </span>
+                <a href="/Turnos/Asignar/@item.Id">
+                    <button class="btn btn-xs btn-success">Asignar</button>
+                </a>
             }
             else
             {
-                <input href="/Turnos/Cancelar/@item.Id" value="Cancelar" class="btn btn-xs btn-warning" /><span> </span>
+                <a href="/Turnos/Cancelar/@item.Id">
+                    <button class="btn btn-xs btn-warning">Cancelar</button>
+                </a>
             }
-            <input href="/Turnos/Details/@item.Id" value="Ver" class="btn btn-xs btn-info" /><span> </span>
-            <input href="/Turnos/Edit/@item.Id" value="Modificar" class="btn btn-xs btn-danger" />
+            <a href="/Turnos/Historial/@item.Id">
+                <button class="btn btn-xs btn-info">Cargar Comentario</button>
+            </a>
+            <a href="/Turnos/Details/@item.Id">
+                <button class="btn btn-xs btn-info">Ver</button>
+            </a>
+            <a href="/Turnos/Edit/@item.Id">
+                <button class="btn btn-xs btn-danger">Modificar</button>
+            </a>
         </td>
     </tr>
 }

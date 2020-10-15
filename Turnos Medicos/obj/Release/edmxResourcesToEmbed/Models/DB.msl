@@ -73,6 +73,7 @@
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -179,9 +180,9 @@
       <EntityTypeMapping TypeName="TurnosMedicosModel.Usuario">
         <MappingFragment StoreEntitySet="Usuario">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="usuario1" ColumnName="usuario" />
-          <ScalarProperty Name="email" ColumnName="email" />
-          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="Identificador" ColumnName="Identificador" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="Bloqueado" ColumnName="Bloqueado" />
           <ScalarProperty Name="PerfilId" ColumnName="PerfilId" />
           <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />

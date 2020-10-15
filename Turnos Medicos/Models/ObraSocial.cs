@@ -27,6 +27,7 @@ namespace Turnos_Medicos.Models
         public string Nombre { get; set; }
         public string Email { get; set; }
         public string Telefono { get; set; }
+        public bool Activo { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MedicoObraSocial> MedicoObraSocial { get; set; }

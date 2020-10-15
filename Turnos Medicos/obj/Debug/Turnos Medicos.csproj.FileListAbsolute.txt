@@ -67,6 +67,75 @@ D:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.MicrosoftAccount.xm
 D:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.csprojResolveAssemblyReference.cache
 D:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.dll
 D:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.pdb
+H:\Turnos Medicos\Turnos Medicos\bin\roslyn\csc.exe
+H:\Turnos Medicos\Turnos Medicos\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+H:\Turnos Medicos\Turnos Medicos\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+H:\Turnos Medicos\Turnos Medicos\bin\roslyn\Microsoft.CodeAnalysis.dll
+H:\Turnos Medicos\Turnos Medicos\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+H:\Turnos Medicos\Turnos Medicos\bin\roslyn\Microsoft.CSharp.Core.targets
+H:\Turnos Medicos\Turnos Medicos\bin\roslyn\Microsoft.VisualBasic.Core.targets
+H:\Turnos Medicos\Turnos Medicos\bin\roslyn\System.Collections.Immutable.dll
+H:\Turnos Medicos\Turnos Medicos\bin\roslyn\System.Reflection.Metadata.dll
+H:\Turnos Medicos\Turnos Medicos\bin\roslyn\vbc.exe
+H:\Turnos Medicos\Turnos Medicos\bin\roslyn\VBCSCompiler.exe
+H:\Turnos Medicos\Turnos Medicos\bin\roslyn\VBCSCompiler.exe.config
+H:\Turnos Medicos\Turnos Medicos\bin\Turnos Medicos.dll.config
+H:\Turnos Medicos\Turnos Medicos\bin\Turnos Medicos.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Turnos Medicos.pdb
+H:\Turnos Medicos\Turnos Medicos\bin\Antlr3.Runtime.dll
+H:\Turnos Medicos\Turnos Medicos\bin\EntityFramework.dll
+H:\Turnos Medicos\Turnos Medicos\bin\EntityFramework.SqlServer.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.AspNet.Identity.Core.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.AspNet.Identity.Owin.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Host.SystemWeb.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.Cookies.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.Facebook.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.Google.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.OAuth.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.Twitter.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Web.Infrastructure.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Newtonsoft.Json.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Owin.dll
+H:\Turnos Medicos\Turnos Medicos\bin\System.Web.Helpers.dll
+H:\Turnos Medicos\Turnos Medicos\bin\System.Web.Mvc.dll
+H:\Turnos Medicos\Turnos Medicos\bin\System.Web.Optimization.dll
+H:\Turnos Medicos\Turnos Medicos\bin\System.Web.Razor.dll
+H:\Turnos Medicos\Turnos Medicos\bin\System.Web.WebPages.Deployment.dll
+H:\Turnos Medicos\Turnos Medicos\bin\System.Web.WebPages.dll
+H:\Turnos Medicos\Turnos Medicos\bin\System.Web.WebPages.Razor.dll
+H:\Turnos Medicos\Turnos Medicos\bin\WebGrease.dll
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+H:\Turnos Medicos\Turnos Medicos\bin\System.Web.Helpers.xml
+H:\Turnos Medicos\Turnos Medicos\bin\System.Web.Mvc.xml
+H:\Turnos Medicos\Turnos Medicos\bin\System.Web.Optimization.xml
+H:\Turnos Medicos\Turnos Medicos\bin\System.Web.Razor.xml
+H:\Turnos Medicos\Turnos Medicos\bin\System.Web.WebPages.xml
+H:\Turnos Medicos\Turnos Medicos\bin\System.Web.WebPages.Deployment.xml
+H:\Turnos Medicos\Turnos Medicos\bin\System.Web.WebPages.Razor.xml
+H:\Turnos Medicos\Turnos Medicos\bin\Antlr3.Runtime.pdb
+H:\Turnos Medicos\Turnos Medicos\bin\Newtonsoft.Json.xml
+H:\Turnos Medicos\Turnos Medicos\bin\EntityFramework.xml
+H:\Turnos Medicos\Turnos Medicos\bin\EntityFramework.SqlServer.xml
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.AspNet.Identity.Core.xml
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.AspNet.Identity.Owin.xml
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.xml
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Host.SystemWeb.xml
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.xml
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.Facebook.xml
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.Cookies.xml
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.OAuth.xml
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.Google.xml
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.Twitter.xml
+H:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+H:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.csprojResolveAssemblyReference.cache
+H:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.dll
+H:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.pdb
 G:\Turnos Medicos\Turnos Medicos\bin\roslyn\csc.exe
 G:\Turnos Medicos\Turnos Medicos\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 G:\Turnos Medicos\Turnos Medicos\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -133,8 +202,8 @@ G:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.OAuth.xml
 G:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.Google.xml
 G:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.Twitter.xml
 G:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.csprojAssemblyReference.cache
 G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.csproj.CoreCompileInputs.cache
 G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.csproj.CopyComplete
 G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.dll
 G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.pdb
+G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.csprojAssemblyReference.cache

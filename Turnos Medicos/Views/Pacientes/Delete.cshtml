@@ -19,9 +19,74 @@
             @Html.DisplayFor(model => model.Persona.DNI)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Persona.Apellido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Persona.Apellido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Persona.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Persona.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Persona.FechaNacimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Persona.FechaNacimiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Persona.Calle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Persona.Calle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Persona.Numero)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Persona.Numero)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Persona.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Persona.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Persona.Telefono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Persona.Telefono)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Persona.Celular)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Persona.Celular)
+        </dd>
+
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

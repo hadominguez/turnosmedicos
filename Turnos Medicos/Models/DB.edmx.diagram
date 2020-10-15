@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="ef2ed1e45e584d869adc5001fc68329a" Name="Diagram1">
-        <EntityTypeShape EntityType="TurnosMedicosModel.Agenda" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosMedicosModel.Consultorio" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosMedicosModel.Especialidad" Width="1.5" PointX="0.75" PointY="3.25" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosMedicosModel.Estado" Width="1.5" PointX="3.75" PointY="13.375" IsExpanded="true" />
@@ -22,7 +21,6 @@
         <EntityTypeShape EntityType="TurnosMedicosModel.Permiso" Width="1.5" PointX="4.5" PointY="22.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosMedicosModel.Persona" Width="1.5" PointX="1.5" PointY="14.625" IsExpanded="true" />
         <EntityTypeShape EntityType="TurnosMedicosModel.Turno" Width="1.5" PointX="6" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="TurnosMedicosModel.Usuario" Width="1.5" PointX="6.75" PointY="15" IsExpanded="true" />
         <AssociationConnector Association="TurnosMedicosModel.FK__MedicoHorario_Consultorio" ManuallyRouted="false" />
         <AssociationConnector Association="TurnosMedicosModel.FK_Turno_Consultorio" ManuallyRouted="false" />
         <AssociationConnector Association="TurnosMedicosModel.FK_Medico_Especialidad" ManuallyRouted="false" />
@@ -43,9 +41,10 @@
         <AssociationConnector Association="TurnosMedicosModel.FK_Turno_Paciente" ManuallyRouted="false" />
         <AssociationConnector Association="TurnosMedicosModel.FK_PacienteHistorial_Turno" ManuallyRouted="false" />
         <AssociationConnector Association="TurnosMedicosModel.FK_PerfilPermiso_Perfil" ManuallyRouted="false" />
-        <AssociationConnector Association="TurnosMedicosModel.FK_Usuario_Perfil" ManuallyRouted="false" />
         <AssociationConnector Association="TurnosMedicosModel.FK_PerfilPermiso_Permiso" ManuallyRouted="false" />
-        <AssociationConnector Association="TurnosMedicosModel.FK_Usuario_Persona" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.Usuario" Width="1.5" PointX="6.75" PointY="15.5" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_Usuario_Perfil" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_Usuario_Persona" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

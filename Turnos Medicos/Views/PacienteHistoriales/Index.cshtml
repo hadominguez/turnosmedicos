@@ -17,12 +17,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Fecha)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Paciente.Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Turno.Descripcion)
-        </th>
         <th></th>
     </tr>
 
@@ -32,13 +26,7 @@
             @Html.DisplayFor(modelItem => item.Observacion)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Fecha)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Paciente.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Turno.Descripcion)
+            @item.Fecha.ToString("yyyy-MM-dd")
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

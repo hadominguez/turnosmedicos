@@ -1,12 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="TurnosMedicosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="Agenda">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-  </EntityType>
   <EntityType Name="Consultorio">
     <Key>
       <PropertyRef Name="Id" />
@@ -81,6 +74,7 @@
     <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Telefono" Type="String" MaxLength="17" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Activo" Type="Boolean" />
     <NavigationProperty Name="MedicoObraSocial" Relationship="Self.FK_MedicoObraSocial_ObraSocial" FromRole="ObraSocial" ToRole="MedicoObraSocial" />
     <NavigationProperty Name="ObraSocialTarifa" Relationship="Self.FK_ObraSocialTarifa_ObraSocial" FromRole="ObraSocial" ToRole="ObraSocialTarifa" />
     <NavigationProperty Name="PacienteObraSocial" Relationship="Self.FK_PacienteObraSocial_ObraSocial" FromRole="ObraSocial" ToRole="PacienteObraSocial" />
@@ -206,9 +200,9 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="usuario1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Identificacion" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Bloqueado" Type="Boolean" Nullable="false" />
     <Property Name="PerfilId" Type="Int32" Nullable="false" />
     <Property Name="PersonaId" Type="Int32" />

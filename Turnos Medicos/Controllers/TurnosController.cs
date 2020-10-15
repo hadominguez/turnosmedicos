@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Turnos_Medicos.Models;
+using System.Net.Mail;
 
 namespace Turnos_Medicos.Controllers
 {
@@ -219,6 +220,26 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            /*
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 465);
+            smtp.Credentials = new NetworkCredential("axel0lopez95@gmail.com", "estudiante-0"); //("axel0lopez95@gmail.com", "estudiante-0");
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtp.EnableSsl = true;
+            smtp.UseDefaultCredentials = false;
+
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress("axel0lopez95@gmail.com", "Hospital");
+            mail.To.Add(new MailAddress("axe_lopez95@yahoo.com"));
+            mail.Subject = "Mensaje de prueba";
+            mail.IsBodyHtml = true;
+
+            mail.Body = "<body>" +
+                "<h1>Prueba de cuerpo de mensaje</h1>" +
+                "</body>";
+
+            smtp.Send(mail);*/
+
+
             Turno turno = db.Turno.Find(id);
             db.Turno.Remove(turno);
             db.SaveChanges();
@@ -256,12 +277,87 @@ namespace Turnos_Medicos.Controllers
         public ActionResult CancelarConfirmado(int id)
         {
             Turno turno = db.Turno.Find(id);
+            string body = "<br/>Su Turno del dia " + turno.Fecha.ToString("yyyy-MM-dd") + " fue cancelado.<br/>Solicite uno nuevo.<br/>";
+            string email = (from paciente in db.Paciente
+                                                join persona in db.Persona on paciente.PersonaId equals persona.Id
+                                                where paciente.Id == turno.PacienteId
+                                                select persona).First().Email;
+            string titulo = "Turno Cancelado";
+
             turno.PacienteId = null;
             turno.ObraSocialId = null;
             turno.Descripcion = "";
+            turno.EstadoId = 1;
+
             //db.Entry(turno).State = EntityState.Modified;
             db.SaveChanges();
+
+            SendEmail(body, email, titulo);
             return RedirectToAction("Index");
         }
+
+
+
+        // GET: Turnos/Create
+        public ActionResult Historial(int id)
+        {
+            PacienteHistorial historial = new PacienteHistorial();
+            historial.PacienteId = (int)db.Turno.First(p => p.Id == id).PacienteId;
+            historial.Fecha = DateTime.Now;
+            historial.TurnoId = id;
+
+            return View(historial);
+        }
+
+        // POST: Turnos/Create
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
+        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Historial([Bind(Include = "Id,PacienteId,TurnoId,Observacion,Fecha")] PacienteHistorial pacienteHistorial)
+        {
+            pacienteHistorial.Fecha = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                db.PacienteHistorial.Add(pacienteHistorial);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.PacienteId = new SelectList(db.Paciente, "Id", "Id", pacienteHistorial.PacienteId);
+            ViewBag.TurnoId = new SelectList(db.Turno, "Id", "Descripcion", pacienteHistorial.TurnoId);
+            return View(pacienteHistorial);
+        }
+
+
+
+
+        [NonAction]
+        public void SendEmail(string body, string email, string titulo)
+        {
+            var fromEmail = new MailAddress("axel0lopez95@gmail.com", "Medico");
+            var toEmail = new MailAddress(email);
+            var fromEmailPassword = "estudiante-0";
+            string subject = titulo;
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword)
+            };
+
+            using (var message = new MailMessage(fromEmail, toEmail)
+            {
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true
+            })
+                smtp.Send(message);
+        }
+
     }
 }

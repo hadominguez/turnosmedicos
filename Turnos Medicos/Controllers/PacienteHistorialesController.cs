@@ -15,9 +15,9 @@ namespace Turnos_Medicos.Controllers
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
         // GET: PacienteHistoriales
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            var pacienteHistorial = db.PacienteHistorial.Include(p => p.Paciente).Include(p => p.Turno);
+            var pacienteHistorial = db.PacienteHistorial.Include(p => p.Paciente).Include(p => p.Turno).Where(p => p.PacienteId == id);
             return View(pacienteHistorial.ToList());
         }
 
@@ -37,11 +37,13 @@ namespace Turnos_Medicos.Controllers
         }
 
         // GET: PacienteHistoriales/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            ViewBag.PacienteId = new SelectList(db.Paciente, "Id", "Id");
-            ViewBag.TurnoId = new SelectList(db.Turno, "Id", "Descripcion");
-            return View();
+            PacienteHistorial historial = new PacienteHistorial();
+            historial.PacienteId = db.Paciente.First(p => p.PersonaId == id).Id;
+            historial.Fecha = DateTime.Now;
+
+            return View(historial);
         }
 
         // POST: PacienteHistoriales/Create
@@ -51,6 +53,7 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,PacienteId,TurnoId,Observacion,Fecha")] PacienteHistorial pacienteHistorial)
         {
+            //pacienteHistorial.Fecha = DateTime.Now;
             if (ModelState.IsValid)
             {
                 db.PacienteHistorial.Add(pacienteHistorial);

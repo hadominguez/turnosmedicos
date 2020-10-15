@@ -296,6 +296,27 @@ namespace Turnos_Medicos.Controllers
             return RedirectToAction("Index");
         }
 
+<<<<<<< HEAD
+        public ActionResult mostrarTurno(string sortOrder)
+        {
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            var students = from s in db.Medico
+                           select s;
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    students = students.OrderByDescending(s => s.Persona);
+                    break;
+                case "Date":
+                    students = students.OrderBy(s => s.Especialidad);
+                    break;
+            }
+            return View(students.ToList());
+        }
+
+
+=======
 
 
         // GET: Turnos/Create
@@ -359,5 +380,6 @@ namespace Turnos_Medicos.Controllers
                 smtp.Send(message);
         }
 
+>>>>>>> develop
     }
 }

@@ -1,3 +1,50 @@
+<<<<<<< HEAD
+﻿@{
+    ViewBag.Title = "Agenda";
+}
+
+<h2>Habilitar Agenda</h2>
+
+<h3>Seleccione el rango de fechas para crear los turnos</h3>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Fecha">Fecha Inicial</label>
+            <div class="col-md-10">
+                <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="fecha_ini" name="fecha_ini" type="date" value="">
+                <span class="field-validation-valid text-danger" data-valmsg-for="fecha_ini" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Fecha">Fecha Fin</label>
+            <div class="col-md-10">
+                <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="fecha_fin" name="fecha_fin" type="date" value="">
+                <span class="field-validation-valid text-danger" data-valmsg-for="fecha_fin" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/Agenda/Index">
+        <button class="btn btn-default">Volver</button>
+    </a>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+=======
 ﻿@{
     ViewBag.Title = "Agenda";
 }
@@ -43,3 +90,4 @@
         @Scripts.Render("~/bundles/jqueryval")
 
     }
+>>>>>>> develop

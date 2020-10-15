@@ -6,7 +6,10 @@
 
 <h2>Listado de Turnos Diarios</h2>
 
+
+
 <table class="table">
+
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Estado.Nombre)
@@ -36,6 +39,7 @@
     </tr>
 
 @foreach (var item in Model) {
+
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Estado.Nombre)

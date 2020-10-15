@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -25,7 +26,11 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+<<<<<<< HEAD
+    <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
+=======
     <Use64BitIISExpress />
+>>>>>>> develop
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -275,6 +280,80 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales-all.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales-all.min.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\af.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ar-dz.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ar-kw.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ar-ly.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ar-ma.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ar-sa.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ar-tn.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ar.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\az.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\bg.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\bs.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ca.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\cs.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\da.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\de.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\el.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\en-au.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\en-gb.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\en-nz.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\es-us.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\es.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\et.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\eu.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\fa.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\fi.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\fr-ca.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\fr-ch.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\fr.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\gl.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\he.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\hi.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\hr.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\hu.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\id.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\is.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\it.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ja.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ka.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\kk.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ko.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\lb.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\lt.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\lv.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\mk.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ms.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\nb.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ne.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\nl.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\nn.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\pl.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\pt-br.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\pt.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ro.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ru.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\sk.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\sl.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\sq.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\sr-cyrl.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\sr.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\sv.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\th.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\tr.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\ug.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\uk.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\uz.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\vi.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\zh-cn.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\locales\zh-tw.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\main.css" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\main.js" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\main.min.css" />
+    <Content Include="Libs\fullcalendar-5.3.2\lib\main.min.js" />
     <Content Include="Models\DB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DB.edmx</DependentUpon>
@@ -304,7 +383,10 @@
     <Content Include="Content\bootstrap-datepicker3.css.map" />
     <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
+    <None Include="Properties\PublishProfiles\medico.pubxml" />
+    <None Include="Properties\PublishProfiles\medicos.pubxml" />
     <None Include="Properties\PublishProfiles\Turnos Medicos.pubxml" />
+    <None Include="Properties\PublishProfiles\TurnosMedicos.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
@@ -523,6 +605,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
@@ -530,6 +613,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

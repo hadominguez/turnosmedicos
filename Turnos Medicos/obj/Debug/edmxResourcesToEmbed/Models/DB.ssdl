@@ -1,12 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="TurnosMedicosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityType Name="Agenda">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Fecha" Type="date" Nullable="false" />
-  </EntityType>
   <EntityType Name="Consultorio">
     <Key>
       <PropertyRef Name="Id" />
@@ -66,6 +59,7 @@
     <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
     <Property Name="Telefono" Type="varchar" MaxLength="17" Nullable="false" />
+    <Property Name="Activo" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="ObraSocialTarifa">
     <Key>
@@ -152,7 +146,7 @@
     <Property Name="EspecialidadId" Type="int" Nullable="false" />
     <Property Name="Fecha" Type="date" Nullable="false" />
     <Property Name="Hora" Type="time" Precision="7" Nullable="false" />
-    <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="500" />
     <Property Name="ObraSocialTarifa" Type="decimal" Precision="10" Scale="2" />
     <Property Name="CostoTotal" Type="decimal" Precision="10" Scale="2" />
     <Property Name="Pagado" Type="bit" />
@@ -162,10 +156,10 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="usuario" Type="varchar" MaxLength="30" Nullable="false" />
-    <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="password" Type="varchar" MaxLength="500" Nullable="false" />
-    <Property Name="Bloqueado" Type="bit" Nullable="false" />
+    <Property Name="Identificador" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="Bloqueado" Type="bit" />
     <Property Name="PerfilId" Type="int" Nullable="false" />
     <Property Name="PersonaId" Type="int" />
   </EntityType>
@@ -466,7 +460,6 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="TurnosMedicosModelStoreContainer">
-    <EntitySet Name="Agenda" EntityType="Self.Agenda" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Consultorio" EntityType="Self.Consultorio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Especialidad" EntityType="Self.Especialidad" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Estado" EntityType="Self.Estado" Schema="dbo" store:Type="Tables" />

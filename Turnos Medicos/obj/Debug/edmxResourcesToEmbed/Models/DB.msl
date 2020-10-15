@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="TurnosMedicosModelStoreContainer" CdmEntityContainer="TurnosMedicosEntities">
-    <EntitySetMapping Name="Agenda">
-      <EntityTypeMapping TypeName="TurnosMedicosModel.Agenda">
-        <MappingFragment StoreEntitySet="Agenda">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Consultorio">
       <EntityTypeMapping TypeName="TurnosMedicosModel.Consultorio">
         <MappingFragment StoreEntitySet="Consultorio">
@@ -69,6 +61,7 @@
     <EntitySetMapping Name="ObraSocial">
       <EntityTypeMapping TypeName="TurnosMedicosModel.ObraSocial">
         <MappingFragment StoreEntitySet="ObraSocial">
+          <ScalarProperty Name="Activo" ColumnName="Activo" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Email" ColumnName="Email" />
@@ -178,13 +171,13 @@
     <EntitySetMapping Name="Usuario">
       <EntityTypeMapping TypeName="TurnosMedicosModel.Usuario">
         <MappingFragment StoreEntitySet="Usuario">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="usuario1" ColumnName="usuario" />
-          <ScalarProperty Name="email" ColumnName="email" />
-          <ScalarProperty Name="password" ColumnName="password" />
-          <ScalarProperty Name="Bloqueado" ColumnName="Bloqueado" />
-          <ScalarProperty Name="PerfilId" ColumnName="PerfilId" />
           <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
+          <ScalarProperty Name="PerfilId" ColumnName="PerfilId" />
+          <ScalarProperty Name="Bloqueado" ColumnName="Bloqueado" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Identificador" ColumnName="Identificador" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

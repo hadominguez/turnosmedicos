@@ -10,22 +10,44 @@
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Persona.DNI)
-        </th>
-        <th></th>
-    </tr>
+<tr>
+    <th>
+        @Html.DisplayNameFor(model => model.Persona.DNI)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.Persona.Apellido)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.Persona.Nombre)
+    </th>
+    <th></th>
+</tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Persona.DNI)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.DisplayFor(modelItem => item.Persona.Apellido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Persona.Nombre)
+        </td>
+        <td>
+            <a href="/Pacientes/Details/@item.Id">
+                <button class="btn btn-xs btn-info">Información</button>
+            </a>
+            <a href="/PacienteHistoriales/Index/@item.Id">
+                <button class="btn btn-xs btn-info">Bitacora</button>
+            </a>
+            <a href="/Pacientes/Edit/@item.Id">
+                <button class="btn btn-xs btn-danger">Modificar</button>
+            </a>
+            <a href="/Pacientes/Delete/@item.Id">
+                <button class="btn btn-xs btn-danger">Eliminar</button>
+            </a>
         </td>
     </tr>
 }

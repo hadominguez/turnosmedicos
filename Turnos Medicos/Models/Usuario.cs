@@ -15,10 +15,10 @@ namespace Turnos_Medicos.Models
     public partial class Usuario
     {
         public int Id { get; set; }
-        public string usuario1 { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public bool Bloqueado { get; set; }
+        public string Identificador { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public Nullable<bool> Bloqueado { get; set; }
         public int PerfilId { get; set; }
         public Nullable<int> PersonaId { get; set; }
     

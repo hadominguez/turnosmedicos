@@ -26,11 +26,8 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-<<<<<<< HEAD
     <TypeScriptToolsVersion>1.8</TypeScriptToolsVersion>
-=======
     <Use64BitIISExpress />
->>>>>>> develop
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

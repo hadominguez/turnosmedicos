@@ -11,6 +11,7 @@ using System.Net.Mail;
 
 namespace Turnos_Medicos.Controllers
 {
+    [SessionCheck]
     public class TurnosController : Controller
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
@@ -296,7 +297,6 @@ namespace Turnos_Medicos.Controllers
             return RedirectToAction("Index");
         }
 
-<<<<<<< HEAD
         public ActionResult mostrarTurno(string sortOrder)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -315,8 +315,6 @@ namespace Turnos_Medicos.Controllers
             return View(students.ToList());
         }
 
-
-=======
 
 
         // GET: Turnos/Create
@@ -380,6 +378,5 @@ namespace Turnos_Medicos.Controllers
                 smtp.Send(message);
         }
 
->>>>>>> develop
     }
 }

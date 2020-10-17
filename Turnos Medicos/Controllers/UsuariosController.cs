@@ -17,6 +17,7 @@ namespace Turnos_Medicos.Controllers
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
+        [SessionCheck]
         [HttpGet]
         public ActionResult Create(int? Id)
         {
@@ -41,6 +42,7 @@ namespace Turnos_Medicos.Controllers
             return View(usuario);
         }
 
+        [SessionCheck]
         //Registration POST action 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -129,6 +131,7 @@ namespace Turnos_Medicos.Controllers
                 message = "Registration successfully done. Account activation link " +
                     " has been sent to your email:" + user.Email;
                 Status = true;
+                return RedirectToAction("Login", "Usuarios");
 
             }
             else
@@ -204,6 +207,7 @@ namespace Turnos_Medicos.Controllers
             return View();
         }
 
+        [SessionCheck]
         //Logout
         [HttpPost]
         public ActionResult Logout()
@@ -214,7 +218,7 @@ namespace Turnos_Medicos.Controllers
         }
 
 
-
+        
         [NonAction]
         public void SendVerificationLinkEmail(string email, string clave)
         {

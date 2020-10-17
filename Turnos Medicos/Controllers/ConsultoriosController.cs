@@ -10,6 +10,7 @@ using Turnos_Medicos.Models;
 
 namespace Turnos_Medicos.Controllers
 {
+    [SessionCheck]
     public class ConsultoriosController : Controller
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
@@ -17,22 +18,22 @@ namespace Turnos_Medicos.Controllers
         // GET: Consultorios
         public ActionResult Index()
         {
-            return View(db.Consultorio.ToList());
+                return View(db.Consultorio.ToList());
         }
 
         // GET: Consultorios/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Consultorio consultorio = db.Consultorio.Find(id);
-            if (consultorio == null)
-            {
-                return HttpNotFound();
-            }
-            return View(consultorio);
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Consultorio consultorio = db.Consultorio.Find(id);
+                if (consultorio == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(consultorio);
         }
 
         // GET: Consultorios/Create

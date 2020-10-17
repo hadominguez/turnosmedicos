@@ -11,14 +11,13 @@ using Turnos_Medicos.Models;
 
 namespace Turnos_Medicos.Controllers
 {
+    [SessionCheck]
     public class AgendaController : Controller
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
         // GET: Agenda
         public ActionResult Index(DateTime? fecha_ini, DateTime? fecha_fin)
         {
-            if (Session["user"] != null)
-            {
                 if (fecha_ini.Equals(null) || fecha_fin.Equals(null))
                 {
                     fecha_ini = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
@@ -27,8 +26,6 @@ namespace Turnos_Medicos.Controllers
                 }
                 var turnos = db.Turno.Include(t => t.Consultorio).Include(t => t.Especialidad).Include(t => t.Estado).Include(t => t.Medico).Include(t => t.ObraSocial).Include(t => t.Paciente).Where(p => p.Fecha >= fecha_ini && p.Fecha < fecha_fin).OrderBy(p => p.Fecha).ThenBy(p => p.Hora);
                 return View(turnos.ToList());
-            }
-            return RedirectToAction("Login", "Usuarios");
         }
 
 
@@ -36,11 +33,8 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(DateTime fecha_ini, DateTime fecha_fin)
         {
-            if (Session["user"] != null)
-            {
-                return RedirectToAction( "Index" , new RouteValueDictionary(new { Controller = "Index", Action = "Index", fecha_ini = fecha_ini, fecha_fin = fecha_fin  }));
-            }
-            return RedirectToAction("Login", "Usuarios");
+                //return RedirectToAction( "Index" , new RouteValueDictionary(new { Controller = "Agenda", Action = "Index", fecha_ini = fecha_ini, fecha_fin = fecha_fin  }));
+                return RedirectToAction("Index", "Agenda", new { fecha_ini = fecha_ini, fecha_fin = fecha_fin });
         }
 
         public ActionResult Create()
@@ -52,8 +46,6 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(DateTime fecha_ini, DateTime fecha_fin)
         {
-            if (Session["user"] != null)
-            {
                 for (DateTime c = fecha_ini; c <= fecha_fin; c = c.AddDays(1))
                 {
                     DateTime fin = c;
@@ -97,41 +89,29 @@ namespace Turnos_Medicos.Controllers
                             }
                         }
                     }
-                }
-<<<<<<< HEAD
             }
-
             return RedirectToAction("Index", "Agenda");
         }
 
         public ActionResult Calendar()
         {
+                /*  var id = 1;*/
+                var turnoslist = (from turnos in db.Turno
+                                  where turnos.Estado.Nombre == "Asignado"
+                                  select turnos).ToList();
 
+                return Json(turnoslist.ToList().AsEnumerable().Select(e => new
+                {
 
-          /*  var id = 1;*/
-            var turnoslist = (from turnos in db.Turno
-                              where turnos.Estado.Nombre == "Asignado"
-                              select turnos).ToList();
-
-            return Json(turnoslist.ToList().AsEnumerable().Select(e => new
-            {
-
-                title = e.Descripcion,
-                start = e.Fecha.ToString("yyyy-MM-dd"),
-                color = "yellow", 
-                textColor = "black"
-                /*
-                start = e.Fecha.GetDateTimeFormats("yyyy-MM-dd HH:mm:ss")
-                */
-            }), JsonRequestBehavior.AllowGet);
-        }
-=======
-
-                return RedirectToAction("Index", "Agenda");
->>>>>>> develop
-
-             }
-            return RedirectToAction("Login", "Usuarios");
+                    title = e.Descripcion,
+                    start = e.Fecha.ToString("yyyy-MM-dd"),
+                    color = "yellow",
+                    textColor = "black"
+                    /*
+                    start = e.Fecha.GetDateTimeFormats("yyyy-MM-dd HH:mm:ss")
+                    */
+                }), JsonRequestBehavior.AllowGet);
         }
     }
-    }
+	
+}

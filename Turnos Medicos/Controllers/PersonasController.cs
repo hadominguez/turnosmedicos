@@ -10,6 +10,7 @@ using Turnos_Medicos.Models;
 
 namespace Turnos_Medicos.Controllers
 {
+    [SessionCheck]
     public class PersonasController : Controller
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();

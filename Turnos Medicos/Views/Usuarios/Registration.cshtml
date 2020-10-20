@@ -1,10 +1,10 @@
 ﻿@model Turnos_Medicos.Models.Usuario
 
 @{
-    ViewBag.Title = "Registration";
+    ViewBag.Title = "Registrarte";
 }
 
-<h2>Registration</h2>
+<h2>Registrarte</h2>
 
 
 @using (Html.BeginForm()) 
@@ -19,7 +19,7 @@
         <div class="form-group">
             <label class="control-label col-md-2" for="Identificador">DNI</label>
             <div class="col-md-10">
-                <input class="form-control text-box single-line" id="Identificador" name="Identificador" type="text" value="">
+                <input class="form-control text-box single-line" id="Identificador" name="Identificador" type="number" value="">
                 <span class="field-validation-valid text-danger" data-valmsg-for="Identificador" data-valmsg-replace="true"></span>
             </div>
         </div>
@@ -27,7 +27,7 @@
         <div class="form-group">
             <label class="control-label col-md-2" for="Email">Email</label>
             <div class="col-md-10">
-                <input class="form-control text-box single-line" id="Email" name="Email" type="text" value="">
+                <input class="form-control text-box single-line" id="Email" name="Email" type="text" value="" maxlength = "50">
                 <span class="field-validation-valid text-danger" data-valmsg-for="Email" data-valmsg-replace="true"></span>
             </div>
         </div>
@@ -35,7 +35,7 @@
         <div class="form-group">
             <label class="control-label col-md-2" for="Password">Clave</label>
             <div class="col-md-10">
-                <input class="form-control text-box single-line" id="Password" name="Password" type="text" value="">
+                <input class="form-control text-box single-line" id="Password" name="Password" type="text" value="" maxlength = "50">
                 <span class="field-validation-valid text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
             </div>
         </div>
@@ -43,14 +43,14 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Crear" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Login")
+    @Html.ActionLink("Volver", "Login")
 </div>
 
 @section Scripts {

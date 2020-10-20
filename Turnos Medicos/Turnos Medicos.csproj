@@ -381,6 +381,7 @@
     <Content Include="Content\bootstrap-datepicker3.css.map" />
     <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
+    <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Properties\PublishProfiles\medico.pubxml" />
     <None Include="Properties\PublishProfiles\medicos.pubxml" />
     <None Include="Properties\PublishProfiles\Turnos Medicos.pubxml" />
@@ -593,6 +594,7 @@
     <Content Include="Views\Usuarios\Registration.cshtml" />
     <Content Include="Views\Usuarios\Create.cshtml" />
     <Content Include="Views\Turnos\Historial.cshtml" />
+    <Content Include="Views\Turnos\CancelarMedico.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

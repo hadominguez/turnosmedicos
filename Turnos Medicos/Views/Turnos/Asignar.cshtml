@@ -2,15 +2,105 @@
 
 @{
     ViewBag.Title = "Asignar";
+    IEnumerable<Turnos_Medicos.Models.Paciente> pacientes = ViewBag.ListadoPaciente;
 }
 
 <h2>Asignar Paciente</h2>
 
+@if (Model.Paciente == null)
+{
+<form action="/Turnos/Asignar/@Model.Id" method="get" novalidate="novalidate">
 
-@using (Html.BeginForm())
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        <h3>Buscar</h3>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-2" for="dni">DNI:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="dni" name="dni" type="number" value="" min="1" max="99999999">
+                <span class="field-validation-valid text-danger" data-valmsg-for="dni" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-2" for="apellido">Apellido:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="apellido" name="apellido" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="apellido" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-2" for="nombre">Nombre:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="nombre" name="nombre" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="nombre" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-1">
+            <div class="col-md-offset-2 col-md-1">
+                <input type="submit" value="Buscar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+if (pacientes != null)
+{
+    <table class="table">
+        <tr>
+            <th>
+                DNI
+            </th>
+            <th>
+                Apellido
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th>Operaciones</th>
+        </tr>
+
+        @foreach (var item in pacientes)
+        {
+            <form action="/Turnos/Asignar/@Model.Id" method="get" novalidate="novalidate">
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Persona.DNI)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Persona.Apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Persona.Nombre)
+                </td>
+                <td>
+                    <div class="form-group col-sm-4" hidden>
+                        <div class="col-md-8">
+                            <input class="form-control datepicker text-box single-line" data-val="true" id="id_paciente" name="id_paciente" type="number" value="@item.Id" maxlength="30">
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-1">
+                        <div class="col-md-offset-2 col-md-1">
+                            <input type="submit" value="Seleccionar" class="btn btn-default" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </form>
+        }
+
+    </table>
+}
+}
+
+
+
+@if(Model.Paciente != null) {
+using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Turno</h4>
         <hr />
@@ -18,7 +108,7 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group" hidden>
-            @Html.LabelFor(model => model.EstadoId, "EstadoId", htmlAttributes: new { @class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.EstadoId, "EstadoId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("EstadoId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.EstadoId, "", new { @class = "text-danger" })
@@ -33,7 +123,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" >
             @Html.LabelFor(model => model.PacienteId, "PacienteId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("PacienteId", null, htmlAttributes: new { @class = "form-control", @required = "true" })
@@ -65,7 +155,7 @@
             </div>
         </div>
 
-        <div class="form-group" >
+        <div class="form-group" hidden>
             <label class="control-label col-md-2" for="Fecha">Fecha</label>
             <div class="col-md-10">
                 <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="Fecha" name="Fecha" type="date" value="@Model.Fecha.ToString("yyyy-MM-dd")">
@@ -81,15 +171,15 @@
             </div>
         </div>
 
-        <div class="form-group" >
+        <div class="form-group">
             @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control", @maxlength = 40} })
+                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control", @maxlength = 40 } })
                 @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
             </div>
         </div>
 
-         <div class="form-group" hidden>
+        <div class="form-group" hidden>
             @Html.LabelFor(model => model.ObraSocialTarifa, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ObraSocialTarifa, new { htmlAttributes = new { @type = "number", @min = "0.00", @max = "10000.00", @step = "0.01", @class = "form-control" } })
@@ -122,11 +212,12 @@
         </div>
     </div>
 }
+}
 
 <div>
-	<a href="/Turnos/Index">
-		<button class="btn btn-default" >Volver</button>
-	</a>
+    <a href="/Turnos/Index">
+        <button class="btn btn-default">Volver</button>
+    </a>
 </div>
 
 @section Scripts {

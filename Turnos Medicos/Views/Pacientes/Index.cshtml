@@ -1,55 +1,101 @@
 ﻿@model IEnumerable<Turnos_Medicos.Models.Paciente>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Listado de Pacientes";
 }
 
-<h2>Index</h2>
+<h2>Listado de Pacientes</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href="/Pacientes/Create/">
+        <button class="btn btn-success">Crear Paciente</button>
+    </a>
 </p>
-<table class="table">
-<tr>
-    <th>
-        @Html.DisplayNameFor(model => model.Persona.DNI)
-    </th>
-    <th>
-        @Html.DisplayNameFor(model => model.Persona.Apellido)
-    </th>
-    <th>
-        @Html.DisplayNameFor(model => model.Persona.Nombre)
-    </th>
-    <th></th>
-</tr>
-
-@foreach (var item in Model)
+@using (Html.BeginForm())
 {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Persona.DNI)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Persona.Apellido)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Persona.Nombre)
-        </td>
-        <td>
-            <a href="/Pacientes/Details/@item.Id">
-                <button class="btn btn-xs btn-info">Información</button>
-            </a>
-            <a href="/PacienteHistoriales/Index/@item.Id">
-                <button class="btn btn-xs btn-info">Bitacora</button>
-            </a>
-            <a href="/Pacientes/Edit/@item.Id">
-                <button class="btn btn-xs btn-danger">Modificar</button>
-            </a>
-            <a href="/Pacientes/Delete/@item.Id">
-                <button class="btn btn-xs btn-danger">Eliminar</button>
-            </a>
-        </td>
-    </tr>
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        <h3>Buscar</h3>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-2" for="dni">DNI:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="dni" name="dni" type="number" value="" min = "1" max = "99999999">
+                <span class="field-validation-valid text-danger" data-valmsg-for="dni" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-2" for="apellido">Apellido:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="apellido" name="apellido" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="apellido" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-2" for="nombre">Nombre:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="nombre" name="nombre" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="nombre" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-1">
+            <div class="col-md-offset-2 col-md-1">
+                <input type="submit" value="Buscar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
 }
 
+@if (Model.ToList().Count >= 1)
+{
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Persona.DNI)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Persona.Apellido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Persona.Nombre)
+        </th>
+        <th>Operaciones</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Persona.DNI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Persona.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Persona.Nombre)
+            </td>
+            <td>
+                <a href="/Pacientes/Details/@item.Id">
+                    <button class="btn btn-xs btn-info">Información</button>
+                </a>
+                <a href="/PacienteHistoriales/Index/@item.Id">
+                    <button class="btn btn-xs btn-info">Bitacora</button>
+                </a>
+                <a href="/Pacientes/Edit/@item.Id">
+                    <button class="btn btn-xs btn-danger">Modificar</button>
+                </a>
+                <a href="/Pacientes/Delete/@item.Id">
+                    <button class="btn btn-xs btn-danger">Eliminar</button>
+                </a>
+            </td>
+        </tr>
+    }
+
 </table>
+}
+else
+{
+    <table class="table">
+    </table>
+}

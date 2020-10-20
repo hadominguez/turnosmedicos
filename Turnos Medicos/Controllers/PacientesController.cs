@@ -16,12 +16,13 @@ namespace Turnos_Medicos.Controllers
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
         // GET: Pacientes
-        public ActionResult Index(int? dni)
+        public ActionResult Index(int? dni, string apellido, string nombre)
         {
             var paciente = db.Paciente.Include(p => p.Persona);
-            if (!dni.Equals(null))
+            string nuevo_dni = dni.ToString();
+            if (!(nuevo_dni == "") || !(apellido == "") || !(nombre == ""))
             {
-                paciente = paciente.Where(p => p.Persona.DNI.Contains(dni.ToString()));
+                paciente = paciente.Where(p => p.Persona.DNI.Contains(nuevo_dni) && p.Persona.Apellido.Contains(apellido) && p.Persona.Nombre.Contains(nombre));
             }
             return View(paciente.ToList());
         }

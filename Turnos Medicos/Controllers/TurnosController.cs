@@ -17,9 +17,22 @@ namespace Turnos_Medicos.Controllers
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
         // GET: Turnos
-        public ActionResult Index()
+        public ActionResult Index(int? dni, string apellido, string nombre, string m_apellido, string m_nombre, string especialidad)
         {
             var turno = db.Turno.Include(t => t.Consultorio).Include(t => t.Especialidad).Include(t => t.Estado).Include(t => t.Medico).Include(t => t.ObraSocial).Include(t => t.Paciente).Where(p => p.Fecha.Year == DateTime.Now.Year && p.Fecha.Month == DateTime.Now.Month && p.Fecha.Day == DateTime.Now.Day);
+            string nuevo_dni = dni.ToString();
+            if (!(m_apellido == "") || !(m_nombre == "") || !(especialidad == ""))
+            {
+                turno = turno.Where(p => p.Medico.Persona.Apellido.Contains(m_apellido)
+                    && p.Medico.Persona.Nombre.Contains(m_nombre)
+                    && p.Especialidad.Nombre.Contains(especialidad));
+            }
+            if (!(nuevo_dni == "") || !(apellido == "") || !(nombre == ""))
+            {
+                turno = turno.Where(p => p.Paciente.Persona.DNI.Contains(nuevo_dni)
+                    && p.Paciente.Persona.Apellido.Contains(apellido)
+                    && p.Paciente.Persona.Nombre.Contains(nombre));
+            }
             return View(turno.ToList());
         }
 
@@ -83,7 +96,7 @@ namespace Turnos_Medicos.Controllers
             return View(turno);
         }
 
-        public ActionResult Asignar(int? id)
+        public ActionResult Asignar(int? id, int? dni, string apellido, string nombre, int? id_paciente)
         {
             if (id == null)
             {
@@ -105,6 +118,23 @@ namespace Turnos_Medicos.Controllers
             ViewBag.PacienteId = new SelectList(from paciente in db.Paciente
                                                 join persona in db.Persona on paciente.PersonaId equals persona.Id
                                                 select new { Id = paciente.Id, Nombre = persona.DNI + " - " + persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
+            string nuevo_dni = dni.ToString();
+            if (!(nuevo_dni == "") || !(apellido == "") || !(nombre == ""))
+            {
+                ViewBag.ListadoPaciente = (from paciente in db.Paciente
+                                                    join persona in db.Persona on paciente.PersonaId equals persona.Id
+                                                    where persona.Apellido.Contains(apellido) && persona.Nombre.Contains(nombre) && persona.DNI.Contains(nuevo_dni)
+                                           select paciente);
+            }
+            if(id_paciente != null)
+            {
+                ViewBag.PacienteId = new SelectList(from paciente in db.Paciente
+                                                    join persona in db.Persona on paciente.PersonaId equals persona.Id
+                                                    where paciente.Id == id_paciente
+                                                    select new { Id = paciente.Id, Nombre = persona.DNI + " - " + persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
+                turno.Paciente = db.Paciente.Where(p => p.Id == id_paciente).First();
+                turno.PacienteId = turno.Paciente.Id;
+            }
             return View(turno);
         }
 
@@ -296,6 +326,68 @@ namespace Turnos_Medicos.Controllers
             SendEmail(body, email, titulo);
             return RedirectToAction("Index");
         }
+
+
+
+        public ActionResult CancelarMedico(int? id_medico, int? dni, string apellido, string nombre)
+        {
+            string nuevo_dni = dni.ToString();
+            ViewBag.ListadoMedico = (from medico in db.Medico
+                                     join persona in db.Persona on medico.PersonaId equals persona.Id
+                                     where persona.Apellido.Contains(apellido) && persona.Nombre.Contains(nombre) && persona.DNI.Contains(nuevo_dni)
+                                     select medico);
+            if (id_medico != null)
+            {
+
+                ViewBag.Medico = db.Medico.Where(p => p.Id == id_medico).First();
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CancelarMedico(int? id_medico, DateTime fecha_ini, DateTime fecha_fin)
+        {
+
+            List<Turno> turno_existente = (from turnos in db.Turno
+                                           where turnos.Fecha >= fecha_ini && turnos.Fecha < fecha_fin && turnos.MedicoId == id_medico
+                                           select turnos).ToList();
+            foreach (Turno turno in turno_existente)
+            {
+                if (turno.PacienteId != null) {
+                    //Turno turno = db.Turno.Find(id);
+                    string body = "<br/>Su Turno del dia " + turno.Fecha.ToString("yyyy-MM-dd") + " fue cancelado.<br/>Solicite uno nuevo.<br/>";
+                    string email = (from paciente in db.Paciente
+                                    join persona in db.Persona on paciente.PersonaId equals persona.Id
+                                    where paciente.Id == turno.PacienteId
+                                    select persona).First().Email;
+                    string titulo = "Turno Cancelado";
+                    SendEmail(body, email, titulo);
+                }
+
+                turno.PacienteId = null;
+                turno.ObraSocialId = null;
+                turno.Descripcion = "";
+                turno.EstadoId = 1;
+
+                //db.Entry(turno).State = EntityState.Modified;
+                db.SaveChanges();
+
+                db.Turno.Remove(turno);
+                db.SaveChanges();
+
+            }
+            return RedirectToAction("Index");
+        }
+
+
+
+
+
+
+
+
+
 
         public ActionResult mostrarTurno(string sortOrder)
         {

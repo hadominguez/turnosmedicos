@@ -8,7 +8,7 @@
 
 <p>
     <a href="/Pacientes/Create/">
-        <button class="btn btn-success">Crear Paciente</button>
+        <button class="btn btn-success">Crear nuevo Paciente</button>
     </a>
 </p>
 @using (Html.BeginForm())
@@ -41,7 +41,7 @@
         </div>
         <div class="form-group col-sm-1">
             <div class="col-md-offset-2 col-md-1">
-                <input type="submit" value="Buscar" class="btn btn-default" />
+                <input type="submit" value="Buscar" class="btn btn-info" />
             </div>
         </div>
     </div>
@@ -83,7 +83,7 @@
                     <button class="btn btn-xs btn-info">Bitacora</button>
                 </a>
                 <a href="/Pacientes/Edit/@item.Id">
-                    <button class="btn btn-xs btn-danger">Modificar</button>
+                    <button class="btn btn-xs btn-warning">Modificar</button>
                 </a>
                 <a href="/Pacientes/Delete/@item.Id">
                     <button class="btn btn-xs btn-danger">Eliminar</button>

@@ -1,9 +1,9 @@
 ﻿@model Turnos_Medicos.Models.UsuarioLogin
 
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Iniciar Sesión";
 }
-<h2>Login</h2>
+<h2> @ViewBag.Title </h2>
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
@@ -43,7 +43,7 @@
 }
 
 <div>
-    @Html.ActionLink("Crear Nueva Cuenta", "Registration","Usuarios")
+    @Html.ActionLink("Registrarse", "Registration","Usuarios")
 </div>
 
 

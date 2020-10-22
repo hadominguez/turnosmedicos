@@ -20,12 +20,12 @@ else
     <!--<li>@Html.ActionLink("Register", "Registration", "Usuarios", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>-->
     @if ((Session["user"] as Turnos_Medicos.Models.Usuario) == null)
     {
-        <li>@Html.ActionLink("Log in", "Login", "Usuarios", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Iniciar Sesión", "Login", "Usuarios", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     }
     else
     {
         <form action="/Usuarios/Logout" method="post">
-            <input type="submit" value="Logout" class="btn btn-primary btn-sm">
+            <input type="submit" value="Cerrar Sesión" class="btn btn-primary btn-sm">
         </form>
     }
     </ul>

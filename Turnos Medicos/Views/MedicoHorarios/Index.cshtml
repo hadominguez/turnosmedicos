@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Turnos_Medicos.Models.MedicoHorario>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Medico Horarios";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Crear nuevo", "Create")
 </p>
 <table class="table">
     <tr>
@@ -47,9 +47,15 @@
             @Html.DisplayFor(modelItem => item.Medico.Id)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            <a href="/MedicoHorarios/Edit/@item.Id">
+                <button class="btn btn-xs btn-warning">Editar</button>
+            </a> |
+            <a href="/MedicoHorarios/Details/@item.Id">
+                <button class="btn btn-xs btn-info">Detalles</button>
+            </a> |
+            <a href="/MedicoHorarios/Delete/@item.Id">
+                <button class="btn btn-xs btn-danger">Eliminar</button>
+            </a>
         </td>
     </tr>
 }

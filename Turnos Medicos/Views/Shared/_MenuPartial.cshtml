@@ -33,4 +33,21 @@
     </li>
 }
 
+@if ((Session["user"] as Turnos_Medicos.Models.Usuario) != null)
+{
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download" aria-expanded="false"> Admin <span class="caret"></span></a>
+        <ul class="dropdown-menu" aria-labelledby="download">
+            <li><a>@Html.ActionLink("Administrar Estados", "Index", "Estados")</a></li>
+            <li><a>@Html.ActionLink("Horarios de Médicos", "Index", "MedicoHorarios")</a></li>
+            <li><a>@Html.ActionLink("Médico - Obra Sociales", "Index", "MedicoObraSociales")</a></li>
+            <li><a>@Html.ActionLink("Administrar Obras Sociales", "Index", "ObraSociales")</a></li>
+            <li><a>@Html.ActionLink("Tarifas de Obras Sociales", "Index", "ObraSocialTarifas")</a></li>
+            <li><a>@Html.ActionLink("Pacientes - Obras Sociales", "Index", "PacienteObraSociales")</a></li>
+
+
+        </ul>
+    </li>
+}
+
 

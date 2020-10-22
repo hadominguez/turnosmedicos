@@ -99,7 +99,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Estado.Nombre)
+            @Html.DisplayNameFor(model => model.Estado)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Fecha)
@@ -111,7 +111,7 @@
             Especialidad
         </th>
         <th>
-            Medico
+            Médico
         </th>
         <th>
             Paciente
@@ -133,9 +133,7 @@
                 @Html.DisplayFor(modelItem => item.Estado.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Fecha.Year) /
-                @Html.DisplayFor(modelItem => item.Fecha.Month) /
-                @Html.DisplayFor(modelItem => item.Fecha.Day)
+                @Html.DisplayFor(modelItem => item.Fecha.Day)/@Html.DisplayFor(modelItem => item.Fecha.Month)/@Html.DisplayFor(modelItem => item.Fecha.Year)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Hora.Hours) :

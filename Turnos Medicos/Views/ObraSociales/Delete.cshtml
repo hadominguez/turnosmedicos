@@ -1,12 +1,12 @@
 ﻿@model Turnos_Medicos.Models.ObraSocial
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Eliminar Obra Social";
 }
 
-<h2>Delete</h2>
+<h2>@ViewBag.Title</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>¿Esta seguro/a que desea eliminar la Obra Social?</h3>
 <div>
     <h4>ObraSocial</h4>
     <hr />
@@ -41,8 +41,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+            @Html.ActionLink("Volver", "Index")
         </div>
     }
 </div>

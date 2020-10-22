@@ -1,8 +1,8 @@
 ﻿@{
-    ViewBag.Title = "Agenda";
+    ViewBag.Title = "Habilitar Agenda";
 }
 
-<h2>Habilitar Agenda</h2>
+<h2>@ViewBag.Title</h2>
 
 <h3>Seleccione el rango de fechas para crear los turnos</h3>
 @using (Html.BeginForm())
@@ -27,7 +27,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Crear" class="btn btn-success" />
             </div>
         </div>
     </div>
@@ -36,7 +36,7 @@
 
     <div>
 		<a href="/Agenda/Index">
-			<button class="btn btn-default" >Volver</button>
+			<button class="btn btn-danger" >Volver</button>
 		</a>
     </div>
 

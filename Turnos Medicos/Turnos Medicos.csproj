@@ -595,6 +595,8 @@
     <Content Include="Views\Usuarios\Create.cshtml" />
     <Content Include="Views\Turnos\Historial.cshtml" />
     <Content Include="Views\Turnos\CancelarMedico.cshtml" />
+    <Content Include="Views\Home\EspecialidadesDisponibles.cshtml" />
+    <Content Include="Views\Home\ProfesionalesDisponibles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

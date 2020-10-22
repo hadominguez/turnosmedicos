@@ -5,6 +5,11 @@
 <div class="jumbotron">
     <h1>MedOffices</h1>
     <p class="lead">Bienvenidos a nuestro servicio para sacar turnos online.</p>
+    <p></p>
+    <p></p>
+    <p><img src="http://1.bp.blogspot.com/-67KDurfDBSg/T1AVRMOlYgI/AAAAAAAAAOQ/OWmzELJY_Pg/s1600/consultorio_medico.jpg"
+            alt="Foto de la Clínica" height=267 width=400 px /></p>
+    <p></p>
     <p><a class="btn btn-info btn-lg" @Html.ActionLink("Leer más", "About", "Home") </a></p>
 </div>
 
@@ -12,14 +17,14 @@
     <div class="col-md-4">
         <h2>Profesionales</h2>
         <p>
-            Contamos con un cuerpo médico y profesionales altamentes capacitados para su disposición.
+            Contamos con un cuerpo médico y profesionales altamente capacitados para su disposición.
         </p>
-        <p><a class="btn btn-info" href="http://go.microsoft.com/fwlink/?LinkId=301865">Leer más &raquo;</a></p>
+        <p><a class="btn btn-info" @Html.ActionLink("Leer más", "ProfesionalesDisponibles", "Home")</a></p>
     </div>
     <div class="col-md-4">
         <h2>Especialidades</h2>
         <p>Vea las especialidades médicas que tenemos para ofrecerle.</p>
-        <p><a class="btn btn-info" href="http://go.microsoft.com/fwlink/?LinkId=301866">Leer más &raquo;</a></p>
+        <p><a class="btn btn-info" @Html.ActionLink("Leer más", "EspecialidadesDisponibles", "Home")</a></p>
     </div>
     <div class="col-md-4">
         <h2>Contacto</h2>

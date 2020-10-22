@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Turnos_Medicos.Models.PacienteHistorial>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Historial del Paciente";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Crear nuevo", "Create")
 </p>
 <table class="table">
     <tr>
@@ -29,9 +29,15 @@
             @item.Fecha.ToString("yyyy-MM-dd")
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            <a href="/PacienteHistoriales/Edit/@item.Id">
+                <button class="btn btn-xs btn-warning">Editar</button>
+            </a> |
+            <a href="/PacienteHistoriales/Details/@item.Id">
+                <button class="btn btn-xs btn-info">Detalles</button>
+            </a> |
+            <a href="/PacienteHistoriales/Delete/@item.Id">
+                <button class="btn btn-xs btn-danger">Eliminar</button>
+            </a>
         </td>
     </tr>
 }

@@ -1,12 +1,12 @@
 ﻿@model Turnos_Medicos.Models.Turno
 
 @{
-    ViewBag.Title = "Eliminar";
+    ViewBag.Title = "Cancelar Turno";
 }
 
-<h2>Cancelar</h2>
+<h2>@ViewBag.Title</h2>
 
-<h3>¿Esta seguro que quiere cancelar el turno?</h3>
+<h3>¿Esta seguro que desea cancelar el turno?</h3>
 <div>
     <h4>Turno</h4>
     <hr />
@@ -16,9 +16,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Fecha.Year) /
-            @Html.DisplayFor(model => model.Fecha.Month) /
-            @Html.DisplayFor(model => model.Fecha.Day)
+            @Html.DisplayFor(model => model.Fecha.Day)/@Html.DisplayFor(model => model.Fecha.Month)/@Html.DisplayFor(model => model.Fecha.Year)
         </dd>
 
         <dt>
@@ -39,7 +37,7 @@
         </dd>
 
         <dt>
-            Medico
+            Médico
         </dt>
 
         <dd>
@@ -81,7 +79,7 @@
         </dd>
 
         <dt>
-            Descripcion
+            Descripción
         </dt>
 
         <dd>
@@ -96,9 +94,9 @@
 
         <div class="form-actions no-color">
 			<a href="/Turnos/Index">
-				<button class="btn btn-default" >Volver</button>
+				<button class="btn btn-info" >Volver</button>
 			</a>
-            <input type="submit" value="Cancelar Turno" class="btn btn-success" />
+            <input type="submit" value="Cancelar Turno" class="btn btn-danger" />
         </div>
     }
 </div>

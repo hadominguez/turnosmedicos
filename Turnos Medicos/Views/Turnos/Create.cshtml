@@ -1,10 +1,10 @@
 ﻿@model Turnos_Medicos.Models.Turno
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Crear Turno";
 }
 
-<h2>Create</h2>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm()) 
 {
@@ -115,7 +115,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-success" />
+                <input type="submit" value="Crear" class="btn btn-success" />
             </div>
         </div>
     </div>
@@ -123,7 +123,7 @@
 
 <div>
 	<a href="/Turnos/Index">
-		<button class="btn btn-default" >Volver</button>
+		<button class="btn btn-danger" >Volver</button>
 	</a>
 </div>
 

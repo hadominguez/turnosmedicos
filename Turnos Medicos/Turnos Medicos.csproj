@@ -170,7 +170,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\SessionCheck.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AgendaController.cs" />
     <Compile Include="Controllers\ConsultoriosController.cs" />
@@ -484,6 +483,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Usuarios\Create.cshtml" />
+    <Content Include="Views\Usuarios\Login.cshtml" />
+    <Content Include="Views\Usuarios\Registration.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -590,11 +592,9 @@
     <Content Include="Views\Personas\Details.cshtml" />
     <Content Include="Views\Personas\Edit.cshtml" />
     <Content Include="Views\Personas\Index.cshtml" />
-    <Content Include="Views\Usuarios\Login.cshtml" />
-    <Content Include="Views\Usuarios\Registration.cshtml" />
-    <Content Include="Views\Usuarios\Create.cshtml" />
     <Content Include="Views\Turnos\Historial.cshtml" />
     <Content Include="Views\Turnos\CancelarMedico.cshtml" />
+    <Content Include="Views\Agenda\Busqueda.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

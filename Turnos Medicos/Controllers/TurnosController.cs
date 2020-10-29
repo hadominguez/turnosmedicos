@@ -11,7 +11,7 @@ using System.Net.Mail;
 
 namespace Turnos_Medicos.Controllers
 {
-    [SessionCheck]
+
     public class TurnosController : Controller
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();

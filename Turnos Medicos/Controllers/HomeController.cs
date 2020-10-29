@@ -8,7 +8,7 @@ using System.Net;
 
 namespace Turnos_Medicos.Controllers
 {
-    [SessionCheck]
+
     public class HomeController : Controller
     {
         public ActionResult Index()

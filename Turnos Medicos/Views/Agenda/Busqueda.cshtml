@@ -1,105 +1,20 @@
 ﻿@model IEnumerable<Turnos_Medicos.Models.Turno>
 
 @{
-    ViewBag.Title = "Agenda";
+    ViewBag.Title = "Busqueda";
 }
 
-
-<h2>Agenda</h2>
-
-
-
-<div id='calendar'></div>
-
-
-<script>
-/*
- document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('calendar');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            headerToolbar: {
-                left: 'prev,next,today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-            },
-            header: {
-                left: 'prev',
-                center: 'title',
-                right: 'Siguiente'
-            },
-            locale: "es",
-            navLinks: true, // can click day/week names to navigate views
-            businessHours: true, // display business hours
-            editable: true,
-            selectable: true,
-            eventLimit: true,
-            events: 'http://localhost:50072/Agenda/Calendar',
-            eventRender: function eventRender(event, element, view) {
-            return ['all', event.especialidad].indexOf($('#turno_selector').val()) >= 0
-            }
-
-        });
-
-
-        $('#turno_selector').on('change', function () {
-            $('#calendar').calendar('rerenderEvents');
-        })
-
-        calendar.render();
-        });
-        */
-</script>
-
-
-<!--
-<h3>Filtrar</h3>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group col-md-4">
-            <label class="control-label col-md-2" for="Fecha">Fecha Inicial</label>
-            <div class="col-md-10">
-                <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="fecha_ini" name="fecha_ini" type="date" value="">
-                <span class="field-validation-valid text-danger" data-valmsg-for="fecha_ini" data-valmsg-replace="true"></span>
-            </div>
-        </div>
-        <div class="form-group col-md-4">
-            <label class="control-label col-md-2" for="Fecha">Fecha Fin</label>
-            <div class="col-md-10">
-                <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="fecha_fin" name="fecha_fin" type="date" value="">
-                <span class="field-validation-valid text-danger" data-valmsg-for="fecha_fin" data-valmsg-replace="true"></span>
-            </div>
-        </div>
-        <div class="form-group col-md-4">
-            <p>
-                Busqueda por Nombre: @Html.TextBox("Nombre_Medico") <br />
-               
-            </p>
-        </div>
-        <div class="form-group col-md-2">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Filtrar" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-        -->
+<h2>Busqueda</h2>
 
 @using (Html.BeginForm("", "Agenda", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
-<p> 
- Busqueda por Nombre de Médico: @Html.TextBox("Nombre_Medico") <br/>
-    <button type="submit" style="color: black">Filtrar</button>
-    <button type="button"><a style="color: black" href="/Agenda">Mostrar Todos</a></button>
-</p>
+    <p>
+        Busqueda por Nombre: @Html.TextBox("Nombre_Medico") <br />
+        <input type="submit" value="submit" />
+    </p>
 }
-
 
 
 <table class="table">
@@ -204,3 +119,4 @@
     }
 
 </table>
+

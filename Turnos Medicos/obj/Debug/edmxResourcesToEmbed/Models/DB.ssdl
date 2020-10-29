@@ -59,7 +59,7 @@
     <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
     <Property Name="Telefono" Type="varchar" MaxLength="17" Nullable="false" />
-    <Property Name="Activo" Type="bit" Nullable="false" />
+    <Property Name="Activo" Type="bit" />
   </EntityType>
   <EntityType Name="ObraSocialTarifa">
     <Key>
@@ -76,6 +76,15 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="PersonaId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PacienteAlergia">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PacienteId" Type="int" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+    <Property Name="Fecha" Type="date" Nullable="false" />
   </EntityType>
   <EntityType Name="PacienteHistorial">
     <Key>
@@ -95,6 +104,15 @@
     <Property Name="PacienteId" Type="int" Nullable="false" />
     <Property Name="ObraSocialId" Type="int" Nullable="false" />
     <Property Name="NumeroAfiliado" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PacientePatologia">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PacienteId" Type="int" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="500" />
+    <Property Name="Fecha" Type="date" Nullable="false" />
   </EntityType>
   <EntityType Name="Perfil">
     <Key>
@@ -117,6 +135,8 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Descripcion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Controller" Type="varchar" MaxLength="50" />
+    <Property Name="Action" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Persona">
     <Key>
@@ -162,6 +182,7 @@
     <Property Name="Bloqueado" Type="bit" />
     <Property Name="PerfilId" Type="int" Nullable="false" />
     <Property Name="PersonaId" Type="int" />
+    <Property Name="Recuperacion" Type="varchar" MaxLength="50" />
   </EntityType>
   <Association Name="FK_[MedicoHorario_Consultorio">
     <End Role="Consultorio" Type="Self.Consultorio" Multiplicity="1" />
@@ -287,6 +308,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_PacienteAlergia_Paciente">
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+    <End Role="PacienteAlergia" Type="Self.PacienteAlergia" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paciente">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PacienteAlergia">
+        <PropertyRef Name="PacienteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PacienteHistorial_Paciente">
     <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
     <End Role="PacienteHistorial" Type="Self.PacienteHistorial" Multiplicity="*" />
@@ -331,6 +364,18 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="PacienteObraSocial">
+        <PropertyRef Name="PacienteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PacientePatologia_Paciente">
+    <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+    <End Role="PacientePatologia" Type="Self.PacientePatologia" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paciente">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PacientePatologia">
         <PropertyRef Name="PacienteId" />
       </Dependent>
     </ReferentialConstraint>
@@ -469,8 +514,10 @@
     <EntitySet Name="ObraSocial" EntityType="Self.ObraSocial" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ObraSocialTarifa" EntityType="Self.ObraSocialTarifa" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PacienteAlergia" EntityType="Self.PacienteAlergia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PacienteHistorial" EntityType="Self.PacienteHistorial" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PacienteObraSocial" EntityType="Self.PacienteObraSocial" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PacientePatologia" EntityType="Self.PacientePatologia" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Perfil" EntityType="Self.Perfil" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PerfilPermiso" EntityType="Self.PerfilPermiso" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Permiso" EntityType="Self.Permiso" Schema="dbo" store:Type="Tables" />
@@ -513,6 +560,10 @@
       <End Role="Persona" EntitySet="Persona" />
       <End Role="Paciente" EntitySet="Paciente" />
     </AssociationSet>
+    <AssociationSet Name="FK_PacienteAlergia_Paciente" Association="Self.FK_PacienteAlergia_Paciente">
+      <End Role="Paciente" EntitySet="Paciente" />
+      <End Role="PacienteAlergia" EntitySet="PacienteAlergia" />
+    </AssociationSet>
     <AssociationSet Name="FK_PacienteHistorial_Paciente" Association="Self.FK_PacienteHistorial_Paciente">
       <End Role="Paciente" EntitySet="Paciente" />
       <End Role="PacienteHistorial" EntitySet="PacienteHistorial" />
@@ -528,6 +579,10 @@
     <AssociationSet Name="FK_PacienteObraSocial_Paciente" Association="Self.FK_PacienteObraSocial_Paciente">
       <End Role="Paciente" EntitySet="Paciente" />
       <End Role="PacienteObraSocial" EntitySet="PacienteObraSocial" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PacientePatologia_Paciente" Association="Self.FK_PacientePatologia_Paciente">
+      <End Role="Paciente" EntitySet="Paciente" />
+      <End Role="PacientePatologia" EntitySet="PacientePatologia" />
     </AssociationSet>
     <AssociationSet Name="FK_PerfilPermiso_Perfil" Association="Self.FK_PerfilPermiso_Perfil">
       <End Role="Perfil" EntitySet="Perfil" />

@@ -7,8 +7,7 @@
 <h2>Listado de Pacientes</h2>
 
 <p>
-    <a href="/Pacientes/Create/">
-        <button class="btn btn-success">Crear nuevo Paciente</button>
+    <a href="/Pacientes/Create/" class="btn btn-success">Crear nuevo Paciente
     </a>
 </p>
 @using (Html.BeginForm())
@@ -60,7 +59,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Persona.Nombre)
         </th>
-        <th>Operaciones</th>
+        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -76,18 +75,32 @@
                 @Html.DisplayFor(modelItem => item.Persona.Nombre)
             </td>
             <td>
-                <a href="/Pacientes/Details/@item.Id">
-                    <button class="btn btn-xs btn-info">Información</button>
-                </a>
-                <a href="/PacienteHistoriales/Index/@item.Id">
-                    <button class="btn btn-xs btn-info">Bitacora</button>
-                </a>
-                <a href="/Pacientes/Edit/@item.Id">
-                    <button class="btn btn-xs btn-warning">Modificar</button>
-                </a>
-                <a href="/Pacientes/Delete/@item.Id">
-                    <button class="btn btn-xs btn-danger">Eliminar</button>
-                </a>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" >
+                        Operaciones
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/Pacientes/Details/@item.Id">Información</a>
+                        </li>
+                        <li>
+                            <a href="/PacienteHistoriales/Index/@item.Id">Ver Historia Clinica</a>
+                        </li>
+                        <li>
+                            <a href="/PacienteObraSociales/Index/@item.Id">Ver Obra Social</a>
+                        </li>
+                        <li>
+                            <a href="/PacienteObraSociales/Create/@item.Id">Cargar Obra Social</a>
+                        </li>
+                        <li>
+                            <a href="/Pacientes/Edit/@item.Id">Modificar</a>
+                        </li>
+                        <li>
+                            <a href="/Pacientes/Delete/@item.Id">Eliminar</a>
+                        </li>
+                    </ul>
+                </div>
             </td>
         </tr>
     }

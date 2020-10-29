@@ -3,16 +3,22 @@
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download" aria-expanded="false"> Secretaría <span class="caret"></span></a>
         <ul class="dropdown-menu" aria-labelledby="download">
-
-            <li><a>@Html.ActionLink("Turnos Diarios", "Index", "Turnos")</a></li>
-            <li><a>@Html.ActionLink("Agenda de Turnos", "Index", "Agenda")</a></li>
-            <li><a>@Html.ActionLink("Habilitar Agenda", "Create", "Agenda")</a></li>
-            <li><a>@Html.ActionLink("Cancelar Turnos", "CancelarMedico", "Turnos")</a></li>
+            <li class="dropdown-submenu">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download" aria-expanded="false" tabindex="-1"> Administrar Turnos </a>
+                <ul class="dropdown-menu" aria-labelledby="download">
+                    <li><a>@Html.ActionLink("Turnos Diarios", "Index", "Turnos")</a></li>
+                    <li><a>@Html.ActionLink("Agenda de Turnos", "Index", "Agenda")</a></li>
+                    <li><a>@Html.ActionLink("Habilitar Agenda", "Create", "Agenda")</a></li>
+                    <li><a>@Html.ActionLink("Cancelar Turnos", "CancelarMedico", "Turnos")</a></li>
+                    <li><a>@Html.ActionLink("Presencialidad", "Presencialidad", "Turnos")</a></li>
+                </ul>
+            </li>
             <li><a>@Html.ActionLink("Administrar Pacientes", "Index", "Pacientes")</a></li>
             <li><a>@Html.ActionLink("Administrar Medicos", "Index", "Medicos")</a></li>
             <li><a>@Html.ActionLink("Administrar Obras Sociales", "Index", "ObraSociales")</a></li>
             <li><a>@Html.ActionLink("Administrar Consultorios", "Index", "Consultorios")</a></li>
             <li><a>@Html.ActionLink("Administrar Especialidades", "Index", "Especialidades")</a></li>
+            <li><a>@Html.ActionLink("Administrar Usuarios", "Index", "Usuarios")</a></li>
         </ul>
     </li>
 }
@@ -22,13 +28,13 @@
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download" aria-expanded="false"> Médico <span class="caret"></span></a>
         <ul class="dropdown-menu" aria-labelledby="download">
-          <!--  <li><a>@Html.ActionLink("Administrar Personas", "Index", "Personas")</a></li> -->
+            <!--  <li><a>@Html.ActionLink("Administrar Personas", "Index", "Personas")</a></li> -->
             <li><a>@Html.ActionLink("Turnos Diarios", "Index", "Turnos")</a></li>
             <li><a>@Html.ActionLink("Agenda de Turnos", "Index", "Agenda")</a></li>
             <li><a>@Html.ActionLink("Habilitar Agenda", "Create", "Agenda")</a></li>
             <li><a>@Html.ActionLink("Cancelar Turnos", "CancelarMedico", "Turnos")</a></li>
-            
-            
+
+
         </ul>
     </li>
 }

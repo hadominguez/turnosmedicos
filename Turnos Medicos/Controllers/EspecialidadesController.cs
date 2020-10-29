@@ -16,24 +16,15 @@ namespace Turnos_Medicos.Controllers
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
         // GET: Especialidades
-        public ActionResult Index()
+        public ActionResult Index(string especialidad)
         {
-            return View(db.Especialidad.ToList());
-        }
+            var especialidades = db.Especialidad.Where(p => p.Nombre != null);
+            if (!(especialidad == ""))
+            {
+                especialidades = especialidades.Where(p => p.Nombre.Contains(especialidad));
+            }
 
-        // GET: Especialidades/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Especialidad especialidad = db.Especialidad.Find(id);
-            if (especialidad == null)
-            {
-                return HttpNotFound();
-            }
-            return View(especialidad);
+            return View(especialidades.ToList());
         }
 
         // GET: Especialidades/Create
@@ -116,13 +107,5 @@ namespace Turnos_Medicos.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

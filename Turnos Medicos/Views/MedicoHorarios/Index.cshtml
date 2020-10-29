@@ -1,13 +1,17 @@
 ﻿@model IEnumerable<Turnos_Medicos.Models.MedicoHorario>
+@using System.Globalization;
 
 @{
     ViewBag.Title = "Medico Horarios";
+    Turnos_Medicos.Models.Medico medico = ViewBag.Medico;
 }
 
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Crear nuevo", "Create")
+    <a href="/MedicoHorarios/Create/@medico.Id" class="btn btn-xs btn-success">
+        Crear nuevo
+    </a>
 </p>
 <table class="table">
     <tr>
@@ -23,38 +27,27 @@
         <th>
             @Html.DisplayNameFor(model => model.Consultorio.Nombre)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Medico.Id)
-        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Dia)
+            @(new CultureInfo("es-ES").DateTimeFormat.DayNames[item.Dia])
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Inicio)
+            @item.Inicio.ToString("hh\\:mm")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Fin)
+            @item.Fin.ToString("hh\\:mm")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Consultorio.Nombre)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Medico.Id)
-        </td>
-        <td>
-            <a href="/MedicoHorarios/Edit/@item.Id">
-                <button class="btn btn-xs btn-warning">Editar</button>
-            </a> |
-            <a href="/MedicoHorarios/Details/@item.Id">
-                <button class="btn btn-xs btn-info">Detalles</button>
-            </a> |
-            <a href="/MedicoHorarios/Delete/@item.Id">
-                <button class="btn btn-xs btn-danger">Eliminar</button>
+            <a href="/MedicoHorarios/Edit/@item.Id" class="btn btn-xs btn-warning">Editar
+            </a>
+            <a href="/MedicoHorarios/Delete/@item.Id" class="btn btn-xs btn-danger">Eliminar
             </a>
         </td>
     </tr>

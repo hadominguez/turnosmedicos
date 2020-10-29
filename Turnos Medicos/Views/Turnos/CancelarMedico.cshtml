@@ -137,14 +137,14 @@ using (Html.BeginForm())
     <div class="form-group">
         <label class="control-label col-md-2" for="Fecha">Fecha Inicial</label>
         <div class="col-md-10">
-            <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="fecha_ini" name="fecha_ini" type="date" value="">
+            <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="fecha_ini" name="fecha_ini" type="date" value="" min="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.AddDays(30).ToString("yyyy-MM-dd")">
             <span class="field-validation-valid text-danger" data-valmsg-for="fecha_ini" data-valmsg-replace="true"></span>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-md-2" for="Fecha">Fecha Fin</label>
         <div class="col-md-10">
-            <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="fecha_fin" name="fecha_fin" type="date" value="">
+            <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="fecha_fin" name="fecha_fin" type="date" value="" min="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.AddDays(30).ToString("yyyy-MM-dd")">
             <span class="field-validation-valid text-danger" data-valmsg-for="fecha_fin" data-valmsg-replace="true"></span>
         </div>
     </div>

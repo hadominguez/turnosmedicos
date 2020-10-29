@@ -45,6 +45,10 @@
         <EntityTypeShape EntityType="TurnosMedicosModel.Usuario" Width="1.5" PointX="6.75" PointY="15.5" />
         <AssociationConnector Association="TurnosMedicosModel.FK_Usuario_Perfil" />
         <AssociationConnector Association="TurnosMedicosModel.FK_Usuario_Persona" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.PacienteAlergia" Width="1.5" PointX="6" PointY="25.25" />
+        <EntityTypeShape EntityType="TurnosMedicosModel.PacientePatologia" Width="1.5" PointX="6" PointY="12.5" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_PacienteAlergia_Paciente" />
+        <AssociationConnector Association="TurnosMedicosModel.FK_PacientePatologia_Paciente" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -21,20 +21,6 @@ namespace Turnos_Medicos.Controllers
                 return View(db.Consultorio.ToList());
         }
 
-        // GET: Consultorios/Details/5
-        public ActionResult Details(int? id)
-        {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Consultorio consultorio = db.Consultorio.Find(id);
-                if (consultorio == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(consultorio);
-        }
 
         // GET: Consultorios/Create
         public ActionResult Create()
@@ -116,13 +102,5 @@ namespace Turnos_Medicos.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

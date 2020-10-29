@@ -7,7 +7,7 @@
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Crear nuevo", "Create")
+    <a href="/Consultorios/Create/" class="btn btn-xs btn-success">Crear nuevo</a>
 </p>
 <table class="table">
     <tr>
@@ -24,15 +24,8 @@
         </td>
         <td>
            <!-- @Html.ActionLink("Edit", "Edit", new { id=item.Id }) | -->
-            <a href="/Consultorios/Edit/@item.Id">
-                <button class="btn btn-xs btn-warning">Editar</button>
-            </a> |
-            <a href="/Consultorios/Details/@item.Id">
-                <button class="btn btn-xs btn-info">Detalles</button>
-            </a> |
-            <a href="/Consultorios/Delete/@item.Id">
-                <button class="btn btn-xs btn-danger">Eliminar</button>
-            </a>
+            <a href="/Consultorios/Edit/@item.Id" class="btn btn-xs btn-warning">Editar</a> 
+            <a href="/Consultorios/Delete/@item.Id" class="btn btn-xs btn-danger">Eliminar</a>
         </td>
     </tr>
 }

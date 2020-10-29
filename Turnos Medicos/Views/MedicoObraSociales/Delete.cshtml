@@ -12,6 +12,13 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.ObraSocial.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ObraSocial.Nombre)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Numero)
         </dt>
 
@@ -19,21 +26,6 @@
             @Html.DisplayFor(model => model.Numero)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Medico.Id)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Medico.Id)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ObraSocial.Nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ObraSocial.Nombre)
-        </dd>
 
     </dl>
 
@@ -41,8 +33,10 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-            @Html.ActionLink("Volver", "Index")
+            <a href="/MedicoObraSociales/Index/@Model.MedicoId" class="btn btn-primary">
+                Volver
+            </a>
+            <input type="submit" value="Eliminar" class="btn btn-danger" />
         </div>
     }
 </div>

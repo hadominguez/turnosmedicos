@@ -10,12 +10,21 @@ using Turnos_Medicos.Models;
 using System.Net.Mail;
 using System.Web.Security;
 using System.Web.Helpers;
+using Turnos_Medicos.Controllers;
 
 namespace Turnos_Medicos.Controllers
 {
-    public class UsuariosController : Controller
+    public class UsuariosController : BaseController
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
+
+
+        [SessionCheck]
+        public ActionResult Index()
+        {
+            var usuario = db.Usuario.Include(u => u.Perfil).Include(u => u.Persona);
+            return View(usuario.ToList());
+        }
 
         [SessionCheck]
         [HttpGet]
@@ -63,12 +72,18 @@ namespace Turnos_Medicos.Controllers
                 string clave = user.Password;
                 user.Password = Crypto.Hash(user.Password);
                 user.Bloqueado = false;
+                user.Recuperacion = Guid.NewGuid().ToString();
 
                 db.Usuario.Add(user);
                 db.SaveChanges();
 
                 //Send Email to User
-                SendVerificationLinkEmail(user.Email, clave);
+                string titulo = "Tu cuanta fue creada correctamente";
+
+                string body = "<br/><br/>Cuenta creada" +
+                    " <br/><br/><p>Email: " + user.Email + "</p><p>Clave: " + clave + "</p>";
+
+                SendEmail(body, user.Email, titulo);
                 message = "Registration successfully done." + user.Email;
                 Status = true;
 
@@ -81,6 +96,57 @@ namespace Turnos_Medicos.Controllers
             ViewBag.Message = message;
             ViewBag.Status = Status;
             return View(user);
+        }
+
+
+        // GET: Usuarios1/Edit/5
+        [SessionCheck]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Usuario usuario = db.Usuario.Find(id);
+            if (usuario == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.PerfilId = new SelectList(db.Perfil, "Id", "Nombre", usuario.PerfilId);
+            ViewBag.PersonaId = new SelectList(db.Persona, "Id", "DNI", usuario.PersonaId);
+            return View(usuario);
+        }
+
+        // POST: Usuarios1/Edit/5
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
+        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
+        [SessionCheck]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,Identificador,Email,Password,Bloqueado,PerfilId,PersonaId")] Usuario usuario)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(usuario).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.PerfilId = new SelectList(db.Perfil, "Id", "Nombre", usuario.PerfilId);
+            ViewBag.PersonaId = new SelectList(db.Persona, "Id", "DNI", usuario.PersonaId);
+            return View(usuario);
+        }
+
+
+        // POST: Usuarios1/Delete/5
+        [SessionCheck]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Usuario usuario = db.Usuario.Find(id);
+            db.Usuario.Remove(usuario);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
 
@@ -117,7 +183,7 @@ namespace Turnos_Medicos.Controllers
                 string clave = user.Password;
                 user.Password = Crypto.Hash(user.Password);
                 user.Bloqueado = false;
-                user.PersonaId = db.Persona.First().Id;
+                user.PersonaId = persona.Id;
                 if(paciente != null)
                 {
                     user.PerfilId = db.Perfil.First(p => p.Nombre == "Paciente").Id;
@@ -125,9 +191,15 @@ namespace Turnos_Medicos.Controllers
 
                 db.Usuario.Add(user);
                 db.SaveChanges();
-                
+
                 //Send Email to User
-                SendVerificationLinkEmail(user.Email, clave);
+
+                string titulo = "Tu cuanta fue creada correctamente";
+
+                string body = "<br/><br/>Cuenta creada" +
+                    " <br/><br/><p>Email: " + user.Email + "</p><p>Clave: " + clave + "</p>";
+
+                SendEmail(body, user.Email, titulo);
                 message = "Registration successfully done. Account activation link " +
                     " has been sent to your email:" + user.Email;
                 Status = true;
@@ -153,10 +225,10 @@ namespace Turnos_Medicos.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.PerfilId = new SelectList(from perfil in db.Perfil
+            /*ViewBag.PerfilId = new SelectList(from perfil in db.Perfil
                                                 select new { Id = perfil.Id, Nombre = perfil.Nombre }, "Id", "Nombre");
             ViewBag.PersonaId = new SelectList(from persona in db.Persona
-                                              select new { Id = persona.Id, Nombre = persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
+                                              select new { Id = persona.Id, Nombre = persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");*/
             return View();
         }
 
@@ -218,17 +290,13 @@ namespace Turnos_Medicos.Controllers
         }
 
 
-        
+        /*
         [NonAction]
         public void SendVerificationLinkEmail(string email, string clave)
         {
             var fromEmail = new MailAddress("axel0lopez95@gmail.com", "Medico");
             var toEmail = new MailAddress(email);
             var fromEmailPassword = "estudiante-0";
-            string subject = "Tu cuanta fue creada correctamente";
-
-            string body = "<br/><br/>Cuenta creada" +
-                " <br/><br/><p>Email: " + email + "</p><p>Clave: " + clave + "</p>";
 
             var smtp = new SmtpClient
             {
@@ -247,7 +315,7 @@ namespace Turnos_Medicos.Controllers
                 IsBodyHtml = true
             })
                 smtp.Send(message);
-        }
+        }*/
 
 
     }

@@ -134,7 +134,6 @@ G:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.OAuth.xml
 G:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.Google.xml
 G:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.Twitter.xml
 G:\Turnos Medicos\Turnos Medicos\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.csprojAssemblyReference.cache
 G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.csproj.CopyComplete
 G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.dll
 G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.pdb
@@ -207,3 +206,7 @@ C:\Users\Julian\Documents\GitHub\turnosmedicos\Turnos Medicos\bin\Microsoft.Owin
 C:\Users\Julian\Documents\GitHub\turnosmedicos\Turnos Medicos\obj\Debug\Turnos Medicos.csprojResolveAssemblyReference.cache
 C:\Users\Julian\Documents\GitHub\turnosmedicos\Turnos Medicos\obj\Debug\Turnos Medicos.dll
 C:\Users\Julian\Documents\GitHub\turnosmedicos\Turnos Medicos\obj\Debug\Turnos Medicos.pdb
+G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.csprojAssemblyReference.cache
+G:\Turnos Medicos\Turnos Medicos\bin\BouncyCastle.Crypto.dll
+G:\Turnos Medicos\Turnos Medicos\bin\itextsharp.dll
+G:\Turnos Medicos\Turnos Medicos\bin\itextsharp.xml

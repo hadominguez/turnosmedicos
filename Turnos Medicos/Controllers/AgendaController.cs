@@ -112,6 +112,78 @@ namespace Turnos_Medicos.Controllers
                     */
                 }), JsonRequestBehavior.AllowGet);
         }
+
+
+
+
+
+        public ActionResult CreateMedico(int? id_medico, int? dni, string apellido, string nombre)
+        {
+            string nuevo_dni = dni.ToString();
+            ViewBag.ListadoMedico = (from medico in db.Medico
+                                     join persona in db.Persona on medico.PersonaId equals persona.Id
+                                     where persona.Apellido.Contains(apellido) && persona.Nombre.Contains(nombre) && persona.DNI.Contains(nuevo_dni)
+                                     select medico);
+            if (id_medico != null)
+            {
+
+                ViewBag.Medico = db.Medico.Where(p => p.Id == id_medico).First();
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateMedico(int? id_medico, DateTime fecha_ini, DateTime fecha_fin)
+        {
+            for (DateTime c = fecha_ini; c <= fecha_fin; c = c.AddDays(1))
+            {
+                DateTime fin = c;
+                fin = fin.AddDays(1);
+                List<Turno> turno_existente = (from turnos in db.Turno
+                                               where turnos.Fecha >= c && turnos.Fecha < fin
+                                               select turnos).ToList();
+                if (turno_existente.Count == 0)
+                {
+                    var dia = (int)c.DayOfWeek;
+                    List<MedicoHorario> medi_horario = (from horas in db.MedicoHorario
+                                                        where horas.Dia == dia
+                                                        && horas.MedicoId == id_medico
+                                                        select horas).ToList();
+                    foreach (MedicoHorario hora in medi_horario)
+                    {
+                        Medico medico = db.Medico.Single(p => p.Id == hora.MedicoId && p.Id == id_medico);
+                        Especialidad especialidad = db.Especialidad.Single(p => p.Id == medico.EspecialidadId);
+                        TimeSpan hora_carga = hora.Inicio;
+                        while (hora_carga <= hora.Fin)
+                        {
+                            Turno turno = new Turno();
+                            turno.ConsultorioId = hora.ConsultorioId;
+                            turno.EspecialidadId = especialidad.Id;
+                            turno.EstadoId = 1;
+                            turno.MedicoId = hora.MedicoId;
+                            turno.ObraSocialId = null;
+                            turno.PacienteId = null;
+                            turno.Fecha = c;
+                            turno.Hora = hora_carga;
+                            turno.Descripcion = "";
+                            turno.ObraSocialTarifa = null;
+                            turno.CostoTotal = null;
+                            turno.Pagado = false;
+                            if (ModelState.IsValid)
+                            {
+                                db.Turno.Add(turno);
+                                db.SaveChanges();
+                            }
+                            TimeSpan minutos = new TimeSpan(0, especialidad.Tiempo, 0);
+                            hora_carga = hora_carga.Add(minutos);
+                        }
+                    }
+                }
+            }
+            return RedirectToAction("Index", "Agenda");
+        }
+
     }
 	
 }

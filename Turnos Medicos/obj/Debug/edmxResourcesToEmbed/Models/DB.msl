@@ -128,6 +128,8 @@
     <EntitySetMapping Name="Permiso">
       <EntityTypeMapping TypeName="TurnosMedicosModel.Permiso">
         <MappingFragment StoreEntitySet="Permiso">
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="Controller" ColumnName="Controller" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
         </MappingFragment>
@@ -171,12 +173,33 @@
     <EntitySetMapping Name="Usuario">
       <EntityTypeMapping TypeName="TurnosMedicosModel.Usuario">
         <MappingFragment StoreEntitySet="Usuario">
+          <ScalarProperty Name="Recuperacion" ColumnName="Recuperacion" />
           <ScalarProperty Name="PersonaId" ColumnName="PersonaId" />
           <ScalarProperty Name="PerfilId" ColumnName="PerfilId" />
           <ScalarProperty Name="Bloqueado" ColumnName="Bloqueado" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Identificador" ColumnName="Identificador" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PacienteAlergia">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.PacienteAlergia">
+        <MappingFragment StoreEntitySet="PacienteAlergia">
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="PacienteId" ColumnName="PacienteId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PacientePatologia">
+      <EntityTypeMapping TypeName="TurnosMedicosModel.PacientePatologia">
+        <MappingFragment StoreEntitySet="PacientePatologia">
+          <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="PacienteId" ColumnName="PacienteId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

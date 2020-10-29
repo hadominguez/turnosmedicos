@@ -1,24 +1,28 @@
 ﻿@model IEnumerable<Turnos_Medicos.Models.ObraSocialTarifa>
 
 @{
+    Turnos_Medicos.Models.ObraSocial obra = ViewBag.ObraSocial;
     ViewBag.Title = "Index";
 }
 
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <a href="/ObraSocialTarifas/Create/@obra.Id" class="btn btn-xs btn-success">
+        Crear nuevo
+    </a>
 </p>
+
+
+<h3>@obra.Nombre</h3>
+
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.tarifa)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.Especialidad.Nombre)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ObraSocial.Nombre)
+            @Html.DisplayNameFor(model => model.tarifa)
         </th>
         <th></th>
     </tr>
@@ -26,18 +30,18 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.tarifa)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Especialidad.Nombre)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ObraSocial.Nombre)
+            @Html.DisplayFor(modelItem => item.tarifa)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            <a href="/ObraSocialTarifas/Edit/@item.Id" class="btn btn-xs btn-warning">
+                Editar
+            </a>
+            <a href="/ObraSocialTarifas/Delete/@item.Id" class="btn btn-xs btn-danger">
+                Eliminar
+            </a>
         </td>
     </tr>
 }

@@ -1,45 +1,179 @@
 ﻿@model IEnumerable<Turnos_Medicos.Models.PacienteHistorial>
 
 @{
-    ViewBag.Title = "Historial del Paciente";
+    ViewBag.Title = "Historia Clinica del Paciente";
+    Turnos_Medicos.Models.Paciente paciente = ViewBag.Paciente;
+    IEnumerable<Turnos_Medicos.Models.PacienteAlergia> alergias = ViewBag.PacienteAlergia;
+    IEnumerable<Turnos_Medicos.Models.PacientePatologia> patologia = ViewBag.PacientePatologia;
 }
 
 <h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Crear nuevo", "Create")
-</p>
-<table class="table">
+<h3>Paciente</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>
+                DNI
+            </th>
+            <th>
+                Apellido
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th>
+                Obra Social
+            </th>
+            <th>
+                Numero de Afiliado
+            </th>
+        </tr>
+            <tr>
+                <td>
+                    @paciente.Persona.DNI
+                </td>
+                <td>
+                    @paciente.Persona.Apellido
+                </td>
+                <td>
+                    @paciente.Persona.Nombre
+                </td>
+                <td>
+                    @paciente.PacienteObraSocial.First().ObraSocial.Nombre
+                </td>
+                <td>
+                    @paciente.PacienteObraSocial.First().NumeroAfiliado
+                </td>
+            </tr>
+    </table>
+
+<hr>
+
+<div class="col-sm-12">
+
+<div class="col-sm-6">
+<h3>Alergias</h3>
+<a href="/PacienteAlergias/Create/@paciente.Id" class="btn btn-xs btn-success">Cargar Alergias</a>
+@if (alergias.ToList().Count >= 1)
+{
+<table class="table table-striped">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Observacion)
+            Fecha de Carga
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Fecha)
+            Alergia
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Observacion)
-        </td>
-        <td>
-            @item.Fecha.ToString("yyyy-MM-dd")
-        </td>
-        <td>
-            <a href="/PacienteHistoriales/Edit/@item.Id">
-                <button class="btn btn-xs btn-warning">Editar</button>
-            </a> |
-            <a href="/PacienteHistoriales/Details/@item.Id">
-                <button class="btn btn-xs btn-info">Detalles</button>
-            </a> |
-            <a href="/PacienteHistoriales/Delete/@item.Id">
-                <button class="btn btn-xs btn-danger">Eliminar</button>
-            </a>
-        </td>
-    </tr>
-}
+    @foreach (var item in alergias)
+    {
+        <tr>
+            <td>
+                @item.Fecha.ToString("dd-MM-yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                <a href="/PacienteAlergias/Edit/@item.Id" class="btn btn-xs btn-warning">Editar</a>
+                <a href="/PacienteAlergias/Delete/@item.Id" class="btn btn-xs btn-danger">Eliminar</a>
+            </td>
+        </tr>
+    }
 
 </table>
+}
+</div>
+
+
+<div class="col-sm-6">
+<h3>Patologias</h3>
+<a href="/PacientePatologias/Create/@paciente.Id" class="btn btn-xs btn-success">Cargar Patologias</a>
+@if (patologia.ToList().Count >= 1)
+{
+<table class="table table-striped">
+    <tr>
+        <th>
+            Fecha de Carga
+        </th>
+        <th>
+            Patologia
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in patologia)
+    {
+        <tr>
+            <td>
+                @item.Fecha.ToString("dd-MM-yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                <a href="/PacientePatologias/Edit/@item.Id" class="btn btn-xs btn-warning">Editar</a>
+                <a href="/PacientePatologias/Delete/@item.Id" class="btn btn-xs btn-danger">Eliminar</a>
+            </td>
+        </tr>
+    }
+
+</table>
+}
+</div>
+    
+</div>
+<br>
+<div>
+<hr>
+</div>
+
+<h3>Bitacora</h3>
+@if (Model.ToList().Count >= 1)
+{
+<table class="table table-striped">
+    <tr>
+        <th>
+            Fecha de Carga
+        </th>
+        <th>
+            Descripción
+        </th>
+        <th>
+            Medico
+        </th>
+        <th>
+            Especialidad
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Fecha.ToString("dd-MM-yyyy")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+            @if (item.TurnoId != null)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Turno.Medico.Persona.Apellido), @Html.DisplayFor(modelItem => item.Turno.Medico.Persona.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Turno.Especialidad.Nombre)
+                </td>
+            }
+            else
+            {
+                <td> </td>
+                <td> </td>
+            }
+        </tr>
+    }
+
+</table>
+}

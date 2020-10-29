@@ -42,7 +42,7 @@
     <div class="form-group">
         <label class="control-label col-md-2" for="FechaNacimiento">Fecha Nacimiento</label>
         <div class="col-md-10">
-            <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo FechaNacimiento es obligatorio." id="FechaNacimiento" name="FechaNacimiento" type="date" value="@Model.FechaNacimiento.ToString("yyyy-MM-dd")">
+            <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo FechaNacimiento es obligatorio." id="FechaNacimiento" name="FechaNacimiento" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")">
             <span class="field-validation-valid text-danger" data-valmsg-for="FechaNacimiento" data-valmsg-replace="true"></span>
         </div>
     </div>
@@ -66,7 +66,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @maxlength = "60" } })
             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -74,7 +74,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "99999999999" } })
             @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
         </div>
     </div>

@@ -18,14 +18,14 @@ namespace Turnos_Medicos.Controllers
         // GET: Agenda
         public ActionResult Index(DateTime? fecha_ini, DateTime? fecha_fin)
         {
-                if (fecha_ini.Equals(null) || fecha_fin.Equals(null))
-                {
-                    fecha_ini = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-                    fecha_fin = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-                    fecha_fin = fecha_fin.Value.AddDays(31);
-                }
-                var turnos = db.Turno.Include(t => t.Consultorio).Include(t => t.Especialidad).Include(t => t.Estado).Include(t => t.Medico).Include(t => t.ObraSocial).Include(t => t.Paciente).Where(p => p.Fecha >= fecha_ini && p.Fecha < fecha_fin).OrderBy(p => p.Fecha).ThenBy(p => p.Hora);
-                return View(turnos.ToList());
+            if (fecha_ini.Equals(null) || fecha_fin.Equals(null))
+            {
+                fecha_ini = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                fecha_fin = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                fecha_fin = fecha_fin.Value.AddDays(31);
+            }
+            var turnos = db.Turno.Include(t => t.Consultorio).Include(t => t.Especialidad).Include(t => t.Estado).Include(t => t.Medico).Include(t => t.ObraSocial).Include(t => t.Paciente).Where(p => p.Fecha >= fecha_ini && p.Fecha < fecha_fin).OrderBy(p => p.Fecha).ThenBy(p => p.Hora);
+            return View(turnos.ToList());
         }
 
         /*
@@ -77,13 +77,19 @@ namespace Turnos_Medicos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(DateTime fecha_ini, DateTime fecha_fin)
+        public ActionResult Create(DateTime fecha_ini, DateTime fecha_fin, int dni)
         {
+
+            var medicos = db.Medico.Include(m => m.Especialidad).Include(m => m.Persona);
+
+            string nuevo_dni = dni.ToString();
+            if (!(nuevo_dni == ""))
+            {
                 for (DateTime c = fecha_ini; c <= fecha_fin; c = c.AddDays(1))
                 {
                     DateTime fin = c;
                     fin = fin.AddDays(1);
-                    List <Turno> turno_existente = (from turnos in db.Turno
+                    List<Turno> turno_existente = (from turnos in db.Turno
                                                    where turnos.Fecha >= c && turnos.Fecha < fin
                                                    select turnos).ToList();
                     if (turno_existente.Count == 0)
@@ -97,7 +103,7 @@ namespace Turnos_Medicos.Controllers
                             Medico medico = db.Medico.Single(p => p.Id == hora.MedicoId);
                             Especialidad especialidad = db.Especialidad.Single(p => p.Id == medico.EspecialidadId);
                             TimeSpan hora_carga = hora.Inicio;
-                            while(hora_carga <= hora.Fin)
+                            while (hora_carga <= hora.Fin && medicos == medicos.Where(p => p.Persona.DNI.Contains(nuevo_dni)))
                             {
                                 Turno turno = new Turno();
                                 turno.ConsultorioId = hora.ConsultorioId;
@@ -122,6 +128,8 @@ namespace Turnos_Medicos.Controllers
                             }
                         }
                     }
+                }
+
             }
             return RedirectToAction("Index", "Agenda");
         }

@@ -51,7 +51,7 @@ namespace Turnos_Medicos.Controllers
             return View(usuario);
         }
 
-        [SessionCheck]
+      
         //Registration POST action 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -279,7 +279,7 @@ namespace Turnos_Medicos.Controllers
             return View();
         }
 
-        [SessionCheck]
+     
         //Logout
         [HttpPost]
         public ActionResult Logout()

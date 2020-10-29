@@ -4,30 +4,16 @@
     ViewBag.Title = "Agenda";
 }
 
+
 <h2>Agenda</h2>
+
 
 
 <div id='calendar'></div>
 
-<!--
-<div id="calendarModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
-                <h4 id="modalTitle" class="modal-title"></h4>
-            </div>
-            <div id="modalBody" class="modal-body"> </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
--->
 
 <script>
-
+/*
  document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendar');
 
@@ -48,19 +34,21 @@
             editable: true,
             selectable: true,
             eventLimit: true,
-            events: 'http://turnosmedicos.somee.com//Agenda/Calendar'/*,
-            eventClick: function (event, jsEvent, view) {
-            $('#calendarModal #modalTitle').html(event.title);
-            $('#modalBody').html(event.description);
-            $('#eventUrl').attr('href', event.url);
-            $('#calendarModal').modal();
-        },*/
+            events: 'http://localhost:50072/Agenda/Calendar',
+            eventRender: function eventRender(event, element, view) {
+            return ['all', event.especialidad].indexOf($('#turno_selector').val()) >= 0
+            }
 
         });
 
+
+        $('#turno_selector').on('change', function () {
+            $('#calendar').calendar('rerenderEvents');
+        })
 
         calendar.render();
         });
+        */
 </script>
 
 
@@ -86,6 +74,12 @@
                 <span class="field-validation-valid text-danger" data-valmsg-for="fecha_fin" data-valmsg-replace="true"></span>
             </div>
         </div>
+        <div class="form-group col-md-4">
+            <p>
+                Busqueda por Nombre: @Html.TextBox("Nombre_Medico") <br />
+               
+            </p>
+        </div>
         <div class="form-group col-md-2">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Filtrar" class="btn btn-default" />
@@ -93,9 +87,21 @@
         </div>
     </div>
 }
-    -->
+        -->
 
-<hr />
+@using (Html.BeginForm("", "Agenda", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+<p> 
+ Busqueda por Nombre de Médico: @Html.TextBox("Nombre_Medico") <br/>
+    <button type="submit" style="color: black">Filtrar</button>
+    <button type="button"><a style="color: black" href="/Agenda">Mostrar Todos</a></button>
+</p>
+}
+
+
+
 <table class="table">
     <tr>
         <th>

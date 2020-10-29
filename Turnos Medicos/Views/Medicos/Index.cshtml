@@ -1,30 +1,87 @@
 ﻿@model IEnumerable<Turnos_Medicos.Models.Medico>
 
-@{
-    ViewBag.Title = "Médicos";
-}
+@{ ViewBag.Title = "Listado de Medicos"; }
 
-<h2>@ViewBag.Title</h2>
+<h2>Listado de Medicos</h2>
 
 <p>
-    @Html.ActionLink("Crear nuevo", "Create")
+    <a href="/Medicos/Create/" class="btn btn-success">
+        Crear nuevo Medico
+    </a>
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Matricula)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Especialidad.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Persona.DNI)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        <h3>Buscar</h3>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-2" for="dni">DNI:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="dni" name="dni" type="number" value="" min="1" max="99999999">
+                <span class="field-validation-valid text-danger" data-valmsg-for="dni" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-2" for="apellido">Apellido:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="apellido" name="apellido" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="apellido" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-2" for="nombre">Nombre:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="nombre" name="nombre" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="nombre" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-1">
+            <div class="col-md-offset-2 col-md-1">
+                <input type="submit" value="Buscar" class="btn btn-info" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@if (Model.ToList().Count >= 1)
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Persona.DNI)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Persona.Apellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Persona.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Matricula)
+            </th>
+            <th>
+                Especialidad
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Persona.DNI)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Persona.Apellido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Persona.Nombre)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Matricula)
         </td>
@@ -32,20 +89,37 @@
             @Html.DisplayFor(modelItem => item.Especialidad.Nombre)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Persona.DNI)
-        </td>
-        <td>
-            <a href="/Medicos/Edit/@item.Id">
-                <button class="btn btn-xs btn-warning">Editar</button>
-            </a> |
-            <a href="/Medicos/Details/@item.Id">
-                <button class="btn btn-xs btn-info">Detalles</button>
-            </a> |
-            <a href="/Medicos/Delete/@item.Id">
-                <button class="btn btn-xs btn-danger">Eliminar</button>
-            </a>
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                    Operaciones
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/Medicos/Details/@item.Id">Información</a>
+                    </li>
+                    <li>
+                        <a href="/MedicoHorarios/Index/@item.Id">Ver Horarios</a>
+                    </li>
+                    <li>
+                        <a href="/MedicoObraSociales/Index/@item.Id">Ver Obra Social</a>
+                    </li>
+                    <li>
+                        <a href="/Medicos/Edit/@item.Id">Modificar</a>
+                    </li>
+                    <li>
+                        <a href="/Medicos/Delete/@item.Id">Eliminar</a>
+                    </li>
+                </ul>
+            </div>
         </td>
     </tr>
-}
+    }
 
-</table>
+    </table>
+}
+else
+{
+    <table class="table">
+    </table>
+}

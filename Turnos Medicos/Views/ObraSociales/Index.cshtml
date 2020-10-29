@@ -1,14 +1,40 @@
 ﻿@model IEnumerable<Turnos_Medicos.Models.ObraSocial>
 
-@{
-    ViewBag.Title = "Obra Sociales";
-}
+@{ ViewBag.Title = "Obra Sociales"; }
 
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Crear nueva", "Create")
+    <a href="/ObraSociales/Create/" class="btn btn-xs btn-success">
+        Crear nueva
+    </a>
 </p>
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        <h3>Buscar</h3>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-3" for="obra_social">Obra Social:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="obra_social" name="obra_social" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="obra_social" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-1">
+            <div class="col-md-offset-2 col-md-1">
+                <input type="submit" value="Buscar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+
 <table class="table">
     <tr>
         <th>
@@ -23,29 +49,32 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Telefono)
-        </td>
-        <td>
-            <a href="/ObraSociales/Edit/@item.Id">
-                <button class="btn btn-xs btn-warning">Editar</button>
-            </a> |
-            <a href="/ObraSociales/Details/@item.Id">
-                <button class="btn btn-xs btn-info">Detalles</button>
-            </a> |
-            <a href="/ObraSociales/Delete/@item.Id">
-                <button class="btn btn-xs btn-danger">Eliminar</button>
-            </a>
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Nombre)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Email)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Telefono)
+    </td>
+    <td>
+        <a href="/ObraSocialTarifas/Index/@item.Id" class="btn btn-xs btn-info">
+            Ver Tarifas
+        </a>
+        <a href="/ObraSocialTarifas/Create/@item.Id" class="btn btn-xs btn-success">
+            Cargar Una Tarifa
+        </a>
+        <a href="/ObraSociales/Edit/@item.Id" class="btn btn-xs btn-warning">
+            Editar
+        </a>
+        <a href="/ObraSociales/Delete/@item.Id" class="btn btn-xs btn-danger">
+            Eliminar
+        </a>
+    </td>
+</tr>}
 
 </table>

@@ -47,6 +47,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -173,17 +179,21 @@
     <Compile Include="App_Start\SessionCheck.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AgendaController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ConsultoriosController.cs" />
     <Compile Include="Controllers\EspecialidadesController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LiquidacionesController.cs" />
     <Compile Include="Controllers\MedicoHorariosController.cs" />
     <Compile Include="Controllers\MedicoObraSocialesController.cs" />
     <Compile Include="Controllers\MedicosController.cs" />
     <Compile Include="Controllers\ObraSocialesController.cs" />
     <Compile Include="Controllers\ObraSocialTarifasController.cs" />
+    <Compile Include="Controllers\PacienteAlergiasController.cs" />
     <Compile Include="Controllers\PacienteHistorialesController.cs" />
     <Compile Include="Controllers\PacienteObraSocialesController.cs" />
+    <Compile Include="Controllers\PacientePatologiasController.cs" />
     <Compile Include="Controllers\PacientesController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\TurnosController.cs" />
@@ -215,6 +225,7 @@
     <Compile Include="Models\Estado.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Extended\MedicoPersona.cs" />
     <Compile Include="Models\Extended\UsuarioLogin.cs" />
     <Compile Include="Models\Medico.cs">
       <DependentUpon>DB.tt</DependentUpon>
@@ -234,10 +245,16 @@
     <Compile Include="Models\Paciente.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PacienteAlergia.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PacienteHistorial.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PacienteObraSocial.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PacientePatologia.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Perfil.cs">
@@ -275,6 +292,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\Arial.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -381,6 +399,10 @@
     <Content Include="Content\bootstrap-datepicker3.css.map" />
     <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
+    <Content Include="fonts\Arial.eot" />
+    <Content Include="fonts\Arial.ttf" />
+    <Content Include="fonts\Arial.woff" />
+    <Content Include="fonts\Arial.woff2" />
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Properties\PublishProfiles\medico.pubxml" />
     <None Include="Properties\PublishProfiles\medicos.pubxml" />
@@ -532,12 +554,10 @@
     <Content Include="Views\Turnos\Cancelar.cshtml" />
     <Content Include="Views\Consultorios\Create.cshtml" />
     <Content Include="Views\Consultorios\Delete.cshtml" />
-    <Content Include="Views\Consultorios\Details.cshtml" />
     <Content Include="Views\Consultorios\Edit.cshtml" />
     <Content Include="Views\Consultorios\Index.cshtml" />
     <Content Include="Views\Especialidades\Create.cshtml" />
     <Content Include="Views\Especialidades\Delete.cshtml" />
-    <Content Include="Views\Especialidades\Details.cshtml" />
     <Content Include="Views\Especialidades\Edit.cshtml" />
     <Content Include="Views\Especialidades\Index.cshtml" />
     <Content Include="Views\Estados\Create.cshtml" />
@@ -552,22 +572,17 @@
     <Content Include="Views\Medicos\Index.cshtml" />
     <Content Include="Views\MedicoHorarios\Create.cshtml" />
     <Content Include="Views\MedicoHorarios\Delete.cshtml" />
-    <Content Include="Views\MedicoHorarios\Details.cshtml" />
     <Content Include="Views\MedicoHorarios\Edit.cshtml" />
     <Content Include="Views\MedicoHorarios\Index.cshtml" />
     <Content Include="Views\MedicoObraSociales\Create.cshtml" />
     <Content Include="Views\MedicoObraSociales\Delete.cshtml" />
-    <Content Include="Views\MedicoObraSociales\Details.cshtml" />
-    <Content Include="Views\MedicoObraSociales\Edit.cshtml" />
     <Content Include="Views\MedicoObraSociales\Index.cshtml" />
     <Content Include="Views\ObraSociales\Create.cshtml" />
     <Content Include="Views\ObraSociales\Delete.cshtml" />
-    <Content Include="Views\ObraSociales\Details.cshtml" />
     <Content Include="Views\ObraSociales\Edit.cshtml" />
     <Content Include="Views\ObraSociales\Index.cshtml" />
     <Content Include="Views\ObraSocialTarifas\Create.cshtml" />
     <Content Include="Views\ObraSocialTarifas\Delete.cshtml" />
-    <Content Include="Views\ObraSocialTarifas\Details.cshtml" />
     <Content Include="Views\ObraSocialTarifas\Edit.cshtml" />
     <Content Include="Views\ObraSocialTarifas\Index.cshtml" />
     <Content Include="Views\Pacientes\Create.cshtml" />
@@ -582,7 +597,6 @@
     <Content Include="Views\PacienteHistoriales\Index.cshtml" />
     <Content Include="Views\PacienteObraSociales\Create.cshtml" />
     <Content Include="Views\PacienteObraSociales\Delete.cshtml" />
-    <Content Include="Views\PacienteObraSociales\Details.cshtml" />
     <Content Include="Views\PacienteObraSociales\Edit.cshtml" />
     <Content Include="Views\PacienteObraSociales\Index.cshtml" />
     <Content Include="Views\Personas\Create.cshtml" />
@@ -597,9 +611,21 @@
     <Content Include="Views\Turnos\CancelarMedico.cshtml" />
     <Content Include="Views\Home\EspecialidadesDisponibles.cshtml" />
     <Content Include="Views\Home\ProfesionalesDisponibles.cshtml" />
+    <Content Include="Views\Agenda\CreateMedico.cshtml" />
+    <Content Include="Views\PacienteAlergias\Create.cshtml" />
+    <Content Include="Views\PacienteAlergias\Delete.cshtml" />
+    <Content Include="Views\PacienteAlergias\Edit.cshtml" />
+    <Content Include="Views\PacientePatologias\Create.cshtml" />
+    <Content Include="Views\PacientePatologias\Delete.cshtml" />
+    <Content Include="Views\PacientePatologias\Edit.cshtml" />
+    <Content Include="Views\Usuarios\Edit.cshtml" />
+    <Content Include="Views\Usuarios\Index.cshtml" />
+    <Content Include="Views\Turnos\Presencialidad.cshtml" />
+    <Content Include="Views\Liquidaciones\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

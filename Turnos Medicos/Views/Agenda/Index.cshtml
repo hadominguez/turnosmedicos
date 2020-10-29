@@ -173,24 +173,32 @@
                 @Html.DisplayFor(modelItem => item.Consultorio.Nombre)
             </td>
             <td>
-                @if (item.PacienteId.Equals(null))
-                {
-                    <a href="/Turnos/Asignar/@item.Id">
-                        <button class="btn btn-xs btn-success">Asignar</button>
-                    </a>
-                }
-                else
-                {
-                    <a href="/Turnos/Cancelar/@item.Id">
-                        <button class="btn btn-xs btn-warning">Cancelar</button>
-                    </a>
-                }
-                <a href="/Turnos/Details/@item.Id">
-                    <button class="btn btn-xs btn-info">Ver</button>
-                </a>
-                <a href="/Turnos/Delete/@item.Id">
-                    <button class="btn btn-xs btn-danger">Eliminar Turno</button>
-                </a>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" >
+                        Operaciones
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        @if (item.PacienteId.Equals(null))
+                        {
+                            <li>
+                                <a href="/Turnos/Asignar/@item.Id">Asignar</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="/Turnos/Cancelar/@item.Id">Cancelar</a>
+                            </li>
+                        }
+                        <li>
+                            <a href="/Turnos/Details/@item.Id">Infromación</a>
+                        </li>
+                        <li>
+                            <a href="/Turnos/Delete/@item.Id">Eliminar Turno</a>
+                        </li>
+                    </ul>
+                </div>
             </td>
         </tr>
     }

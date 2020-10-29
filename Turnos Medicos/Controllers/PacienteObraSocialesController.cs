@@ -16,34 +16,48 @@ namespace Turnos_Medicos.Controllers
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
         // GET: PacienteObraSociales
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            var pacienteObraSocial = db.PacienteObraSocial.Include(p => p.ObraSocial).Include(p => p.Paciente);
+            ViewBag.Paciente = db.Paciente.Where(p => p.Id == id).First();
+            var pacienteObraSocial = db.PacienteObraSocial.Where(p => p.PacienteId == id);
             return View(pacienteObraSocial.ToList());
         }
 
-        // GET: PacienteObraSociales/Details/5
-        public ActionResult Details(int? id)
+        // GET: PacienteObraSociales/Create
+        public ActionResult Create(int? id, string obra_social, int? id_obra_social)
         {
-            if (id == null)
+            PacienteObraSocial pa_obra = new PacienteObraSocial();
+            if (id != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                pa_obra.Paciente = db.Paciente.Where(p => p.Id == id).First();
+                pa_obra.PacienteId = pa_obra.Paciente.Id;
             }
-            PacienteObraSocial pacienteObraSocial = db.PacienteObraSocial.Find(id);
-            if (pacienteObraSocial == null)
+
+            var obra = (from obras in db.PacienteObraSocial
+                         where obras.PacienteId == pa_obra.PacienteId
+                         select obras.ObraSocialId).ToList();
+
+            ViewBag.ObraSocial = db.ObraSocial.Where(p => p.Nombre != null && !obra.Contains(p.Id)).ToList();
+            if (!(obra_social == "") && !(obra_social == null))
             {
-                return HttpNotFound();
+                ViewBag.ObraSocial = db.ObraSocial.Where(p => p.Nombre.Contains(obra_social) && !obra.Contains(p.Id)).ToList();
             }
-            return View(pacienteObraSocial);
+            if (id_obra_social != null)
+            {
+                pa_obra.ObraSocial = db.ObraSocial.Where(p => p.Id == id_obra_social).First();
+                pa_obra.ObraSocialId = pa_obra.ObraSocial.Id;
+                ViewBag.PacienteId = new SelectList(from paciente in db.Paciente
+                                                    join persona in db.Persona on paciente.PersonaId equals persona.Id
+                                                    where paciente.Id == pa_obra.PacienteId
+                                                    select new { Id = paciente.Id, Nombre = persona.DNI + " - " + persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
+                ViewBag.ObraSocialId = new SelectList(from obras in db.ObraSocial
+                                                      where obras.Id == id_obra_social
+                                                      select new { Id = obras.Id, Nombre = obras.Nombre }, "Id", "Nombre");
+            }
+            return View(pa_obra);
         }
 
-        // GET: PacienteObraSociales/Create
-        public ActionResult Create()
-        {
-            ViewBag.ObraSocialId = new SelectList(db.ObraSocial, "Id", "Nombre");
-            ViewBag.PacienteId = new SelectList(db.Paciente, "Id", "Id");
-            return View();
-        }
+
 
         // POST: PacienteObraSociales/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
@@ -56,13 +70,15 @@ namespace Turnos_Medicos.Controllers
             {
                 db.PacienteObraSocial.Add(pacienteObraSocial);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = pacienteObraSocial.PacienteId });
             }
 
             ViewBag.ObraSocialId = new SelectList(db.ObraSocial, "Id", "Nombre", pacienteObraSocial.ObraSocialId);
             ViewBag.PacienteId = new SelectList(db.Paciente, "Id", "Id", pacienteObraSocial.PacienteId);
             return View(pacienteObraSocial);
         }
+
+
 
         // GET: PacienteObraSociales/Edit/5
         public ActionResult Edit(int? id)
@@ -76,8 +92,15 @@ namespace Turnos_Medicos.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ObraSocialId = new SelectList(db.ObraSocial, "Id", "Nombre", pacienteObraSocial.ObraSocialId);
-            ViewBag.PacienteId = new SelectList(db.Paciente, "Id", "Id", pacienteObraSocial.PacienteId);
+            ViewBag.ObraSocialId = new SelectList(from obra in db.ObraSocial
+                                                  join p_obra in db.PacienteObraSocial on obra.Id equals p_obra.ObraSocialId
+                                                  where id == p_obra.Id
+                                                  select new { Id = obra.Id, Nombre = obra.Nombre }, "Id", "Nombre");
+            ViewBag.PacienteId = new SelectList(from paciente in db.Paciente
+                                                join persona in db.Persona on paciente.PersonaId equals persona.Id
+                                                join p_obra in db.PacienteObraSocial on paciente.Id equals p_obra.PacienteId
+                                                where id == p_obra.Id
+                                                select new { Id = paciente.Id, Nombre = persona.DNI + " - " + persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
             return View(pacienteObraSocial);
         }
 
@@ -92,14 +115,16 @@ namespace Turnos_Medicos.Controllers
             {
                 db.Entry(pacienteObraSocial).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = pacienteObraSocial.PacienteId });
             }
             ViewBag.ObraSocialId = new SelectList(db.ObraSocial, "Id", "Nombre", pacienteObraSocial.ObraSocialId);
-            ViewBag.PacienteId = new SelectList(db.Paciente, "Id", "Id", pacienteObraSocial.PacienteId);
+            ViewBag.PacienteId = new SelectList(db.Paciente, "Id", "Nombre", pacienteObraSocial.PacienteId);
             return View(pacienteObraSocial);
         }
 
-        // GET: PacienteObraSociales/Delete/5
+
+
+        // GET: PacienteObraSocia.les/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -122,16 +147,7 @@ namespace Turnos_Medicos.Controllers
             PacienteObraSocial pacienteObraSocial = db.PacienteObraSocial.Find(id);
             db.PacienteObraSocial.Remove(pacienteObraSocial);
             db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            return RedirectToAction("Index", new { id = pacienteObraSocial.PacienteId });
         }
     }
 }

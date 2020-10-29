@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Turnos_Medicos.Models;
 
@@ -57,23 +58,33 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,DNI,Apellido,Nombre,FechaNacimiento,Calle,Numero,Email,Telefono,Celular")] Persona persona)
         {
-            if (ModelState.IsValid)
+            var perso = db.Persona.Where(p => p.DNI == persona.DNI).ToList();
+            Paciente paciente = new Paciente();
+
+            if (ModelState.IsValid && perso.Count < 1)
             {
                 db.Persona.Add(persona);
                 db.SaveChanges();
-                //return RedirectToAction("Index");
-            }
 
-            //return View(persona);
+                Usuario user = new Usuario();
+                string clave = persona.DNI;
+                user.Password = Crypto.Hash(clave);
+                user.Bloqueado = false;
+                user.PersonaId = persona.Id;
+                user.PerfilId = db.Perfil.Where(p => p.Nombre == "Paciente").First().Id;
+                user.Recuperacion = Guid.NewGuid().ToString();
 
-            Paciente paciente = new Paciente();
-            paciente.PersonaId = persona.Id;
-            paciente.Persona = persona;
-            if (ModelState.IsValid)
-            {
-                db.Paciente.Add(paciente);
+                db.Usuario.Add(user);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                paciente.PersonaId = persona.Id;
+                paciente.Persona = persona;
+                if (ModelState.IsValid)
+                {
+                    db.Paciente.Add(paciente);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
             ViewBag.PersonaId = new SelectList(db.Persona, "Id", "DNI", paciente.PersonaId);

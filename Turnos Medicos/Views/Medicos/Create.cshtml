@@ -1,50 +1,190 @@
-﻿@model Turnos_Medicos.Models.Medico
+﻿@model Turnos_Medicos.Models.Extended.MedicoPersona
 
 @{
     ViewBag.Title = "Crear Médico";
+    IEnumerable<Turnos_Medicos.Models.Especialidad> especialidad = ViewBag.Especialidad;
 }
 
 <h2>@ViewBag.Title</h2>
 
 
-@using (Html.BeginForm()) 
+
+@if (!(Model.Especialidad != null))
 {
+<form action="/Medicos/Create/" method="get" novalidate="novalidate">
+
     @Html.AntiForgeryToken()
-    
     <div class="form-horizontal">
-        <h4>Medico</h4>
         <hr />
+        <h3>Buscar</h3>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.PersonaId, "PersonaId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("PersonaId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PersonaId, "", new { @class = "text-danger" })
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-3" for="especialidad">Especialidad:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="especialidad" name="especialidad" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="especialidad" data-valmsg-replace="true"></span>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Matricula, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Matricula, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Matricula, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EspecialidadId, "EspecialidadId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("EspecialidadId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.EspecialidadId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Crear" class="btn btn-success" />
+        <div class="form-group col-sm-1">
+            <div class="col-md-offset-2 col-md-1">
+                <input type="submit" value="Buscar" class="btn btn-default" />
             </div>
         </div>
     </div>
+</form>
+
+    if (especialidad != null)
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    Nombre
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in especialidad)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            <form action="/Medicos/Create/" method="get" novalidate="novalidate">
+                                <div class="form-group col-sm-4" hidden>
+                                    <div class="col-md-8">
+                                        <input class="form-control text-box single-line" data-val="true" id="id_especialidad" name="id_especialidad" type="number" value="@item.Id">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-1">
+                                    <div class="col-md-offset-2 col-md-1">
+                                        <input type="submit" value="Seleccionar" class="btn btn-success" />
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+            }
+
+        </table>
+    }
+}
+
+
+
+
+
+@if (Model.Especialidad != null)
+{
+
+using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Medico</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.DNI, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DNI, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "99999999", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.DNI, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Apellido, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control", @maxlength = "30", @required= "required" } })
+            @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", @maxlength = "30", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2" for="FechaNacimiento">Fecha Nacimiento</label>
+        <div class="col-md-10">
+            <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha Nacimiento es obligatorio." id="FechaNacimiento" name="FechaNacimiento" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")">
+            <span class="field-validation-valid text-danger" data-valmsg-for="FechaNacimiento" data-valmsg-replace="true"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Calle, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Calle, new { htmlAttributes = new { @class = "form-control", @maxlength = "50", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.Calle, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Numero, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "99999999", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @maxlength = "60", @type = "email", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "99999999999", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Celular, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Celular, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "9999999999", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.Celular, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Matricula, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Matricula, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+            @Html.ValidationMessageFor(model => model.Matricula, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EspecialidadId, "EspecialidadId", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("EspecialidadId", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.EspecialidadId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Crear" class="btn btn-success" />
+        </div>
+    </div>
+</div>
+}
+
+
 }
 
 <div>

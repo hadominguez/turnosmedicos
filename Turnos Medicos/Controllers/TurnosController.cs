@@ -8,11 +8,12 @@ using System.Web;
 using System.Web.Mvc;
 using Turnos_Medicos.Models;
 using System.Net.Mail;
+using Turnos_Medicos.Controllers;
 
 namespace Turnos_Medicos.Controllers
 {
     [SessionCheck]
-    public class TurnosController : Controller
+    public class TurnosController : BaseController
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
@@ -95,6 +96,7 @@ namespace Turnos_Medicos.Controllers
                                                 select new { Id = paciente.Id, Nombre = persona.DNI + " - " + persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
             return View(turno);
         }
+
 
         public ActionResult Asignar(int? id, int? dni, string apellido, string nombre, int? id_paciente)
         {
@@ -251,26 +253,6 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            /*
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 465);
-            smtp.Credentials = new NetworkCredential("axel0lopez95@gmail.com", "estudiante-0"); //("axel0lopez95@gmail.com", "estudiante-0");
-            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtp.EnableSsl = true;
-            smtp.UseDefaultCredentials = false;
-
-            MailMessage mail = new MailMessage();
-            mail.From = new MailAddress("axel0lopez95@gmail.com", "Hospital");
-            mail.To.Add(new MailAddress("axe_lopez95@yahoo.com"));
-            mail.Subject = "Mensaje de prueba";
-            mail.IsBodyHtml = true;
-
-            mail.Body = "<body>" +
-                "<h1>Prueba de cuerpo de mensaje</h1>" +
-                "</body>";
-
-            smtp.Send(mail);*/
-
-
             Turno turno = db.Turno.Find(id);
             db.Turno.Remove(turno);
             db.SaveChanges();
@@ -323,7 +305,7 @@ namespace Turnos_Medicos.Controllers
             //db.Entry(turno).State = EntityState.Modified;
             db.SaveChanges();
 
-            SendEmail(body, email, titulo);
+            this.SendEmail(body, email, titulo);
             return RedirectToAction("Index");
         }
 
@@ -381,14 +363,6 @@ namespace Turnos_Medicos.Controllers
         }
 
 
-
-
-
-
-
-
-
-
         public ActionResult mostrarTurno(string sortOrder)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -441,8 +415,46 @@ namespace Turnos_Medicos.Controllers
         }
 
 
+        // GET: Turnos
+        public ActionResult Presencialidad(int? dni, string apellido, string nombre)
+        {
+            DateTime? fecha_ini = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            fecha_ini = fecha_ini.Value.AddDays(-1);
+            DateTime? fecha_fin = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            fecha_fin = fecha_fin.Value.AddDays(1);
+
+            var turno = db.Turno.Include(t => t.Consultorio).Include(t => t.Especialidad).Include(t => t.Estado).Include(t => t.Medico).Include(t => t.ObraSocial).Include(t => t.Paciente)
+                                                                        .Where(p => (p.Estado.Nombre == "Asignado" || p.Estado.Nombre == "Concurrio" || p.Estado.Nombre == "No Concurrio") 
+                                                                        && p.Fecha >= fecha_ini && p.Fecha < fecha_fin);
+            string nuevo_dni = dni.ToString();
+            if (dni != null || !(apellido == "" || apellido == null) || !(nombre == "" || nombre == null))
+            {
+                turno = turno.Where(p => p.Paciente.Persona.DNI.Contains(nuevo_dni)
+                    && p.Paciente.Persona.Apellido.Contains(apellido)
+                    && p.Paciente.Persona.Nombre.Contains(nombre));
+            }
+            return View(turno.ToList());
+        }
 
 
+        // GET: Turnos
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Presencialidad(int id, int estado)
+        {
+            Turno turno = db.Turno.Where(p => p.Id == id).First();
+            Estado estados = db.Estado.Where(p => p.Id == estado).First();
+            turno.EstadoId = estados.Id;
+            if (!turno.Id.Equals(null))
+            {
+                db.Entry(turno).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Presencialidad");
+            }
+            return View();
+        }
+
+        /*
         [NonAction]
         public void SendEmail(string body, string email, string titulo)
         {
@@ -468,7 +480,7 @@ namespace Turnos_Medicos.Controllers
                 IsBodyHtml = true
             })
                 smtp.Send(message);
-        }
+        }*/
 
     }
 }

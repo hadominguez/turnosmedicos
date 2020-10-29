@@ -16,33 +16,24 @@ namespace Turnos_Medicos.Controllers
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
         // GET: MedicoHorarios
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            var medicoHorario = db.MedicoHorario.Include(m => m.Consultorio).Include(m => m.Medico);
+            ViewBag.Medico = db.Medico.Where(p => p.Id == id).First();
+            var medicoHorario = db.MedicoHorario.Include(m => m.Consultorio).Include(m => m.Medico).Where(p => p.MedicoId == id);
             return View(medicoHorario.ToList());
         }
 
-        // GET: MedicoHorarios/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            MedicoHorario medicoHorario = db.MedicoHorario.Find(id);
-            if (medicoHorario == null)
-            {
-                return HttpNotFound();
-            }
-            return View(medicoHorario);
-        }
-
         // GET: MedicoHorarios/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
             ViewBag.ConsultorioId = new SelectList(db.Consultorio, "Id", "Nombre");
-            ViewBag.MedicoId = new SelectList(db.Medico, "Id", "Id");
-            return View();
+            ViewBag.MedicoId = new SelectList(from medico in db.Medico
+                                              join persona in db.Persona on medico.PersonaId equals persona.Id
+                                              where medico.Id == id
+                                              select new { Id = medico.Id, Nombre = persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
+            MedicoHorario hora = new MedicoHorario();
+            hora.MedicoId = id;
+            return View(hora);
         }
 
         // POST: MedicoHorarios/Create
@@ -52,51 +43,19 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,MedicoId,ConsultorioId,Dia,Inicio,Fin")] MedicoHorario medicoHorario)
         {
-            if (ModelState.IsValid)
+            medicoHorario.Medico = db.Medico.Where(p => p.Id == medicoHorario.MedicoId).First();
+            var medicos = db.MedicoHorario.Where(p => p.ConsultorioId == medicoHorario.ConsultorioId && p.Dia == medicoHorario.Dia 
+                                                && ((p.Inicio <= medicoHorario.Inicio && p.Fin > medicoHorario.Inicio) || (p.Inicio <= medicoHorario.Fin && p.Fin > medicoHorario.Fin))).ToList();
+            if (ModelState.IsValid && medicos.Count < 1)
             {
                 db.MedicoHorario.Add(medicoHorario);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { Id = medicoHorario.MedicoId });
             }
 
             ViewBag.ConsultorioId = new SelectList(db.Consultorio, "Id", "Nombre", medicoHorario.ConsultorioId);
             ViewBag.MedicoId = new SelectList(db.Medico, "Id", "Id", medicoHorario.MedicoId);
-            return View(medicoHorario);
-        }
-
-        // GET: MedicoHorarios/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            MedicoHorario medicoHorario = db.MedicoHorario.Find(id);
-            if (medicoHorario == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.ConsultorioId = new SelectList(db.Consultorio, "Id", "Nombre", medicoHorario.ConsultorioId);
-            ViewBag.MedicoId = new SelectList(db.Medico, "Id", "Id", medicoHorario.MedicoId);
-            return View(medicoHorario);
-        }
-
-        // POST: MedicoHorarios/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
-        // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,MedicoId,ConsultorioId,Dia,Inicio,Fin")] MedicoHorario medicoHorario)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(medicoHorario).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.ConsultorioId = new SelectList(db.Consultorio, "Id", "Nombre", medicoHorario.ConsultorioId);
-            ViewBag.MedicoId = new SelectList(db.Medico, "Id", "Id", medicoHorario.MedicoId);
-            return View(medicoHorario);
+            return RedirectToAction("Index", new { Id = medicoHorario.MedicoId });
         }
 
         // GET: MedicoHorarios/Delete/5
@@ -122,16 +81,7 @@ namespace Turnos_Medicos.Controllers
             MedicoHorario medicoHorario = db.MedicoHorario.Find(id);
             db.MedicoHorario.Remove(medicoHorario);
             db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            return RedirectToAction("Index", new { Id = medicoHorario.MedicoId });
         }
     }
 }

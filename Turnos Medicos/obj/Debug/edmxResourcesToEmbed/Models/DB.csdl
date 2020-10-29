@@ -78,7 +78,7 @@
     <NavigationProperty Name="ObraSocialTarifa" Relationship="Self.FK_ObraSocialTarifa_ObraSocial" FromRole="ObraSocial" ToRole="ObraSocialTarifa" />
     <NavigationProperty Name="PacienteObraSocial" Relationship="Self.FK_PacienteObraSocial_ObraSocial" FromRole="ObraSocial" ToRole="PacienteObraSocial" />
     <NavigationProperty Name="Turno" Relationship="Self.FK_Turno_ObraSocial" FromRole="ObraSocial" ToRole="Turno" />
-    <Property Name="Activo" Type="Boolean" Nullable="false" />
+    <Property Name="Activo" Type="Boolean" />
   </EntityType>
   <EntityType Name="ObraSocialTarifa">
     <Key>
@@ -101,6 +101,8 @@
     <NavigationProperty Name="PacienteHistorial" Relationship="Self.FK_PacienteHistorial_Paciente" FromRole="Paciente" ToRole="PacienteHistorial" />
     <NavigationProperty Name="PacienteObraSocial" Relationship="Self.FK_PacienteObraSocial_Paciente" FromRole="Paciente" ToRole="PacienteObraSocial" />
     <NavigationProperty Name="Turno" Relationship="Self.FK_Turno_Paciente" FromRole="Paciente" ToRole="Turno" />
+    <NavigationProperty Name="PacienteAlergia" Relationship="TurnosMedicosModel.FK_PacienteAlergia_Paciente" FromRole="Paciente" ToRole="PacienteAlergia" />
+    <NavigationProperty Name="PacientePatologia" Relationship="TurnosMedicosModel.FK_PacientePatologia_Paciente" FromRole="Paciente" ToRole="PacientePatologia" />
   </EntityType>
   <EntityType Name="PacienteHistorial">
     <Key>
@@ -151,6 +153,8 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="PerfilPermiso" Relationship="Self.FK_PerfilPermiso_Permiso" FromRole="Permiso" ToRole="PerfilPermiso" />
+    <Property Name="Controller" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Action" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Persona">
     <Key>
@@ -577,6 +581,16 @@
       <End Role="Persona" EntitySet="Persona" />
       <End Role="Usuario" EntitySet="Usuario" />
     </AssociationSet>
+    <EntitySet Name="PacienteAlergia" EntityType="TurnosMedicosModel.PacienteAlergia" />
+    <EntitySet Name="PacientePatologia" EntityType="TurnosMedicosModel.PacientePatologia" />
+    <AssociationSet Name="FK_PacienteAlergia_Paciente" Association="TurnosMedicosModel.FK_PacienteAlergia_Paciente">
+      <End Role="Paciente" EntitySet="Paciente" />
+      <End Role="PacienteAlergia" EntitySet="PacienteAlergia" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PacientePatologia_Paciente" Association="TurnosMedicosModel.FK_PacientePatologia_Paciente">
+      <End Role="Paciente" EntitySet="Paciente" />
+      <End Role="PacientePatologia" EntitySet="PacientePatologia" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Usuario">
     <Key>
@@ -591,6 +605,7 @@
     <Property Name="PersonaId" Type="Int32" />
     <NavigationProperty Name="Perfil" Relationship="TurnosMedicosModel.FK_Usuario_Perfil" FromRole="Usuario" ToRole="Perfil" />
     <NavigationProperty Name="Persona" Relationship="TurnosMedicosModel.FK_Usuario_Persona" FromRole="Usuario" ToRole="Persona" />
+    <Property Name="Recuperacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="FK_Usuario_Perfil">
     <End Type="TurnosMedicosModel.Perfil" Role="Perfil" Multiplicity="1" />
@@ -613,6 +628,50 @@
       </Principal>
       <Dependent Role="Usuario">
         <PropertyRef Name="PersonaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="PacienteAlergia">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PacienteId" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Paciente" Relationship="TurnosMedicosModel.FK_PacienteAlergia_Paciente" FromRole="PacienteAlergia" ToRole="Paciente" />
+  </EntityType>
+  <EntityType Name="PacientePatologia">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PacienteId" Type="Int32" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Paciente" Relationship="TurnosMedicosModel.FK_PacientePatologia_Paciente" FromRole="PacientePatologia" ToRole="Paciente" />
+  </EntityType>
+  <Association Name="FK_PacienteAlergia_Paciente">
+    <End Type="TurnosMedicosModel.Paciente" Role="Paciente" Multiplicity="1" />
+    <End Type="TurnosMedicosModel.PacienteAlergia" Role="PacienteAlergia" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paciente">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PacienteAlergia">
+        <PropertyRef Name="PacienteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PacientePatologia_Paciente">
+    <End Type="TurnosMedicosModel.Paciente" Role="Paciente" Multiplicity="1" />
+    <End Type="TurnosMedicosModel.PacientePatologia" Role="PacientePatologia" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Paciente">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PacientePatologia">
+        <PropertyRef Name="PacienteId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

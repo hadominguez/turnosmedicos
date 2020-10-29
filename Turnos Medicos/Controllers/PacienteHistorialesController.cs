@@ -19,6 +19,9 @@ namespace Turnos_Medicos.Controllers
         public ActionResult Index(int id)
         {
             var pacienteHistorial = db.PacienteHistorial.Include(p => p.Paciente).Include(p => p.Turno).Where(p => p.PacienteId == id);
+            ViewBag.PacienteAlergia = db.PacienteAlergia.Where(p => p.PacienteId == id).ToList();
+            ViewBag.PacientePatologia = db.PacientePatologia.Where(p => p.PacienteId == id).ToList();
+            ViewBag.Paciente = db.Paciente.Where(p => p.Id == id).First();
             return View(pacienteHistorial.ToList());
         }
 

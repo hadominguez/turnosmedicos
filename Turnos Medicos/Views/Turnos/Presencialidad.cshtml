@@ -1,0 +1,176 @@
+﻿@model IEnumerable<Turnos_Medicos.Models.Turno>
+
+@{
+    ViewBag.Title = "Presencialidad";
+}
+
+<h2>Presencialidad de los Pacientes</h2>
+
+
+
+<form action="/Turnos/Presencialidad/" method="get" novalidate="novalidate">
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        <h3>Buscar</h3>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-3" for="dni">DNI Paciente:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="dni" name="dni" type="number" value="" min="1" max="99999999">
+                <span class="field-validation-valid text-danger" data-valmsg-for="dni" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-3" for="apellido">Apellido Paciente:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="apellido" name="apellido" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="apellido" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-3" for="nombre">Nombre Paciente:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="nombre" name="nombre" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="nombre" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-3" for="m_apellido">Apellido Medico:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="m_apellido" name="m_apellido" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="m_apellido" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-3" for="m_nombre">Nombre Medico:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="m_nombre" name="m_nombre" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="m_nombre" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-3" for="especialidad">Especialidad:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="especialidad" name="especialidad" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="especialidad" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-1">
+            <div class="col-md-offset-2 col-md-1">
+                <input type="submit" value="Buscar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+    <table class="table">
+
+        <tr>
+            <th>
+                Estado
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th>
+                Especialidad
+            </th>
+            <th>
+                Medico
+            </th>
+            <th>
+                Paciente
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha.Day)/@Html.DisplayFor(modelItem => item.Fecha.Month)/@Html.DisplayFor(modelItem => item.Fecha.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hora.Hours) :
+                    @if (item.Hora.Minutes < 10)
+                    {
+                        <span>0</span>
+                        @Html.DisplayFor(modelItem => item.Hora.Minutes)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Hora.Minutes)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Especialidad.Nombre)
+                </td>
+                <td>
+                    @if (!item.MedicoId.Equals(null))
+                    {
+                        @Html.DisplayFor(modelItem => item.Medico.Persona.Apellido)
+                        <span>, </span>
+                        @Html.DisplayFor(modelItem => item.Medico.Persona.Nombre)
+                    }
+                </td>
+                <td>
+                    @if (!item.PacienteId.Equals(null))
+                    {
+                        @Html.DisplayFor(modelItem => item.Paciente.Persona.Apellido)
+                        <span>, </span>
+                        @Html.DisplayFor(modelItem => item.Paciente.Persona.Nombre)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @if (item.EstadoId != 3)
+                    {
+                        using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-group col-sm-4">
+                                <div hidden>
+                                    <input class="form-control text-box single-line" data-val="true" id="id" name="id" type="text" value="@item.Id">
+                                    <input class="form-control text-box single-line" data-val="true" id="estado" name="estado" type="text" value="3">
+                                </div>
+                                <input type="submit" value="Concurrio" class="btn btn-sm btn-success" />
+                            </div>
+                        }
+                    }
+                    </td>
+                <td>
+                    @if (item.EstadoId != 4)
+                    {
+                        using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                                <div class="form-group col-sm-4">
+                                    <div hidden>
+                                        <input class="form-control text-box single-line" data-val="true" id="id" name="id" type="text" value="@item.Id">
+                                        <input class="form-control text-box single-line" data-val="true" id="estado" name="estado" type="text" value="4">
+                                    </div>
+                                    <input type="submit" value="No Concurrio" class="btn btn-sm btn-warning" />
+                                </div>
+                        }
+                    }
+                    </td>
+            </tr>
+        }
+
+    </table>

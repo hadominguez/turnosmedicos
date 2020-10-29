@@ -16,24 +16,15 @@ namespace Turnos_Medicos.Controllers
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
         // GET: ObraSociales
-        public ActionResult Index()
+        public ActionResult Index(string obra_social)
         {
-            return View(db.ObraSocial.ToList());
-        }
+            var obrasocial = db.ObraSocial.Where(p => p.Nombre != null);
+            if (!(obra_social == ""))
+            {
+                obrasocial = obrasocial.Where(p => p.Nombre.Contains(obra_social));
+            }
 
-        // GET: ObraSociales/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ObraSocial obraSocial = db.ObraSocial.Find(id);
-            if (obraSocial == null)
-            {
-                return HttpNotFound();
-            }
-            return View(obraSocial);
+            return View(obrasocial.ToList());
         }
 
         // GET: ObraSociales/Create
@@ -114,15 +105,6 @@ namespace Turnos_Medicos.Controllers
             db.ObraSocial.Remove(obraSocial);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

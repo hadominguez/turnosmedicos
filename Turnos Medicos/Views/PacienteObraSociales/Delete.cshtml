@@ -27,13 +27,6 @@
             @Html.DisplayFor(model => model.ObraSocial.Nombre)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Paciente.Id)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Paciente.Id)
-        </dd>
 
     </dl>
 
@@ -41,8 +34,10 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-danger" /> |
-            @Html.ActionLink("Volver", "Index")
+            <a href="/PacienteObraSociales/Index/@Model.PacienteId" class="btn btn-primary">
+                Volver
+            </a>
+            <input type="submit" value="Eliminar" class="btn btn-danger" />
         </div>
     }
 </div>

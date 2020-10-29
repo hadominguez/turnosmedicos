@@ -1,4 +1,5 @@
 ﻿@model Turnos_Medicos.Models.MedicoHorario
+@using System.Globalization
 
 @{
     ViewBag.Title = "Eliminar Horario";
@@ -16,7 +17,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Dia)
+            @(new CultureInfo("es-ES").DateTimeFormat.DayNames[Model.Dia])
         </dd>
 
         <dt>
@@ -24,7 +25,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Inicio)
+            @Model.Inicio.ToString("hh\\:mm")
         </dd>
 
         <dt>
@@ -32,23 +33,15 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Fin)
+            @Model.Fin.ToString("hh\\:mm")
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Consultorio.Nombre)
+            Consultorio
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Consultorio.Nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Medico.Id)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Medico.Id)
         </dd>
 
     </dl>
@@ -57,8 +50,10 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-            @Html.ActionLink("Volver", "Index")
+            <a href="/MedicoHorarios/Index/@Model.MedicoId" class="btn btn-default">
+                Volver
+            </a>
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> 
         </div>
     }
 </div>

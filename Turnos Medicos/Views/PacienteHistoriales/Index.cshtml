@@ -5,175 +5,315 @@
     Turnos_Medicos.Models.Paciente paciente = ViewBag.Paciente;
     IEnumerable<Turnos_Medicos.Models.PacienteAlergia> alergias = ViewBag.PacienteAlergia;
     IEnumerable<Turnos_Medicos.Models.PacientePatologia> patologia = ViewBag.PacientePatologia;
+    IEnumerable<Turnos_Medicos.Models.PacienteHistorial> historial = ViewBag.PacienteHistorial;
 }
 
 <h2>@ViewBag.Title</h2>
 
 <h3>Paciente</h3>
-    <table class="table table-striped">
-        <tr>
-            <th>
-                DNI
-            </th>
-            <th>
-                Apellido
-            </th>
-            <th>
-                Nombre
-            </th>
-            <th>
-                Obra Social
-            </th>
-            <th>
-                Numero de Afiliado
-            </th>
-        </tr>
-            <tr>
-                <td>
-                    @paciente.Persona.DNI
-                </td>
-                <td>
-                    @paciente.Persona.Apellido
-                </td>
-                <td>
-                    @paciente.Persona.Nombre
-                </td>
-                <td>
-                    @paciente.PacienteObraSocial.First().ObraSocial.Nombre
-                </td>
-                <td>
-                    @paciente.PacienteObraSocial.First().NumeroAfiliado
-                </td>
-            </tr>
-    </table>
+<table class="table table-striped">
+    <tr>
+        <th>
+            DNI
+        </th>
+        <th>
+            Apellido
+        </th>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Obra Social
+        </th>
+        <th>
+            Numero de Afiliado
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @paciente.Persona.DNI
+        </td>
+        <td>
+            @paciente.Persona.Apellido
+        </td>
+        <td>
+            @paciente.Persona.Nombre
+        </td>
+        <td>
+            @paciente.PacienteObraSocial.First().ObraSocial.Nombre
+        </td>
+        <td>
+            @paciente.PacienteObraSocial.First().NumeroAfiliado
+        </td>
+    </tr>
+</table>
 
 <hr>
 
 <div class="col-sm-12">
 
-<div class="col-sm-6">
-<h3>Alergias</h3>
-<a href="/PacienteAlergias/Create/@paciente.Id" class="btn btn-xs btn-success">Cargar Alergias</a>
-@if (alergias.ToList().Count >= 1)
-{
-<table class="table table-striped">
-    <tr>
-        <th>
-            Fecha de Carga
-        </th>
-        <th>
-            Alergia
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in alergias)
-    {
-        <tr>
-            <td>
-                @item.Fecha.ToString("dd-MM-yyyy")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                <a href="/PacienteAlergias/Edit/@item.Id" class="btn btn-xs btn-warning">Editar</a>
-                <a href="/PacienteAlergias/Delete/@item.Id" class="btn btn-xs btn-danger">Eliminar</a>
-            </td>
-        </tr>
-    }
+    <div class="panel-group col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapse1">Alergias</a>
+                </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+                <a href="/PacienteAlergias/Create/@paciente.Id" class="btn btn-xs btn-success">Cargar Alergias</a>
+                @if (alergias.ToList().Count >= 1)
+                {
+                    <table class="table table-striped">
+                        <tr>
+                            <th>
+                                Fecha de Carga
+                            </th>
+                            <th>
+                                Alergia
+                            </th>
+                            <th></th>
+                        </tr>
 
-</table>
-}
-</div>
+                        @foreach (var item in alergias)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Fecha.ToString("dd-MM-yyyy")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descripcion)
+                                </td>
+                                <td>
+                                    <a href="/PacienteAlergias/Edit/@item.Id" class="btn btn-xs btn-warning">Editar</a>
+                                    <a href="/PacienteAlergias/Delete/@item.Id" class="btn btn-xs btn-danger">Eliminar</a>
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
 
 
-<div class="col-sm-6">
-<h3>Patologias</h3>
-<a href="/PacientePatologias/Create/@paciente.Id" class="btn btn-xs btn-success">Cargar Patologias</a>
-@if (patologia.ToList().Count >= 1)
-{
-<table class="table table-striped">
-    <tr>
-        <th>
-            Fecha de Carga
-        </th>
-        <th>
-            Patologia
-        </th>
-        <th></th>
-    </tr>
+    <div class="panel-group col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#collapse2">Patologias</a>
+                </h4>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse">
+                <a href="/PacientePatologias/Create/@paciente.Id" class="btn btn-xs btn-success">Cargar Patologias</a>
+                @if (patologia.ToList().Count >= 1)
+                {
+                    <table class="table table-striped">
+                        <tr>
+                            <th>
+                                Fecha de Carga
+                            </th>
+                            <th>
+                                Patologia
+                            </th>
+                            <th></th>
+                        </tr>
 
-    @foreach (var item in patologia)
-    {
-        <tr>
-            <td>
-                @item.Fecha.ToString("dd-MM-yyyy")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                <a href="/PacientePatologias/Edit/@item.Id" class="btn btn-xs btn-warning">Editar</a>
-                <a href="/PacientePatologias/Delete/@item.Id" class="btn btn-xs btn-danger">Eliminar</a>
-            </td>
-        </tr>
-    }
+                        @foreach (var item in patologia)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Fecha.ToString("dd-MM-yyyy")
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descripcion)
+                                </td>
+                                <td>
+                                    <a href="/PacientePatologias/Edit/@item.Id" class="btn btn-xs btn-warning">Editar</a>
+                                    <a href="/PacientePatologias/Delete/@item.Id" class="btn btn-xs btn-danger">Eliminar</a>
+                                </td>
+                            </tr>
+                        }
 
-</table>
-}
-</div>
-    
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+
 </div>
 <br>
 <div>
-<hr>
+    <hr>
 </div>
 
-<h3>Bitacora</h3>
+
+<div class="col-sm-12">
+<h3>Historia Clínica</h3>
+<h4>Filtrar</h4>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group col-md-4">
+            <label class="control-label col-md-2" for="Fecha">Fecha Inicial:</label>
+            <div class="col-md-10">
+                <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="fecha_ini" name="fecha_ini" type="date" value="">
+                <span class="field-validation-valid text-danger" data-valmsg-for="fecha_ini" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label col-md-2" for="Fecha">Fecha Fin:</label>
+            <div class="col-md-10">
+                <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="fecha_fin" name="fecha_fin" type="date" value="">
+                <span class="field-validation-valid text-danger" data-valmsg-for="fecha_fin" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-2">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Filtrar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
 @if (Model.ToList().Count >= 1)
 {
-<table class="table table-striped">
-    <tr>
-        <th>
-            Fecha de Carga
-        </th>
-        <th>
-            Descripción
-        </th>
-        <th>
-            Medico
-        </th>
-        <th>
-            Especialidad
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+    <table class="table table-striped">
         <tr>
-            <td>
-                @item.Fecha.ToString("dd-MM-yyyy")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Observacion)
-            </td>
-            @if (item.TurnoId != null)
-            {
-                <td>
-                    @Html.DisplayFor(modelItem => item.Turno.Medico.Persona.Apellido), @Html.DisplayFor(modelItem => item.Turno.Medico.Persona.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Turno.Especialidad.Nombre)
-                </td>
-            }
-            else
-            {
-                <td> </td>
-                <td> </td>
-            }
+            <th>
+                Fecha de Carga
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+                Medico
+            </th>
+            <th>
+                Especialidad
+            </th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+                @if (item.TurnoId != null)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Turno.Medico.Persona.Apellido), @Html.DisplayFor(modelItem => item.Turno.Medico.Persona.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Turno.Especialidad.Nombre)
+                    </td>
+                }
+                else
+                {
+                    <td> </td>
+                    <td> </td>
+                }
+            </tr>
+        }
+
+    </table>
 }
+else
+{
+    <table class="table">
+    </table>
+}
+</div>
+
+<hr>
+
+
+<div class="col-sm-12">
+<h3>Historia Clínica Cargada Por Otros Medicos</h3>
+<h4>Filtrar</h4>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group col-md-4">
+            <label class="control-label col-md-2" for="Fecha">Fecha Inicial:</label>
+            <div class="col-md-10">
+                <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="fecha_ini_otro" name="fecha_ini_otro" type="date" value="">
+                <span class="field-validation-valid text-danger" data-valmsg-for="fecha_ini_otro" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="control-label col-md-2" for="Fecha">Fecha Fin:</label>
+            <div class="col-md-10">
+                <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="fecha_otro_fin" name="fecha_otro_fin" type="date" value="">
+                <span class="field-validation-valid text-danger" data-valmsg-for="fecha_otro_fin" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-2">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Filtrar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+@if (historial.ToList().Count >= 1)
+{
+    <table class="table table-striped">
+        <tr>
+            <th>
+                Fecha de Carga
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+                Medico
+            </th>
+            <th>
+                Especialidad
+            </th>
+        </tr>
+
+        @foreach (var item in historial)
+        {
+            <tr>
+                <td>
+                    @item.Fecha.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+                @if (item.TurnoId != null)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Turno.Medico.Persona.Apellido), @Html.DisplayFor(modelItem => item.Turno.Medico.Persona.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Turno.Especialidad.Nombre)
+                    </td>
+                }
+                else
+                {
+                    <td> </td>
+                    <td> </td>
+                }
+            </tr>
+        }
+
+    </table>
+}
+else
+{
+    <table class="table">
+    </table>
+}
+</div>

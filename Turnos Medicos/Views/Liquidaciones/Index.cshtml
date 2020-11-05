@@ -1,20 +1,23 @@
 ﻿@model IEnumerable<Turnos_Medicos.Models.Turno>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Liquidaciones";
 }
 
-<h2>Index</h2>
+<h2>Liquidaciones</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
-
-
     <a href="/Liquidaciones/PrintPDF" class="btn  btn-success">PDF</a>
 
 </p>
+
+
+
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Fecha)
         </th>
@@ -22,82 +25,70 @@
             @Html.DisplayNameFor(model => model.Hora)
         </th>
         <th>
+            Especialidad
+        </th>
+        <th>
+            Médico
+        </th>
+        <th>
+            Paciente
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Descripcion)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ObraSocialTarifa)
+            Consultorio
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CostoTotal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Pagado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Consultorio.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Especialidad.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Estado.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Medico.Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ObraSocial.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Paciente.Id)
-        </th>
-        <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Hora)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ObraSocialTarifa)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CostoTotal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Pagado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Consultorio.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Especialidad.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Estado.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Medico.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ObraSocial.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Paciente.Id)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha.Day)/@Html.DisplayFor(modelItem => item.Fecha.Month)/@Html.DisplayFor(modelItem => item.Fecha.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hora.Hours) :
+                @if (item.Hora.Minutes < 10)
+                {
+                    <span>0</span>
+                    @Html.DisplayFor(modelItem => item.Hora.Minutes)
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Hora.Minutes)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Especialidad.Nombre)
+            </td>
+            <td>
+                @if (!item.MedicoId.Equals(null))
+                {
+                    @Html.DisplayFor(modelItem => item.Medico.Persona.Apellido)
+                    <span>, </span>
+                    @Html.DisplayFor(modelItem => item.Medico.Persona.Nombre)
+                }
+            </td>
+            <td>
+                @if (!item.PacienteId.Equals(null))
+                {
+                    @Html.DisplayFor(modelItem => item.Paciente.Persona.Apellido)
+                    <span>, </span>
+                    @Html.DisplayFor(modelItem => item.Paciente.Persona.Nombre)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Consultorio.Nombre)
+            </td>
+        </tr>
+    }
 
 </table>

@@ -1,0 +1,118 @@
+﻿@model IEnumerable<Turnos_Medicos.Models.Perfil>
+
+@{
+    ViewBag.Title = "Perfiles";
+    IEnumerable < Turnos_Medicos.Models.Extended.PerfilesPermisos> perfil_p = ViewBag.ListaPerfilPermiso;
+}
+
+<h2>Perfiles</h2>
+
+
+@if (perfil_p == null)
+{
+
+<table class="table">
+    <tr>
+        <th>
+            Nombre del Perfil
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            <form action="/Usuarios/Perfiles/" method="get" novalidate="novalidate">
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group col-sm-4" hidden>
+                        <div class="col-md-8">
+                            <input class="form-control text-box single-line" data-val="true" id="id" name="id" type="number" value="@item.Id" maxlength="30">
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-1">
+                        <div class="col-md-offset-2 col-md-1">
+                            <input type="submit" value="Seleccionar" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </td>
+    </tr>
+}
+</table>
+
+}
+
+
+
+@if (perfil_p != null)
+{
+<h3>Perfil @Model.First().Nombre</h3>
+<table class="table">
+    <tr>
+        <th>
+            Operacion
+        </th>
+        <th>
+            Controlador
+        </th>
+        <th>
+            Accion
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in perfil_p) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Controller)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Action)
+        </td>
+        <td>
+                    @if (item.Id >= 1)
+                    {
+                        using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-group col-sm-4">
+                                <div hidden>
+                                    <input class="form-control text-box single-line" data-val="true" id="id" name="id" type="text" value="@Model.First().Id">
+                                    <input class="form-control text-box single-line" data-val="true" id="permiso" name="permiso" type="text" value="@item.Permiso">
+                                    <input class="form-control text-box single-line" data-val="true" id="estado" name="estado" type="text" value="1">
+                                </div>
+                                <input type="submit" value="Desactivar" class="btn btn-sm btn-warning" />
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                                <div class="form-group col-sm-4">
+                                    <div hidden>
+                                        <input class="form-control text-box single-line" data-val="true" id="id" name="id" type="text" value="@Model.First().Id">
+                                        <input class="form-control text-box single-line" data-val="true" id="permiso" name="permiso" type="text" value="@item.Permiso">
+                                        <input class="form-control text-box single-line" data-val="true" id="estado" name="estado" type="text" value="2">
+                                    </div>
+                                    <input type="submit" value="Activar" class="btn btn-sm btn-success" />
+                                </div>
+                        }
+                    }
+
+        </td>
+    </tr>
+}
+
+</table>
+}

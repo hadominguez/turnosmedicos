@@ -2,81 +2,214 @@
 
 @{
     ViewBag.Title = "Crear Usuario";
+    IEnumerable<Turnos_Medicos.Models.Persona> personas = ViewBag.ListadoPersona;
 }
 
 <h2> @ViewBag.Title </h2>
 
-
-@using (Html.BeginForm()) 
+@if (Model.Persona == null)
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Usuario</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <form action="/Usuarios/Create/" method="get" novalidate="novalidate">
+
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <hr />
+            <h3>Buscar</h3>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group col-sm-4">
+                <label class="control-label col-md-2" for="dni">DNI:</label>
+                <div class="col-md-8">
+                    <input class="form-control datepicker text-box single-line" data-val="true" id="dni" name="dni" type="number" value="" min="1" max="99999999">
+                    <span class="field-validation-valid text-danger" data-valmsg-for="dni" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <label class="control-label col-md-2" for="apellido">Apellido:</label>
+                <div class="col-md-8">
+                    <input class="form-control datepicker text-box single-line" data-val="true" id="apellido" name="apellido" type="text" value="" maxlength="30">
+                    <span class="field-validation-valid text-danger" data-valmsg-for="apellido" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <label class="control-label col-md-2" for="nombre">Nombre:</label>
+                <div class="col-md-8">
+                    <input class="form-control datepicker text-box single-line" data-val="true" id="nombre" name="nombre" type="text" value="" maxlength="30">
+                    <span class="field-validation-valid text-danger" data-valmsg-for="nombre" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+            <div class="form-group col-sm-1">
+                <div class="col-md-offset-2 col-md-1">
+                    <input type="submit" value="Buscar" class="btn btn-info" />
+                </div>
+            </div>
+        </div>
+    </form> 
+    if (personas != null)
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    DNI
+                </th>
+                <th>
+                    Apellido
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>Operaciones</th>
+            </tr>
+
+            @foreach (var item in personas)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DNI)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellido)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        <form action="/Usuarios/Create/" method="get" novalidate="novalidate">
+                            <div class="form-group col-sm-4" hidden>
+                                <div class="col-md-8">
+                                    <input class="form-control datepicker text-box single-line" data-val="true" id="Id" name="Id" type="number" value="@item.Id" maxlength="30">
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-1">
+                                <div class="col-md-offset-2 col-md-1">
+                                    <input type="submit" value="Seleccionar" class="btn btn-success" />
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            }
+
+        </table> }
+}
+else
+{
+
+<table class="table table-striped">
+    <tr>
+        <th>
+            DNI
+        </th>
+        <th>
+            Apellido
+        </th>
+        <th>
+            Nombre
+        </th>
+        <td>
+            Email
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Model.Persona.DNI
+        </td>
+        <td>
+            @Model.Persona.Apellido
+        </td>
+        <td>
+            @Model.Persona.Nombre
+        </td>
+        <td>
+            @Model.Persona.Email
+        </td>
+    </tr>
+</table>
+
+
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Usuario</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group" hidden>
+                @Html.LabelFor(model => model.Identificador, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Identificador, new { htmlAttributes = new { @class = "form-control", @value = @ViewBag.Identificador } })
+                    @Html.ValidationMessageFor(model => model.Identificador, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" hidden>
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @maxlength = "60", @type = "email", @required = "required" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
         <div class="form-group">
-            @Html.LabelFor(model => model.Identificador, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2" for="Password">Clave</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Identificador, new { htmlAttributes = new { @class = "form-control", @value = @ViewBag.Identificador } })
-                @Html.ValidationMessageFor(model => model.Identificador, "", new { @class = "text-danger" })
+                <input class="form-control text-box single-line" id="Password" name="Password" type="password" value="@Model.Password" maxlength = "50" required = "required">
+                <span class="field-validation-valid text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Bloqueado, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2" for="Bloqueado">Bloqueado</label>
             <div class="col-md-10">
                 <div class="checkbox">
-                    @Html.EditorFor(model => model.Bloqueado)
-                    @Html.ValidationMessageFor(model => model.Bloqueado, "", new { @class = "text-danger" })
+                    <select class="list-box tri-state" id="Bloqueado" name="Bloqueado">
+                        @if (Model.Bloqueado.Value == true) {
+                            <option selected = "selected" value="true">True</option>
+                            <option value="false">False</option>
+                        }
+                        else
+                        {
+                            <option value="true">True</option>
+                            <option selected = "selected" value="false">False</option>
+                        }
+                    </select>
+                    <span class="field-validation-valid text-danger" data-valmsg-for="Bloqueado" data-valmsg-replace="true"></span>
                 </div>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PerfilId, "PerfilId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("PerfilId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PerfilId, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.PerfilId, "Perfil", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("PerfilId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PerfilId, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.PersonaId, "PersonaId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("PersonaId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.PersonaId, "", new { @class = "text-danger" })
+            <div class="form-group" hidden>
+                @Html.LabelFor(model => model.PersonaId, "PersonaId", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("PersonaId", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PersonaId, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Crear" class="btn btn-success" />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Crear" class="btn btn-success" />
+                </div>
             </div>
         </div>
-    </div>
+    }
+
 }
 
 <div>
-    @Html.ActionLink("Volver", "Index")
+    <a href="/Usuarios/Index">
+        <button class="btn btn-danger">Volver</button>
+    </a>
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

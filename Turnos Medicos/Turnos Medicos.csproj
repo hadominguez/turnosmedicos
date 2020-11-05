@@ -176,12 +176,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SessionCheck.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AgendaController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ConsultoriosController.cs" />
     <Compile Include="Controllers\EspecialidadesController.cs" />
-    <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LiquidacionesController.cs" />
     <Compile Include="Controllers\MedicoHorariosController.cs" />
@@ -224,6 +224,7 @@
     <Compile Include="Models\Estado.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Extended\PerfilesPermisos.cs" />
     <Compile Include="Models\Extended\MedicoPersona.cs" />
     <Compile Include="Models\Extended\UsuarioLogin.cs" />
     <Compile Include="Models\Medico.cs">
@@ -562,11 +563,6 @@
     <Content Include="Views\Especialidades\Delete.cshtml" />
     <Content Include="Views\Especialidades\Edit.cshtml" />
     <Content Include="Views\Especialidades\Index.cshtml" />
-    <Content Include="Views\Estados\Create.cshtml" />
-    <Content Include="Views\Estados\Delete.cshtml" />
-    <Content Include="Views\Estados\Details.cshtml" />
-    <Content Include="Views\Estados\Edit.cshtml" />
-    <Content Include="Views\Estados\Index.cshtml" />
     <Content Include="Views\Medicos\Create.cshtml" />
     <Content Include="Views\Medicos\Delete.cshtml" />
     <Content Include="Views\Medicos\Details.cshtml" />
@@ -622,6 +618,7 @@
     <Content Include="Views\Usuarios\Index.cshtml" />
     <Content Include="Views\Turnos\Presencialidad.cshtml" />
     <Content Include="Views\Liquidaciones\Index.cshtml" />
+    <Content Include="Views\Usuarios\Perfiles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -9,7 +9,7 @@
 
 @if (medico == null)
 {
-    <form action="/Agenda/CancelarMedico/" method="get" novalidate="novalidate">
+    <form action="/Agenda/CreateMedico/" method="get" novalidate="novalidate">
 
         @Html.AntiForgeryToken()
         <div class="form-horizontal">
@@ -63,7 +63,6 @@
 
             @foreach (var item in medicos)
             {
-                <form action="/Agenda/CancelarMedico/" method="get" novalidate="novalidate">
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.Persona.DNI)
@@ -75,19 +74,20 @@
                             @Html.DisplayFor(modelItem => item.Persona.Nombre)
                         </td>
                         <td>
-                            <div class="form-group col-sm-4" hidden>
-                                <div class="col-md-8">
-                                    <input class="form-control datepicker text-box single-line" data-val="true" id="id_medico" name="id_medico" type="number" value="@item.Id" maxlength="30">
+                            <form action="/Agenda/CreateMedico/" method="get" novalidate="novalidate">
+                                <div class="form-group col-sm-4" hidden>
+                                    <div class="col-md-8">
+                                        <input class="form-control datepicker text-box single-line" data-val="true" id="id_medico" name="id_medico" type="number" value="@item.Id" maxlength="30">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group col-sm-1">
-                                <div class="col-md-offset-2 col-md-1">
-                                    <input type="submit" value="Seleccionar" class="btn btn-success" />
+                                <div class="form-group col-sm-1">
+                                    <div class="col-md-offset-2 col-md-1">
+                                        <input type="submit" value="Seleccionar" class="btn btn-success" />
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </td>
                     </tr>
-                </form>
             }
 
         </table>

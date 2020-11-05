@@ -7,9 +7,9 @@
 
 <h2>@ViewBag.Title</h2>
 
-<h3>¿Esta seguro/a que desea eliminar este horario del Médico?</h3>
+<h3>¿Está seguro/a que desea eliminar este horario del Médico?</h3>
 <div>
-    <h4>MedicoHorario</h4>
+
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -50,9 +50,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <a href="/MedicoHorarios/Index/@Model.MedicoId" class="btn btn-default">
-                Volver
-            </a>
+ 
             <input type="submit" value="Eliminar" class="btn btn-danger" /> 
         </div>
     }

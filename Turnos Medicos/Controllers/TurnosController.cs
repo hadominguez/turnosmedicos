@@ -12,7 +12,7 @@ using Turnos_Medicos.Controllers;
 
 namespace Turnos_Medicos.Controllers
 {
-    [SessionCheck]
+   
     public class TurnosController : BaseController
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();

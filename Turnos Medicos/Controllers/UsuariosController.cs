@@ -19,14 +19,14 @@ namespace Turnos_Medicos.Controllers
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
 
-        [SessionCheck]
+     
         public ActionResult Index()
         {
             var usuario = db.Usuario.Include(u => u.Perfil).Include(u => u.Persona);
             return View(usuario.ToList());
         }
 
-        [SessionCheck]
+      
         [HttpGet]
         public ActionResult Create(int? Id)
         {
@@ -100,7 +100,7 @@ namespace Turnos_Medicos.Controllers
 
 
         // GET: Usuarios1/Edit/5
-        [SessionCheck]
+    
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -120,7 +120,7 @@ namespace Turnos_Medicos.Controllers
         // POST: Usuarios1/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que quiere enlazarse. Para obtener 
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
-        [SessionCheck]
+   
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Identificador,Email,Password,Bloqueado,PerfilId,PersonaId")] Usuario usuario)
@@ -138,7 +138,7 @@ namespace Turnos_Medicos.Controllers
 
 
         // POST: Usuarios1/Delete/5
-        [SessionCheck]
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

@@ -6,9 +6,9 @@
 
 <h2>@ViewBag.Title</h2>
 
-<h3>¿Esta seguro/a que desea eliminar el estado?</h3>
+<h3>¿Está seguro/a que desea eliminar el estado?</h3>
 <div>
-    <h4>Estado</h4>
+
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -25,8 +25,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
-            @Html.ActionLink("Volver", "Index")
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> 
         </div>
     }
 </div>

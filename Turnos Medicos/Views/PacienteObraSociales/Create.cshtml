@@ -89,11 +89,11 @@ using (Html.BeginForm())
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>PacienteObraSocial</h4>
+        <h4>Paciente Obra Social</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.PacienteId, "PacienteId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.PacienteId, "Paciente", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("PacienteId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.PacienteId, "", new { @class = "text-danger" })
@@ -101,7 +101,7 @@ using (Html.BeginForm())
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ObraSocialId, "ObraSocialId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ObraSocialId, "Obra Social", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("ObraSocialId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ObraSocialId, "", new { @class = "text-danger" })
@@ -109,7 +109,7 @@ using (Html.BeginForm())
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NumeroAfiliado, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NumeroAfiliado, "Número Afiliado", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.NumeroAfiliado, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "999999999999" } })
                 @Html.ValidationMessageFor(model => model.NumeroAfiliado, "", new { @class = "text-danger" })
@@ -126,11 +126,7 @@ using (Html.BeginForm())
 
 }
 
-<div>
-    <a href="/PacienteObraSociales/Index/@Model.PacienteId" class="btn btn-primary">
-        Volver
-    </a>
-</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

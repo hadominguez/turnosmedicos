@@ -56,9 +56,9 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Numero, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Numero, "Número", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Numero, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "99999999", @required = "required" } })
+            @Html.EditorFor(model => model.Numero,  new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "99999999", @required = "required" } })
             @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -72,9 +72,9 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Telefono, "Teléfono", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "99999999999", @required = "required" } })
+            @Html.EditorFor(model => model.Telefono,  new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "99999999999", @required = "required" } })
             @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -97,9 +97,6 @@
 </div>
 }
 
-<div>
-    @Html.ActionLink("Volver a la lista", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -8,14 +8,15 @@
 
 <h3>¿Esta seguro/a que desea eliminar el Paciente - Obra Social?</h3>
 <div>
-    <h4>PacienteObraSocial</h4>
+
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.NumeroAfiliado)
+            @Html.LabelFor(model => model.NumeroAfiliado, "Número Afiliado", htmlAttributes: new { @class = "control-label" })
         </dt>
 
         <dd>
+       
             @Html.DisplayFor(model => model.NumeroAfiliado)
         </dd>
 
@@ -34,9 +35,6 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <a href="/PacienteObraSociales/Index/@Model.PacienteId" class="btn btn-primary">
-                Volver
-            </a>
             <input type="submit" value="Eliminar" class="btn btn-danger" />
         </div>
     }

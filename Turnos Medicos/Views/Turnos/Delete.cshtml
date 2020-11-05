@@ -6,9 +6,8 @@
 
 <h2>@ViewBag.Title</h2>
 
-<h3>¿Esta seguro/a que desea eliminar el turno?</h3>
+<h3>¿Está seguro/a que desea eliminar el turno?</h3>
 <div>
-    <h4>Turno</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -133,10 +132,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-			<a href="/Turnos/Index">
-				<button class="btn btn-default" >Volver</button>
-			</a>
-            <input type="submit" value="Eliminar" class="btn btn-default" /> 
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> 
         </div>
     }
 </div>

@@ -40,15 +40,8 @@ namespace Turnos_Medicos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(string Nombre_Medico, DateTime? fecha_ini, DateTime? fecha_fin)
+        public ActionResult Index(string m_apellido, string m_nombre, string especialidad, string estado, DateTime? fecha_ini, DateTime? fecha_fin)
         {
-            /*
-            var turnoslist = (from turnos in db.Turno
-                              where (turnos.Medico.Persona.Nombre == Nombre_Medico ||
-                                    turnos.Medico.Persona.Apellido == Nombre_Medico) &&
-                                    turnos.Estado.Nombre == "Asignado"
-                                    select turnos).ToList();
-                                    */
             if (fecha_ini.Equals(null) || fecha_fin.Equals(null))
             {
                 fecha_ini = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
@@ -56,19 +49,21 @@ namespace Turnos_Medicos.Controllers
                 fecha_fin = fecha_fin.Value.AddDays(31);
             }
 
-            var turno = db.Turno.Include(t => t.Consultorio).Include(t => t.Especialidad).Include(t => t.Estado).Include(t => t.Medico).Include(t => t.ObraSocial).Include(t => t.Paciente);
+            var turno = db.Turno.Include(t => t.Consultorio).Include(t => t.Especialidad).Include(t => t.Estado).Include(t => t.Medico).Include(t => t.ObraSocial).Include(t => t.Paciente).Where(p => p.Fecha >= fecha_ini && p.Fecha < fecha_fin);
 
-            turno = turno.Where(p => p.Medico.Persona.Nombre.Contains(Nombre_Medico) || p.Medico.Persona.Apellido.Contains(Nombre_Medico));
 
-            var turno2 = turno.Where(p => p.Estado.Nombre == "Asignado");
-
-            var turno3 = turno2.Where(p => p.Fecha >= fecha_ini && p.Fecha < fecha_fin).OrderBy(p => p.Fecha).ThenBy(p => p.Hora);
-
-            return View(turno3.ToList());
-            
-            //return RedirectToAction( "Index" , new RouteValueDictionary(new { Controller = "Agenda", Action = "Index", fecha_ini = fecha_ini, fecha_fin = fecha_fin  }));
-            //return RedirectToAction("Index", "Agenda", new { fecha_ini = fecha_ini, fecha_fin = fecha_fin });
+            if (!(m_apellido == "") || !(m_nombre == "") || !(especialidad == "") || !(estado == ""))
+            {
+                turno = turno.Where(p => p.Medico.Persona.Apellido.Contains(m_apellido)
+                    && p.Medico.Persona.Nombre.Contains(m_nombre)
+                    && p.Especialidad.Nombre.Contains(especialidad)
+                    && p.Estado.Nombre.Contains(estado));
+            }
+           
+            return View(turno.ToList());
         }
+
+
 
         public ActionResult Create()
         {

@@ -11,7 +11,7 @@ using Turnos_Medicos.Models;
 
 namespace Turnos_Medicos.Controllers
 {
-    
+    [SessionCheck]
     public class AgendaController : Controller
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
@@ -28,27 +28,11 @@ namespace Turnos_Medicos.Controllers
             return View(turnos.ToList());
         }
 
-        /*
-                [HttpPost]
-                [ValidateAntiForgeryToken]
-                public ActionResult Index(DateTime fecha_ini, DateTime fecha_fin)
-                {
-                        //return RedirectToAction( "Index" , new RouteValueDictionary(new { Controller = "Agenda", Action = "Index", fecha_ini = fecha_ini, fecha_fin = fecha_fin  }));
-                        return RedirectToAction("Index", "Agenda", new { fecha_ini = fecha_ini, fecha_fin = fecha_fin });
-                }
-        */
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(string Nombre_Medico, DateTime? fecha_ini, DateTime? fecha_fin)
+        public ActionResult Index(string apellido, string nombre, DateTime? fecha_ini, DateTime? fecha_fin)
         {
-            /*
-            var turnoslist = (from turnos in db.Turno
-                              where (turnos.Medico.Persona.Nombre == Nombre_Medico ||
-                                    turnos.Medico.Persona.Apellido == Nombre_Medico) &&
-                                    turnos.Estado.Nombre == "Asignado"
-                                    select turnos).ToList();
-                                    */
             if (fecha_ini.Equals(null) || fecha_fin.Equals(null))
             {
                 fecha_ini = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
@@ -56,18 +40,21 @@ namespace Turnos_Medicos.Controllers
                 fecha_fin = fecha_fin.Value.AddDays(31);
             }
 
-            var turno = db.Turno.Include(t => t.Consultorio).Include(t => t.Especialidad).Include(t => t.Estado).Include(t => t.Medico).Include(t => t.ObraSocial).Include(t => t.Paciente);
+            var turno = db.Turno.Include(t => t.Consultorio).Include(t => t.Especialidad).Include(t => t.Estado).Include(t => t.Medico).Include(t => t.ObraSocial).Include(t => t.Paciente).Where(p => p.Fecha >= fecha_ini && p.Fecha < fecha_fin).OrderBy(p => p.Fecha).ThenBy(p => p.Hora).ToList();
+            if (!(apellido == ""))
+            {
+                turno = turno.Where(p => p.Medico.Persona.Apellido.Contains(apellido)).ToList();
+            }
+            if (!(nombre == ""))
+            {
+                turno = turno.Where(p => p.Medico.Persona.Nombre.Contains(nombre)).ToList();
+            }
 
-            turno = turno.Where(p => p.Medico.Persona.Nombre.Contains(Nombre_Medico) || p.Medico.Persona.Apellido.Contains(Nombre_Medico));
-
-            var turno2 = turno.Where(p => p.Estado.Nombre == "Asignado");
-
+            /*var turno2 = turno.Where(p => p.Estado.Nombre == "Asignado");
             var turno3 = turno2.Where(p => p.Fecha >= fecha_ini && p.Fecha < fecha_fin).OrderBy(p => p.Fecha).ThenBy(p => p.Hora);
+            return View(turno3.ToList());*/
+            return View(turno);
 
-            return View(turno3.ToList());
-            
-            //return RedirectToAction( "Index" , new RouteValueDictionary(new { Controller = "Agenda", Action = "Index", fecha_ini = fecha_ini, fecha_fin = fecha_fin  }));
-            //return RedirectToAction("Index", "Agenda", new { fecha_ini = fecha_ini, fecha_fin = fecha_fin });
         }
 
         public ActionResult Create()

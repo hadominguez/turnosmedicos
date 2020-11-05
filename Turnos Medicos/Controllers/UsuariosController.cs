@@ -11,6 +11,7 @@ using System.Net.Mail;
 using System.Web.Security;
 using System.Web.Helpers;
 using Turnos_Medicos.Controllers;
+using Turnos_Medicos.Models.Extended;
 
 namespace Turnos_Medicos.Controllers
 {
@@ -28,26 +29,48 @@ namespace Turnos_Medicos.Controllers
 
         [SessionCheck]
         [HttpGet]
-        public ActionResult Create(int? Id)
+        public ActionResult Create(int? Id, int? dni, string apellido, string nombre)
         {
-            //ViewBag.PersonaId = new SelectList(db.Persona, "Id", "Nombre", Id);
+            var personas = db.Persona.Include(p => p.Id);
+            string nuevo_dni = dni.ToString();
+            if (!(nuevo_dni == "") || !(apellido == "") || !(nombre == ""))
+            {
+                personas = personas.Where(p => p.DNI.Contains(nuevo_dni) && p.Apellido.Contains(apellido) && p.Nombre.Contains(nombre));
+            }
+            
             ViewBag.PersonaId = new SelectList(from persona in db.Persona
                                                where persona.Id == Id
                                                select new { Id = persona.Id, Nombre = persona.DNI + " - " + persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
-            Paciente paciente = db.Paciente.FirstOrDefault(p => p.PersonaId == Id);
-            Medico medico = db.Medico.FirstOrDefault(p => p.PersonaId == Id);
-            if (paciente != null)
-            {
-
-            }else if (medico != null)
-            {
-
-            }
             ViewBag.PerfilId = new SelectList(from perfil in db.Perfil
                                                 select new { Id = perfil.Id, Nombre = perfil.Nombre }, "Id", "Nombre");
+
+            var usuarios_creados = (from usu in db.Usuario
+                         select usu.PersonaId).ToList();
+
+            ViewBag.ListadoPersona = (from persona in db.Persona
+                                     where persona.Apellido.Contains(apellido) && persona.Nombre.Contains(nombre) && persona.DNI.Contains(nuevo_dni) && !usuarios_creados.Contains(persona.Id)
+                                     select persona).ToList();
+
             Usuario usuario = new Usuario();
-            usuario.Email = db.Persona.First(p => p.Id == Id).Email;
-            usuario.Identificador = db.Persona.First(p => p.Id == Id).DNI;
+            if(Id != null)
+            {
+                Persona persona = db.Persona.First(p => p.Id == Id);
+                usuario.Email = persona.Email;
+                usuario.Identificador = persona.DNI;
+                usuario.PersonaId = persona.Id;
+                usuario.Persona = persona;
+
+                char[] letras = "qwertyuiopasdfghjklñzxcvbnm1234567890".ToCharArray();
+                Random rand = new Random();
+                string random_string = "";
+                for (int i = 0; i < 10; i++)
+                {
+                    random_string += letras[rand.Next(0, 36)].ToString();
+                }
+                usuario.Password = Crypto.Hash(random_string);
+                usuario.Bloqueado = false;
+            }
+
             return View(usuario);
         }
 
@@ -150,6 +173,7 @@ namespace Turnos_Medicos.Controllers
         }
 
 
+        /*
         [HttpGet]
         public ActionResult Registration()
         {
@@ -214,7 +238,7 @@ namespace Turnos_Medicos.Controllers
             ViewBag.Message = message;
             ViewBag.Status = Status;
             return View(user);
-        }
+        }*/
 
 
         //Login 
@@ -239,7 +263,7 @@ namespace Turnos_Medicos.Controllers
         {
             string message = "";
             
-                var user = db.Usuario.Where(a => a.Identificador == login.Usuario).FirstOrDefault();
+                var user = db.Usuario.Where(a => a.Identificador == login.Usuario && a.Bloqueado == false).FirstOrDefault();
                 if (user != null)
                 {
                     if (string.Compare(Crypto.Hash(login.Password), user.Password) == 0)
@@ -254,6 +278,7 @@ namespace Turnos_Medicos.Controllers
                         cookie.HttpOnly = true;
                         Response.Cookies.Add(cookie);
                         Session["user"] = user;
+                        Session["perfil"] = user.Perfil;
 
                         if (Url.IsLocalUrl(ReturnUrl))
                         {
@@ -279,8 +304,9 @@ namespace Turnos_Medicos.Controllers
             return View();
         }
 
-     
+
         //Logout
+        [SessionCheck]
         [HttpPost]
         public ActionResult Logout()
         {
@@ -316,6 +342,67 @@ namespace Turnos_Medicos.Controllers
             })
                 smtp.Send(message);
         }*/
+
+
+        [SessionCheck]
+        public ActionResult Perfiles(int? id)
+        {
+            ViewBag.ListaPerfilPermiso = null;
+            var perfiles = db.Perfil.Where(p => p.Id >= 0);
+            if (id != null)
+            {
+                perfiles = perfiles.Where(p => p.Id == id);
+                var permisos = db.Permiso.Where(p => p.Id >= 0);
+                var perfil_p = db.PerfilPermiso.Where(p => p.PerfilId == id);
+                List<PerfilesPermisos> lista = new List<PerfilesPermisos>();
+                foreach(Permiso per in permisos)
+                {
+                    PerfilesPermisos nuevo = new PerfilesPermisos();
+                    nuevo.Id = null;
+                    nuevo.Permiso = per.Id;
+                    nuevo.Descripcion = per.Descripcion;
+                    nuevo.Controller = per.Controller;
+                    nuevo.Action = per.Action;
+                    foreach (PerfilPermiso perf in perfil_p)
+                    {
+                        if(per.Id == perf.PermisoId)
+                        {
+                            nuevo.Id = perf.PerfilId;
+                        }
+                    }
+                    lista.Add(nuevo);
+                }
+
+                ViewBag.ListaPerfilPermiso = lista;
+            }
+            return View(perfiles);
+        }
+
+        [SessionCheck]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Perfiles(int id, int permiso, int estado)
+        {
+            if(estado == 1)
+            {
+                PerfilPermiso perfil_p = db.PerfilPermiso.Where(p => p.PerfilId == id && p.PermisoId == permiso).First();
+                db.PerfilPermiso.Remove(perfil_p);
+                db.SaveChanges();
+                return RedirectToAction("Perfiles", new { id = id });
+            }
+            else if (estado ==2)
+            {
+                PerfilPermiso perfil_p = new PerfilPermiso();
+                perfil_p.PerfilId = id;
+                perfil_p.PermisoId = permiso;
+                perfil_p.Perfil = db.Perfil.First(p => p.Id == id);
+                perfil_p.Permiso = db.Permiso.First(p => p.Id == permiso);
+                db.PerfilPermiso.Add(perfil_p);
+                db.SaveChanges();
+                return RedirectToAction("Perfiles", new { id = id });
+            }
+            return RedirectToAction("Perfiles", new { id = id });
+        }
 
 
     }

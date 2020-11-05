@@ -16,7 +16,7 @@ namespace Turnos_Medicos.Controllers
     public class BaseController : Controller
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
-
+        //[SessionCheck]
         [NonAction]
         public void SendEmail(string body, string email, string titulo)
         {

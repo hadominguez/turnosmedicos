@@ -10,13 +10,13 @@ using Turnos_Medicos.Models;
 using Turnos_Medicos.Controllers;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using iTextSharp.text;
 using System.Xml;
 using System.IO;
 using System.Drawing;
 
 namespace Turnos_Medicos.Controllers
 {
+    [SessionCheck]
     public class LiquidacionesController : BaseController
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
@@ -34,7 +34,7 @@ namespace Turnos_Medicos.Controllers
             return View(turnos.ToList());
         }
 
-
+        /*
         public ActionResult Medico(DateTime? fecha_ini, DateTime? fecha_fin)
         {
             if (fecha_ini.Equals(null) || fecha_fin.Equals(null))
@@ -47,7 +47,7 @@ namespace Turnos_Medicos.Controllers
             var turnos = db.Turno.Include(t => t.Consultorio).Include(t => t.Especialidad).Include(t => t.Estado).Include(t => t.Medico).Include(t => t.ObraSocial).Include(t => t.Paciente).Where(p => p.Fecha >= fecha_ini && p.Fecha < fecha_fin && p.Estado.Nombre == "Concurrio").OrderBy(p => p.Fecha).ThenBy(p => p.Hora);
             return View(turnos.ToList());
         }
-
+        */
 
 
         public ActionResult PrintPDF()

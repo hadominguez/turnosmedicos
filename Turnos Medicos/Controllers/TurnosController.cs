@@ -259,16 +259,6 @@ namespace Turnos_Medicos.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-
 
         public ActionResult Cancelar(int? id)
         {
@@ -362,7 +352,7 @@ namespace Turnos_Medicos.Controllers
             return RedirectToAction("Index");
         }
 
-
+        /*
         public ActionResult mostrarTurno(string sortOrder)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -379,7 +369,7 @@ namespace Turnos_Medicos.Controllers
                     break;
             }
             return View(students.ToList());
-        }
+        }*/
 
 
 

@@ -23,14 +23,15 @@ namespace Turnos_Medicos
             }
             else
             {
-                /*string actionName = filterContext.Controller.ControllerContext.RouteData.Values["action"].ToString();
+                string actionName = filterContext.Controller.ControllerContext.RouteData.Values["action"].ToString();
                 string controllerName = filterContext.Controller.ControllerContext.RouteData.Values["controller"].ToString();
                 TurnosMedicosEntities db = new TurnosMedicosEntities();
-                Usuario usuario = (Usuario) session["user"];
+                //Usuario usuario = (Usuario) session["user"];
+                Perfil perfiles = (Perfil)session["perfil"];
                 var permisos = (from perfil in db.Perfil
                                          join p_permiso in db.PerfilPermiso on perfil.Id equals p_permiso.PerfilId
                                          join permiso in db.Permiso on p_permiso.PermisoId equals permiso.Id
-                                         where perfil.Id == usuario.PerfilId
+                                         where perfil.Id == perfiles.Id
                                          && permiso.Controller == controllerName
                                          && permiso.Action == actionName
                                          select perfil).ToList();
@@ -41,7 +42,7 @@ namespace Turnos_Medicos
                     { "Controller", "Home" },
                     { "Action", "Index" }
                     });
-                }*/
+                }
             }
         }
     }

@@ -11,7 +11,7 @@ using Turnos_Medicos.Models;
 
 namespace Turnos_Medicos.Controllers
 {
-
+    [SessionCheck]
     public class PacientesController : Controller
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
@@ -61,30 +61,57 @@ namespace Turnos_Medicos.Controllers
             var perso = db.Persona.Where(p => p.DNI == persona.DNI).ToList();
             Paciente paciente = new Paciente();
 
-            if (ModelState.IsValid && perso.Count < 1)
+            if (ModelState.IsValid)
             {
-                db.Persona.Add(persona);
-                db.SaveChanges();
-
-                Usuario user = new Usuario();
-                string clave = persona.DNI;
-                user.Password = Crypto.Hash(clave);
-                user.Bloqueado = false;
-                user.PersonaId = persona.Id;
-                user.PerfilId = db.Perfil.Where(p => p.Nombre == "Paciente").First().Id;
-                user.Recuperacion = Guid.NewGuid().ToString();
-
-                db.Usuario.Add(user);
-                db.SaveChanges();
-
-                paciente.PersonaId = persona.Id;
-                paciente.Persona = persona;
-                if (ModelState.IsValid)
+                if (perso.Count < 1)
                 {
+                    db.Persona.Add(persona);
+                    db.SaveChanges();
+                }
+
+                var usuarios = db.Usuario.Where(p => p.Identificador == persona.DNI).ToList();
+
+                if (usuarios.Count < 1)
+                {
+                    Usuario user = new Usuario();
+                    string clave = persona.DNI;
+
+                    char[] letras = "qwertyuiopasdfghjklñzxcvbnm1234567890".ToCharArray();
+                    Random rand = new Random();
+                    string random_string = "";
+                    for (int i = 0; i < 10; i++)
+                    {
+                        random_string += letras[rand.Next(0, 36)].ToString();
+                    }
+
+                    user.Password = Crypto.Hash(random_string);
+                    user.Bloqueado = false;
+                    user.PersonaId = persona.Id;
+                    user.PerfilId = db.Perfil.Where(p => p.Nombre == "Paciente").First().Id;
+                    user.Recuperacion = Guid.NewGuid().ToString();
+
+                    db.Usuario.Add(user);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    var usuario = db.Usuario.Where(p => p.Identificador == persona.DNI).First();
+                    usuario.PerfilId = db.Perfil.Where(p => p.Nombre == "Paciente").First().Id;
+                    db.Entry(usuario).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
+                var pacientes = db.Medico.Where(p => p.Persona.DNI == persona.DNI).ToList();
+
+                if (pacientes.Count < 1)
+                {
+                    paciente.PersonaId = persona.Id;
+                    paciente.Persona = persona;
                     db.Paciente.Add(paciente);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
                 }
+
+                return RedirectToAction("Index");
             }
 
             ViewBag.PersonaId = new SelectList(db.Persona, "Id", "DNI", paciente.PersonaId);

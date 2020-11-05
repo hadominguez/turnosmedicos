@@ -1,7 +1,7 @@
 ﻿@model Turnos_Medicos.Models.PacienteHistorial
 
 @{
-    ViewBag.Title = "Crear nuevo";
+    ViewBag.Title = "Crear nuevo Historial";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
     
 <div class="form-horizontal">
-    <h4>PacienteHistorial</h4>
+    <h4>Historial del Paciente</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <!-- <div class="form-group" hidden>

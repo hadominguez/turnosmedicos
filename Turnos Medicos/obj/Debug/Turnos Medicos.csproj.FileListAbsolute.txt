@@ -210,3 +210,6 @@ G:\Turnos Medicos\Turnos Medicos\bin\BouncyCastle.Crypto.dll
 G:\Turnos Medicos\Turnos Medicos\bin\itextsharp.dll
 G:\Turnos Medicos\Turnos Medicos\bin\itextsharp.xml
 G:\Turnos Medicos\Turnos Medicos\obj\Debug\Turnos Medicos.csprojAssemblyReference.cache
+C:\Users\Julian\Documents\GitHub\turnosmedicos\Turnos Medicos\bin\BouncyCastle.Crypto.dll
+C:\Users\Julian\Documents\GitHub\turnosmedicos\Turnos Medicos\bin\itextsharp.dll
+C:\Users\Julian\Documents\GitHub\turnosmedicos\Turnos Medicos\bin\itextsharp.xml

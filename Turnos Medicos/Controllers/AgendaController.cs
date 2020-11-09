@@ -64,14 +64,14 @@ namespace Turnos_Medicos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(DateTime fecha_ini, DateTime fecha_fin, int dni)
+        public ActionResult Create(DateTime fecha_ini, DateTime fecha_fin)
         {
 
             var medicos = db.Medico.Include(m => m.Especialidad).Include(m => m.Persona);
 
-            string nuevo_dni = dni.ToString();
+            /*string nuevo_dni = dni.ToString();
             if (!(nuevo_dni == ""))
-            {
+            {*/
                 for (DateTime c = fecha_ini; c <= fecha_fin; c = c.AddDays(1))
                 {
                     DateTime fin = c;
@@ -90,7 +90,7 @@ namespace Turnos_Medicos.Controllers
                             Medico medico = db.Medico.Single(p => p.Id == hora.MedicoId);
                             Especialidad especialidad = db.Especialidad.Single(p => p.Id == medico.EspecialidadId);
                             TimeSpan hora_carga = hora.Inicio;
-                            while (hora_carga <= hora.Fin && medicos == medicos.Where(p => p.Persona.DNI.Contains(nuevo_dni)))
+                            while(hora_carga <= hora.Fin)
                             {
                                 Turno turno = new Turno();
                                 turno.ConsultorioId = hora.ConsultorioId;
@@ -117,7 +117,7 @@ namespace Turnos_Medicos.Controllers
                     }
                 }
 
-            }
+            //}
             return RedirectToAction("Index", "Agenda");
         }
 

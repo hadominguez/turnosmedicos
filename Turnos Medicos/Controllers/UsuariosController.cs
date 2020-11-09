@@ -67,7 +67,7 @@ namespace Turnos_Medicos.Controllers
                 {
                     random_string += letras[rand.Next(0, 36)].ToString();
                 }
-                usuario.Password = Crypto.Hash(random_string);
+                usuario.Password = random_string;
                 usuario.Bloqueado = false;
             }
 
@@ -82,12 +82,12 @@ namespace Turnos_Medicos.Controllers
         {
             bool Status = false;
             string message = "";
-            var persona = db.Persona.FirstOrDefault(p => p.DNI == user.Identificador.ToString());
+            var usuario = db.Usuario.FirstOrDefault(p => p.Persona.DNI == user.Identificador.ToString());
             //
             // Model Validation 
-            if (ModelState.IsValid && persona == null)
+            if (ModelState.IsValid && usuario == null)
             {
-                if (db.Usuario.Select(p => p.Email.Equals(user.Email)).ToList().Count >= 1)
+                if (db.Usuario.Where(p => p.Email == user.Email ).ToList().Count >= 1)
                 {
                     ModelState.AddModelError("EmailExist", "Email already exist");
                     return View(user);

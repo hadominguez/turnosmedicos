@@ -6,9 +6,8 @@
 
 <h2>@ViewBag.Title</h2>
 
-<h3>¿Esta seguro/a que desea eliminar la Obra Social del Médico?</h3>
+<h3>¿Está seguro/a que desea eliminar la Obra Social del Médico?</h3>
 <div>
-    <h4>MedicoObraSocial</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -33,9 +32,6 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <a href="/MedicoObraSociales/Index/@Model.MedicoId" class="btn btn-primary">
-                Volver
-            </a>
             <input type="submit" value="Eliminar" class="btn btn-danger" />
         </div>
     }

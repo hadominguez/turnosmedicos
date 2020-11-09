@@ -6,13 +6,13 @@
 
 <h2>@ViewBag.Title</h2>
 
-<h3>¿Esta seguro/a que desea eliminar la tarifa de la Obra Social?</h3>
+<h3>¿Está seguro/a que desea eliminar la tarifa de la Obra Social?</h3>
 <div>
-    <h4>ObraSocialTarifa</h4>
+
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.tarifa)
+            @Html.LabelFor(model => model.tarifa, "Tarifa", htmlAttributes: new { @class = "control-label" })
         </dt>
 
         <dd>
@@ -20,7 +20,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Especialidad.Nombre)
+            @Html.LabelFor(model => model.Especialidad, "Especialidad", htmlAttributes: new { @class = "control-label" })
         </dt>
 
         <dd>
@@ -28,7 +28,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ObraSocial.Nombre)
+            @Html.LabelFor(model => model.ObraSocial.Nombre, "Obra Social", htmlAttributes: new { @class = "control-label" })
         </dt>
 
         <dd>
@@ -41,10 +41,7 @@
         @Html.AntiForgeryToken()
 
 <div class="form-actions no-color">
-    <a href="/ObraSocialTarifas/Index/@Model.ObraSocialId" class="btn btn-primary">
-        Volver
-    </a>
-    <input type="submit" value="Delete" class="btn btn-default" />
+    <input type="submit" value="Borrar" class="btn btn-default" />
 </div>
     }
 </div>

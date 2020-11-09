@@ -8,89 +8,80 @@
 <h2>Agenda</h2>
 
 
-
-<div id='calendar'></div>
-
-
-<script>
-/*
- document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('calendar');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            headerToolbar: {
-                left: 'prev,next,today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-            },
-            header: {
-                left: 'prev',
-                center: 'title',
-                right: 'Siguiente'
-            },
-            locale: "es",
-            navLinks: true, // can click day/week names to navigate views
-            businessHours: true, // display business hours
-            editable: true,
-            selectable: true,
-            eventLimit: true,
-            events: 'http://localhost:50072/Agenda/Calendar',
-            eventRender: function eventRender(event, element, view) {
-            return ['all', event.especialidad].indexOf($('#turno_selector').val()) >= 0
-            }
-
-        });
-
-
-        $('#turno_selector').on('change', function () {
-            $('#calendar').calendar('rerenderEvents');
-        })
-
-        calendar.render();
-        });
-        */
-</script>
-
-
-
-<h3>Filtrar</h3>
-@using (Html.BeginForm())
+@using (Html.BeginForm("", "Agenda", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
+
     <div class="form-horizontal">
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group col-md-4">
-            <label class="control-label col-md-2" for="Fecha">Fecha Inicial:</label>
-            <div class="col-md-10">
+        <h3>Filtrar</h3>
+
+        <div class="form-group col-sm-6">
+            <label class="control-label col-md-2" for="m_apellido">Apellido Medico:</label>
+            <div class="col-md-6">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="m_apellido" name="m_apellido" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="m_apellido" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="control-label col-md-2" for="m_nombre">Nombre Medico:</label>
+            <div class="col-md-6">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="m_nombre" name="m_nombre" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="m_nombre" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+       
+        <div class="form-group col-sm-6">
+            <label class="control-label col-md-2" for="especialidad">Especialidad:</label>
+            <div class="col-md-6">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="especialidad" name="especialidad" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="especialidad" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+             
+        <div class="form-group col-sm-6">
+            <label class="control-label col-md-2" for="estado">Estado:</label>
+            <div class="col-md-6">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="estado" name="estado" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="estado" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-2" for="Fecha">Fecha Inicial</label>
+            <div class="col-md-6">
                 <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="fecha_ini" name="fecha_ini" type="date" value="">
                 <span class="field-validation-valid text-danger" data-valmsg-for="fecha_ini" data-valmsg-replace="true"></span>
             </div>
         </div>
-        <div class="form-group col-md-4">
-            <label class="control-label col-md-2" for="Fecha">Fecha Fin:</label>
-            <div class="col-md-10">
+        <div class="form-group col-md-6">
+            <label class="control-label col-md-2" for="Fecha">Fecha Fin</label>
+            <div class="col-md-6">
                 <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha es obligatorio." id="fecha_fin" name="fecha_fin" type="date" value="">
                 <span class="field-validation-valid text-danger" data-valmsg-for="fecha_fin" data-valmsg-replace="true"></span>
             </div>
         </div>
+    <!--
         <div class="form-group col-sm-4">
-            <label class="control-label col-md-2" for="apellido">Apellido Medico:</label>
+            <label class="control-label col-md-3" for="especialidad">Estado:</label>
             <div class="col-md-8">
-                <input class="form-control datepicker text-box single-line" data-val="true" id="apellido" name="apellido" type="text" value="" maxlength="30">
-                <span class="field-validation-valid text-danger" data-valmsg-for="apellido" data-valmsg-replace="true"></span>
+                <select class="form-control datepicker text-box single-line" name="estado" id="estado">
+                    <option value="asignado">Asignado</option>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="concurrio">Concurrió</option>
+                    <option value="noconcurrio">No Concurrió</option>
+                </select>
             </div>
         </div>
-        <div class="form-group col-sm-4">
-            <label class="control-label col-md-2" for="nombre">Nombre Medico:</label>
-            <div class="col-md-8">
-                <input class="form-control datepicker text-box single-line" data-val="true" id="nombre" name="nombre" type="text" value="" maxlength="30">
-                <span class="field-validation-valid text-danger" data-valmsg-for="nombre" data-valmsg-replace="true"></span>
+                    -->
+        <div class="form-group col-sm-2">
+            <div class="col-md-offset-2 col-md-1">
+                <input type="submit" value="Buscar" class="btn btn-default" />
             </div>
         </div>
-        <div class="form-group col-md-2">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Filtrar" class="btn btn-default" />
+
+        <div class="form-group col-sm-1">
+            <div class="col-md-offset-2 col-md-1">
+                <input type="submit" value="Ver Todos" class="btn btn-default" href="/Agenda"/>
             </div>
         </div>
     </div>
@@ -98,112 +89,111 @@
 
 
 
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Estado)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Fecha)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Hora)
+                </th>
+                <th>
+                    Especialidad
+                </th>
+                <th>
+                    Médico
+                </th>
+                <th>
+                    Paciente
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </th>
+                <th>
+                    Consultorio
+                </th>
+                <th></th>
+            </tr>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Estado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Fecha)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Hora)
-        </th>
-        <th>
-            Especialidad
-        </th>
-        <th>
-            Médico
-        </th>
-        <th>
-            Paciente
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </th>
-        <th>
-            Consultorio
-        </th>
-        <th></th>
-    </tr>
 
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fecha.Day)/@Html.DisplayFor(modelItem => item.Fecha.Month)/@Html.DisplayFor(modelItem => item.Fecha.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hora.Hours) :
-                @if (item.Hora.Minutes < 10)
-                {
-                    <span>0</span>
-                    @Html.DisplayFor(modelItem => item.Hora.Minutes)
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.Hora.Minutes)
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Especialidad.Nombre)
-            </td>
-            <td>
-                @if (!item.MedicoId.Equals(null))
-                {
-                    @Html.DisplayFor(modelItem => item.Medico.Persona.Apellido)
-                    <span>, </span>
-                    @Html.DisplayFor(modelItem => item.Medico.Persona.Nombre)
-                }
-            </td>
-            <td>
-                @if (!item.PacienteId.Equals(null))
-                {
-                    @Html.DisplayFor(modelItem => item.Paciente.Persona.Apellido)
-                    <span>, </span>
-                    @Html.DisplayFor(modelItem => item.Paciente.Persona.Nombre)
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Consultorio.Nombre)
-            </td>
-            <td>
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" >
-                        Operaciones
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        @if (item.PacienteId.Equals(null))
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estado.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha.Day)/@Html.DisplayFor(modelItem => item.Fecha.Month)/@Html.DisplayFor(modelItem => item.Fecha.Year)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hora.Hours) :
+                        @if (item.Hora.Minutes < 10)
                         {
-                            <li>
-                                <a href="/Turnos/Asignar/@item.Id">Asignar</a>
-                            </li>
+                            <span>0</span>
+                            @Html.DisplayFor(modelItem => item.Hora.Minutes)
                         }
                         else
                         {
-                            <li>
-                                <a href="/Turnos/Cancelar/@item.Id">Cancelar</a>
-                            </li>
+                            @Html.DisplayFor(modelItem => item.Hora.Minutes)
                         }
-                        <li>
-                            <a href="/Turnos/Details/@item.Id">Infromación</a>
-                        </li>
-                        <li>
-                            <a href="/Turnos/Delete/@item.Id">Eliminar Turno</a>
-                        </li>
-                    </ul>
-                </div>
-            </td>
-        </tr>
-    }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Especialidad.Nombre)
+                    </td>
+                    <td>
+                        @if (!item.MedicoId.Equals(null))
+                        {
+                            @Html.DisplayFor(modelItem => item.Medico.Persona.Apellido)
+                            <span>, </span>
+                            @Html.DisplayFor(modelItem => item.Medico.Persona.Nombre)
+                        }
+                    </td>
+                    <td>
+                        @if (!item.PacienteId.Equals(null))
+                        {
+                            @Html.DisplayFor(modelItem => item.Paciente.Persona.Apellido)
+                            <span>, </span>
+                            @Html.DisplayFor(modelItem => item.Paciente.Persona.Nombre)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Consultorio.Nombre)
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                                Operaciones
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                @if (item.PacienteId.Equals(null))
+                                {
+                                    <li>
+                                        <a href="/Turnos/Asignar/@item.Id">Asignar</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a href="/Turnos/Cancelar/@item.Id">Cancelar</a>
+                                    </li>
+                                }
+                                <li>
+                                    <a href="/Turnos/Details/@item.Id">Infromación</a>
+                                </li>
+                                <li>
+                                    <a href="/Turnos/Delete/@item.Id">Eliminar Turno</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
 
-</table>
+        </table>

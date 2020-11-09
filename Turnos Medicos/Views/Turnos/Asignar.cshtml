@@ -124,7 +124,7 @@ using (Html.BeginForm())
         </div>
 
         <div class="form-group" >
-            @Html.LabelFor(model => model.PacienteId, "PacienteId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.PacienteId, "Paciente", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("PacienteId", null, htmlAttributes: new { @class = "form-control", @required = "true" })
                 @Html.ValidationMessageFor(model => model.PacienteId, "", new { @class = "text-danger" })
@@ -172,7 +172,7 @@ using (Html.BeginForm())
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Descripcion, "Descripción", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control", @maxlength = 40 } })
                 @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
@@ -214,11 +214,7 @@ using (Html.BeginForm())
 }
 }
 
-<div>
-    <a href="/Turnos/Index">
-        <button class="btn btn-default">Volver</button>
-    </a>
-</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

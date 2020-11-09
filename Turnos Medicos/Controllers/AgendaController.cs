@@ -31,7 +31,7 @@ namespace Turnos_Medicos.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(string apellido, string nombre, DateTime? fecha_ini, DateTime? fecha_fin)
+        public ActionResult Index(string m_apellido, string m_nombre, string especialidad, string estado, DateTime? fecha_ini, DateTime? fecha_fin)
         {
             if (fecha_ini.Equals(null) || fecha_fin.Equals(null))
             {
@@ -40,22 +40,21 @@ namespace Turnos_Medicos.Controllers
                 fecha_fin = fecha_fin.Value.AddDays(31);
             }
 
-            var turno = db.Turno.Include(t => t.Consultorio).Include(t => t.Especialidad).Include(t => t.Estado).Include(t => t.Medico).Include(t => t.ObraSocial).Include(t => t.Paciente).Where(p => p.Fecha >= fecha_ini && p.Fecha < fecha_fin).OrderBy(p => p.Fecha).ThenBy(p => p.Hora).ToList();
-            if (!(apellido == ""))
-            {
-                turno = turno.Where(p => p.Medico.Persona.Apellido.Contains(apellido)).ToList();
-            }
-            if (!(nombre == ""))
-            {
-                turno = turno.Where(p => p.Medico.Persona.Nombre.Contains(nombre)).ToList();
-            }
+            var turno = db.Turno.Include(t => t.Consultorio).Include(t => t.Especialidad).Include(t => t.Estado).Include(t => t.Medico).Include(t => t.ObraSocial).Include(t => t.Paciente).Where(p => p.Fecha >= fecha_ini && p.Fecha < fecha_fin);
 
-            /*var turno2 = turno.Where(p => p.Estado.Nombre == "Asignado");
-            var turno3 = turno2.Where(p => p.Fecha >= fecha_ini && p.Fecha < fecha_fin).OrderBy(p => p.Fecha).ThenBy(p => p.Hora);
-            return View(turno3.ToList());*/
-            return View(turno);
 
+            if (!(m_apellido == "") || !(m_nombre == "") || !(especialidad == "") || !(estado == ""))
+            {
+                turno = turno.Where(p => p.Medico.Persona.Apellido.Contains(m_apellido)
+                    && p.Medico.Persona.Nombre.Contains(m_nombre)
+                    && p.Especialidad.Nombre.Contains(especialidad)
+                    && p.Estado.Nombre.Contains(estado));
+            }
+           
+            return View(turno.ToList());
         }
+
+
 
         public ActionResult Create()
         {

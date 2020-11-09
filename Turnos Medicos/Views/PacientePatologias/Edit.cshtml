@@ -4,7 +4,7 @@
     ViewBag.Title = "Editar Patología";
 }
 
-<h2>ViewBag.Title</h2>
+<h2>Editar</h2>
 
 @using (Html.BeginForm())
 {
@@ -17,7 +17,7 @@
     @Html.HiddenFor(model => model.Id)
 
     <div class="form-group">
-        @Html.LabelFor(model => model.PacienteId, "PacienteId", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.PacienteId, "Paciente", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.DropDownList("PacienteId", null, htmlAttributes: new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.PacienteId, "", new { @class = "text-danger" })
@@ -25,7 +25,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Descripcion,"Descripción", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control", @maxlength = 40 } })
             @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
@@ -48,6 +48,4 @@
 </div>
 }
 
-<div>
-    @Html.ActionLink("Volver", "Index")
-</div>
+

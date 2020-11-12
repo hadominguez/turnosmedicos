@@ -112,6 +112,48 @@
         </div>
     </div>
     <div class="container body-content">
+        <script>
+            $(document).ready(function () {
+                $("#mensaje-alert").fadeTo(4000, 1000).slideUp(1000, function () {
+                    $("#mensaje-alert").slideUp(1000);
+                });
+            });
+        </script>
+        @{
+            string alerta = Session["Alerta"].ToString();
+        }
+        @if (Session["Mensaje"] != null && Session["Alerta"] != null && Session["AlertaContador"] != null && Session["AlertaContador"] != null)
+        {
+            if (((int) Session["AlertaContador"]) == 0)
+            {
+                switch (alerta)
+                {
+                    case "Error":
+                        <div class="alert alert-warning" id="mensaje-alert">
+                            <button type="button" class="close" data-dismiss="alert">x</button>
+                            <strong>Error! </strong> @Session["Mensaje"]
+                        </div>
+                        break;
+                    case "Warning":
+                        <div class="alert alert-warning" id="mensaje-alert">
+                            <button type="button" class="close" data-dismiss="alert">x</button>
+                            <strong>Warning! </strong> @Session["Mensaje"]
+                        </div>
+                        break;
+                    case "Success":
+                        <div class="alert alert-success" id="mensaje-alert">
+                            <button type="button" class="close" data-dismiss="alert">x</button>
+                            <strong>Success! </strong> @Session["Mensaje"]
+                        </div>
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        }
+
+
         @RenderBody()
         <hr />
         <footer>

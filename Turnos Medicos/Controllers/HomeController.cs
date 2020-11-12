@@ -9,19 +9,17 @@ using System.Net;
 namespace Turnos_Medicos.Controllers
 {
     [SessionCheck]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
-            if (Session["user"] != null)
-            {
-                return View();
-            }
-            return RedirectToAction("Login", "Usuarios");
+            EliminarMensaje();
+            return View();
         }
 
         public ActionResult About()
         {
+            EliminarMensaje();
                 ViewBag.Message = "Quienes somos?";
 
                 return View();
@@ -29,13 +27,17 @@ namespace Turnos_Medicos.Controllers
 
         public ActionResult Contact()
         {
-                ViewBag.Message = "Ponete en contacto con nosotros.";
+
+            EliminarMensaje();
+            ViewBag.Message = "Ponete en contacto con nosotros.";
 
                 return View();
         }
 
         public ActionResult EspecialidadesDisponibles()
         {
+
+            EliminarMensaje();
             ViewBag.Message = "Este es nuestro conjunto de especialidades que tenemos para ofrecerte.";
 
             return View();
@@ -43,6 +45,8 @@ namespace Turnos_Medicos.Controllers
 
         public ActionResult ProfesionalesDisponibles()
         {
+
+            EliminarMensaje();
             ViewBag.Message = "Este es nuestro grupo de Profesionales.";
 
             return View();

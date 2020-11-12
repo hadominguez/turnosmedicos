@@ -11,20 +11,22 @@ using Turnos_Medicos.Models;
 namespace Turnos_Medicos.Controllers
 {
     [SessionCheck]
-    public class ConsultoriosController : Controller
+    public class ConsultoriosController : BaseController
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
         // GET: Consultorios
         public ActionResult Index()
         {
-                return View(db.Consultorio.ToList());
+            EliminarMensaje();
+            return View(db.Consultorio.ToList());
         }
 
 
         // GET: Consultorios/Create
         public ActionResult Create()
         {
+            EliminarMensaje();
             return View();
         }
 
@@ -35,19 +37,29 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Nombre")] Consultorio consultorio)
         {
-            if (ModelState.IsValid)
+            EliminarMensaje();
+            try
             {
-                db.Consultorio.Add(consultorio);
-                db.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    db.Consultorio.Add(consultorio);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+                return View(consultorio);
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
                 return RedirectToAction("Index");
             }
-
-            return View(consultorio);
         }
 
         // GET: Consultorios/Edit/5
         public ActionResult Edit(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -67,18 +79,28 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Nombre")] Consultorio consultorio)
         {
-            if (ModelState.IsValid)
+            EliminarMensaje();
+            try
             {
-                db.Entry(consultorio).State = EntityState.Modified;
-                db.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    db.Entry(consultorio).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(consultorio);
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
                 return RedirectToAction("Index");
             }
-            return View(consultorio);
         }
 
         // GET: Consultorios/Delete/5
         public ActionResult Delete(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -96,10 +118,19 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Consultorio consultorio = db.Consultorio.Find(id);
-            db.Consultorio.Remove(consultorio);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            EliminarMensaje();
+            try
+            {
+                Consultorio consultorio = db.Consultorio.Find(id);
+                db.Consultorio.Remove(consultorio);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
+                return RedirectToAction("Index");
+            }
         }
 
     }

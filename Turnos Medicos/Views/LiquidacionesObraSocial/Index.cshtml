@@ -1,14 +1,80 @@
 ﻿@model IEnumerable<Turnos_Medicos.Models.Turno>
 
 @{
-    ViewBag.Title = "Liquidaciones Semanales";
+    ViewBag.Title = "Liquidaciones para Obra Social";
     DateTime fecha_ini = ViewBag.Fecha_Ini;
     DateTime fecha_fin = ViewBag.Fecha_Fin;
+    IEnumerable<Turnos_Medicos.Models.ObraSocial> obra_social = ViewBag.ObraSocial;
+    int? obra_social_cagada = ViewBag.ObraSocialCargada;
 }
 
-<h2>Liquidaciones Semanales</h2>
+<h2>Liquidaciones para Obra Social</h2>
 
-@using (Html.BeginForm("", "Liquidaciones", FormMethod.Get))
+
+@if (!(obra_social_cagada >= 1))
+{
+<form action="/LiquidacionesObraSocial/Index/" method="get" novalidate="novalidate">
+
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        <h3>Buscar</h3>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group col-sm-4">
+            <label class="control-label col-md-3" for="obra_social">Obra Social:</label>
+            <div class="col-md-8">
+                <input class="form-control datepicker text-box single-line" data-val="true" id="obra_social" name="obra_social" type="text" value="" maxlength="30">
+                <span class="field-validation-valid text-danger" data-valmsg-for="obra_social" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-1">
+            <div class="col-md-offset-2 col-md-1">
+                <input type="submit" value="Buscar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+    if (obra_social != null)
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    Nombre
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in obra_social)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            <form action="/LiquidacionesObraSocial/Index/" method="get" novalidate="novalidate">
+                                <div class="form-group col-sm-4" hidden>
+                                    <div class="col-md-8">
+                                        <input class="form-control datepicker text-box single-line" data-val="true" id="id_obra_social" name="id_obra_social" type="number" value="@item.Id">
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-1">
+                                    <div class="col-md-offset-2 col-md-1">
+                                        <input type="submit" value="Seleccionar" class="btn btn-success" />
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+            }
+
+        </table>
+    }
+}
+else {
+
+
+using (Html.BeginForm("", "LiquidacionesObraSocial", FormMethod.Get))
 {
     @Html.AntiForgeryToken()
 
@@ -29,6 +95,7 @@
                 <span class="field-validation-valid text-danger" data-valmsg-for="fecha_fin" data-valmsg-replace="true"></span>
             </div>
         </div>
+        <input id="id_obra_social" name="id_obra_social" type="hidden" value="@obra_social_cagada">
         <div class="form-group col-sm-2">
             <div class="col-md-offset-2 col-md-1">
                 <input type="submit" value="Buscar" class="btn btn-default" />
@@ -38,12 +105,23 @@
 }
 
 <div class="col-md-12">
-@using (Html.BeginForm("PrintPDF", "Liquidaciones", FormMethod.Get))
+@using (Html.BeginForm("PrintPDF", "LiquidacionesObraSocial", FormMethod.Get))
 {
     @Html.AntiForgeryToken()
                 <input id="fecha_ini" name="fecha_ini" type="hidden" value="@fecha_ini.ToString("yyyy-MM-dd")">
                 <input id="fecha_fin" name="fecha_fin" type="hidden" value="@fecha_fin.ToString("yyyy-MM-dd")">
+                <input id="id_obra_social" name="id_obra_social" type="hidden" value="@obra_social_cagada">
                 <input type="submit" value="Descargar PDF" class="btn btn-default" />
+}
+
+
+@using (Html.BeginForm("EnviarLiquidacion", "LiquidacionesObraSocial", FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
+                <input id="fecha_ini" name="fecha_ini" type="hidden" value="@fecha_ini.ToString("yyyy-MM-dd")">
+                <input id="fecha_fin" name="fecha_fin" type="hidden" value="@fecha_fin.ToString("yyyy-MM-dd")">
+                <input id="id_obra_social" name="id_obra_social" type="hidden" value="@obra_social_cagada">
+                <input type="submit" value="Enviar Liquidación" class="btn btn-default" />
 }
 </div>
 
@@ -122,3 +200,5 @@
 </tr>}
 
 </table>
+
+ }

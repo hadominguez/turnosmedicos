@@ -12,6 +12,7 @@
     <EntitySetMapping Name="Especialidad">
       <EntityTypeMapping TypeName="TurnosMedicosModel.Especialidad">
         <MappingFragment StoreEntitySet="Especialidad">
+          <ScalarProperty Name="tarifa" ColumnName="tarifa" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
           <ScalarProperty Name="Tiempo" ColumnName="Tiempo" />

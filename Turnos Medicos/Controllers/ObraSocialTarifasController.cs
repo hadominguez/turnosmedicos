@@ -11,13 +11,14 @@ using Turnos_Medicos.Models;
 namespace Turnos_Medicos.Controllers
 {
     [SessionCheck]
-    public class ObraSocialTarifasController : Controller
+    public class ObraSocialTarifasController : BaseController
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
         // GET: ObraSocialTarifas
         public ActionResult Index(int id)
         {
+            EliminarMensaje();
             ViewBag.ObraSocial = db.ObraSocial.Where(p => p.Id == id).First();
             var obraSocialTarifa = db.ObraSocialTarifa.Where(p => p.ObraSocialId == id).ToList();
             return View(obraSocialTarifa);
@@ -26,6 +27,7 @@ namespace Turnos_Medicos.Controllers
         // GET: ObraSocialTarifas/Create
         public ActionResult Create(int? id, string especialidad, int? id_especialidad)
         {
+            EliminarMensaje();
             ObraSocialTarifa tarifa = new ObraSocialTarifa();
             if(id != null)
             {
@@ -64,24 +66,34 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ObraSocialId,EspecialidadId,tarifa")] ObraSocialTarifa obraSocialTarifa)
         {
-            var espec = (from espe in db.Especialidad
+            EliminarMensaje();
+            try
+            {
+                var espec = (from espe in db.Especialidad
                         where espe.Id == obraSocialTarifa.EspecialidadId
                         select espe).ToList();
-            if (ModelState.IsValid && espec.Count < 1)
+                if (ModelState.IsValid && espec.Count < 1)
+                {
+                    db.ObraSocialTarifa.Add(obraSocialTarifa);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", new { id = obraSocialTarifa.ObraSocialId });
+                }
+
+                ViewBag.EspecialidadId = new SelectList(db.Especialidad, "Id", "Nombre", obraSocialTarifa.EspecialidadId);
+                ViewBag.ObraSocialId = new SelectList(db.ObraSocial, "Id", "Nombre", obraSocialTarifa.ObraSocialId);
+                return View(obraSocialTarifa);
+            }
+            catch (Exception e)
             {
-                db.ObraSocialTarifa.Add(obraSocialTarifa);
-                db.SaveChanges();
+                MandarMensaje(e.Message, "Error");
                 return RedirectToAction("Index", new { id = obraSocialTarifa.ObraSocialId });
             }
-
-            ViewBag.EspecialidadId = new SelectList(db.Especialidad, "Id", "Nombre", obraSocialTarifa.EspecialidadId);
-            ViewBag.ObraSocialId = new SelectList(db.ObraSocial, "Id", "Nombre", obraSocialTarifa.ObraSocialId);
-            return View(obraSocialTarifa);
         }
 
         // GET: ObraSocialTarifas/Edit/5
         public ActionResult Edit(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -109,20 +121,30 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,ObraSocialId,EspecialidadId,tarifa")] ObraSocialTarifa obraSocialTarifa)
         {
-            if (ModelState.IsValid)
+            EliminarMensaje();
+            try
             {
-                db.Entry(obraSocialTarifa).State = EntityState.Modified;
-                db.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    db.Entry(obraSocialTarifa).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index", new { id = obraSocialTarifa.ObraSocialId });
+                }
+                ViewBag.EspecialidadId = new SelectList(db.Especialidad, "Id", "Nombre", obraSocialTarifa.EspecialidadId);
+                ViewBag.ObraSocialId = new SelectList(db.ObraSocial, "Id", "Nombre", obraSocialTarifa.ObraSocialId);
+                return View(obraSocialTarifa);
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
                 return RedirectToAction("Index", new { id = obraSocialTarifa.ObraSocialId });
             }
-            ViewBag.EspecialidadId = new SelectList(db.Especialidad, "Id", "Nombre", obraSocialTarifa.EspecialidadId);
-            ViewBag.ObraSocialId = new SelectList(db.ObraSocial, "Id", "Nombre", obraSocialTarifa.ObraSocialId);
-            return View(obraSocialTarifa);
         }
 
         // GET: ObraSocialTarifas/Delete/5
         public ActionResult Delete(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -140,10 +162,19 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ObraSocialTarifa obraSocialTarifa = db.ObraSocialTarifa.Find(id);
-            db.ObraSocialTarifa.Remove(obraSocialTarifa);
-            db.SaveChanges();
-            return RedirectToAction("Index", new { id = obraSocialTarifa.ObraSocialId });
+            EliminarMensaje();
+            try
+            {
+                ObraSocialTarifa obraSocialTarifa = db.ObraSocialTarifa.Find(id);
+                db.ObraSocialTarifa.Remove(obraSocialTarifa);
+                db.SaveChanges();
+                return RedirectToAction("Index", new { id = obraSocialTarifa.ObraSocialId });
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
+                return RedirectToAction("Index", new { id = db.ObraSocialTarifa.First(p => p.Id == id).ObraSocialId });
+            }
         }
 
     }

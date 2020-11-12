@@ -19,6 +19,7 @@
     <NavigationProperty Name="Medico" Relationship="Self.FK_Medico_Especialidad" FromRole="Especialidad" ToRole="Medico" />
     <NavigationProperty Name="ObraSocialTarifa" Relationship="Self.FK_ObraSocialTarifa_Especialidad" FromRole="Especialidad" ToRole="ObraSocialTarifa" />
     <NavigationProperty Name="Turno" Relationship="Self.FK_Turno_Especialidad" FromRole="Especialidad" ToRole="Turno" />
+    <Property Name="tarifa" Type="Decimal" Precision="10" Scale="2" />
   </EntityType>
   <EntityType Name="Estado">
     <Key>

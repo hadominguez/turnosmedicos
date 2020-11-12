@@ -23,6 +23,7 @@ namespace Turnos_Medicos.Controllers
         [SessionCheck]
         public ActionResult Index()
         {
+            EliminarMensaje();
             var usuario = db.Usuario.Include(u => u.Perfil).Include(u => u.Persona);
             return View(usuario.ToList());
         }
@@ -31,6 +32,7 @@ namespace Turnos_Medicos.Controllers
         [HttpGet]
         public ActionResult Create(int? Id, int? dni, string apellido, string nombre)
         {
+            EliminarMensaje();
             var personas = db.Persona.Include(p => p.Id);
             string nuevo_dni = dni.ToString();
             if (!(nuevo_dni == "") || !(apellido == "") || !(nombre == ""))
@@ -80,45 +82,53 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Identificador,Email,Password,PersonaId,PerfilId")] Usuario user)
         {
-            bool Status = false;
-            string message = "";
-            var usuario = db.Usuario.FirstOrDefault(p => p.Persona.DNI == user.Identificador.ToString());
-            //
-            // Model Validation 
-            if (ModelState.IsValid && usuario == null)
+            EliminarMensaje();
+            try
             {
-                if (db.Usuario.Where(p => p.Email == user.Email ).ToList().Count >= 1)
+                bool Status = false;
+                string message = "";
+                var usuario = db.Usuario.FirstOrDefault(p => p.Persona.DNI == user.Identificador.ToString());
+                //
+                // Model Validation 
+                if (ModelState.IsValid && usuario == null)
                 {
-                    ModelState.AddModelError("EmailExist", "Email already exist");
-                    return View(user);
+                    if (db.Usuario.Where(p => p.Email == user.Email ).ToList().Count >= 1)
+                    {
+                        ModelState.AddModelError("EmailExist", "Email already exist");
+                        return View(user);
+                    }
+                    string clave = user.Password;
+                    user.Password = Crypto.Hash(user.Password);
+                    user.Bloqueado = false;
+                    user.Recuperacion = Guid.NewGuid().ToString();
+
+                    db.Usuario.Add(user);
+                    db.SaveChanges();
+
+
+
+                    const string path = "~/Content/Template/EmailCreacionUsuario.html";
+                    var contents = System.IO.File.ReadAllText(Server.MapPath(path));
+
+                    contents = contents.Replace("$fecha", DateTime.Now.ToString("dd-MM-yyyy"));
+                    contents = contents.Replace("$usuario", user.Identificador);
+                    contents = contents.Replace("$clave", clave);
+                    string nombre = user.Persona.Apellido + ", " + user.Persona.Nombre;
+                    contents = contents.Replace("$nombre", nombre);
+
+                    SendEmail(contents, user.Email, "Creacion de Usuario de MedOffices");
+
                 }
-                string clave = user.Password;
-                user.Password = Crypto.Hash(user.Password);
-                user.Bloqueado = false;
-                user.Recuperacion = Guid.NewGuid().ToString();
 
-                db.Usuario.Add(user);
-                db.SaveChanges();
-
-                //Send Email to User
-                string titulo = "Tu cuanta fue creada correctamente";
-
-                string body = "<br/><br/>Cuenta creada" +
-                    " <br/><br/><p>Email: " + user.Email + "</p><p>Clave: " + clave + "</p>";
-
-                SendEmail(body, user.Email, titulo);
-                message = "Registration successfully done." + user.Email;
-                Status = true;
-
+                ViewBag.Message = message;
+                ViewBag.Status = Status;
+                return View(user);
             }
-            else
+            catch (Exception e)
             {
-                message = "Invalid Request";
+                MandarMensaje(e.Message, "Error");
+                return RedirectToAction("Index");
             }
-
-            ViewBag.Message = message;
-            ViewBag.Status = Status;
-            return View(user);
         }
 
 
@@ -126,6 +136,7 @@ namespace Turnos_Medicos.Controllers
         [SessionCheck]
         public ActionResult Edit(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -148,111 +159,39 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Identificador,Email,Password,Bloqueado,PerfilId,PersonaId")] Usuario usuario)
         {
-            if (ModelState.IsValid)
+            EliminarMensaje();
+            try
             {
-                db.Entry(usuario).State = EntityState.Modified;
-                db.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    usuario.Password = Crypto.Hash(usuario.Password);
+                    db.Entry(usuario).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.PerfilId = new SelectList(db.Perfil, "Id", "Nombre", usuario.PerfilId);
+                ViewBag.PersonaId = new SelectList(db.Persona, "Id", "DNI", usuario.PersonaId);
+                return View(usuario);
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
                 return RedirectToAction("Index");
             }
-            ViewBag.PerfilId = new SelectList(db.Perfil, "Id", "Nombre", usuario.PerfilId);
-            ViewBag.PersonaId = new SelectList(db.Persona, "Id", "DNI", usuario.PersonaId);
-            return View(usuario);
         }
-
-
-        // POST: Usuarios1/Delete/5
-        [SessionCheck]
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Usuario usuario = db.Usuario.Find(id);
-            db.Usuario.Remove(usuario);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-
-        /*
-        [HttpGet]
-        public ActionResult Registration()
-        {
-            return View();
-        }
-        //Registration POST action 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Registration([Bind(Include = "Id,Identificador,Email,Password")] Usuario user)
-        {
-            bool Status = false;
-            Paciente paciente = null;
-            string message = "";
-            var persona = db.Persona.First(p => p.DNI == user.Identificador.ToString());
-            if (persona != null)
-            {
-                paciente = db.Paciente.FirstOrDefault(p => p.PersonaId == persona.Id);
-            }
-            //
-            // Model Validation 
-            if (ModelState.IsValid && paciente != null)
-            {
-                var verificar = (from usuario in db.Usuario
-                                 where usuario.Email == user.Email
-                                 select usuario).ToList();
-                if (verificar.Count >= 1)
-                {
-                    ModelState.AddModelError("EmailExist", "Email already exist");
-                    return View(user);
-                }
-                string clave = user.Password;
-                user.Password = Crypto.Hash(user.Password);
-                user.Bloqueado = false;
-                user.PersonaId = persona.Id;
-                if(paciente != null)
-                {
-                    user.PerfilId = db.Perfil.First(p => p.Nombre == "Paciente").Id;
-                }
-
-                db.Usuario.Add(user);
-                db.SaveChanges();
-
-                //Send Email to User
-
-                string titulo = "Tu cuanta fue creada correctamente";
-
-                string body = "<br/><br/>Cuenta creada" +
-                    " <br/><br/><p>Email: " + user.Email + "</p><p>Clave: " + clave + "</p>";
-
-                SendEmail(body, user.Email, titulo);
-                message = "Registration successfully done. Account activation link " +
-                    " has been sent to your email:" + user.Email;
-                Status = true;
-                return RedirectToAction("Login", "Usuarios");
-
-            }
-            else
-            {
-                message = "Invalid Request";
-            }
-
-            ViewBag.Message = message;
-            ViewBag.Status = Status;
-            return View(user);
-        }*/
 
 
         //Login 
         [HttpGet]
         public ActionResult Login()
         {
-            if(Session["user"] != null)
+            EliminarMensaje();
+            Session["Mensaje"] = "";
+            Session["Alerta"] = "";
+            if (Session["user"] != null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            /*ViewBag.PerfilId = new SelectList(from perfil in db.Perfil
-                                                select new { Id = perfil.Id, Nombre = perfil.Nombre }, "Id", "Nombre");
-            ViewBag.PersonaId = new SelectList(from persona in db.Persona
-                                              select new { Id = persona.Id, Nombre = persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");*/
             return View();
         }
 
@@ -261,8 +200,9 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(UsuarioLogin login, string ReturnUrl = "")
         {
-            string message = "";
-            
+            EliminarMensaje();
+            try
+            {
                 var user = db.Usuario.Where(a => a.Identificador == login.Usuario && a.Bloqueado == false).FirstOrDefault();
                 if (user != null)
                 {
@@ -280,28 +220,38 @@ namespace Turnos_Medicos.Controllers
                         Session["user"] = user;
                         Session["perfil"] = user.Perfil;
 
+                        Session["Mensaje"] = "Logueo realizado";
+                        Session["Alerta"] = "Success";
+                        Session["AlertaContador"] = 0;
+
                         if (Url.IsLocalUrl(ReturnUrl))
                         {
+                            Session["AlertaContador"] = (int)Session["AlertaContador"] + 2;
                             return Redirect(ReturnUrl);
                         }
                         else
                         {
+                            Session["AlertaContador"] = (int)Session["AlertaContador"] + 2;
                             return RedirectToAction("Index", "Home");
                         }
                     }
                     else
                     {
-                        message = "Invalid credential provided";
+                        MandarMensaje("Credenciales Invalidas", "Warning");
                     }
                 }
                 else
                 {
-                    message = "Invalid credential provided";
+                    MandarMensaje("Credenciales Invalidas", "Warning");
                 }
-            
+                return View();
 
-            ViewBag.Message = message;
-            return View();
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
+                return View();
+            }
         }
 
 
@@ -310,43 +260,17 @@ namespace Turnos_Medicos.Controllers
         [HttpPost]
         public ActionResult Logout()
         {
+            EliminarMensaje();
             FormsAuthentication.SignOut();
             Session["user"] = null;
             return RedirectToAction("Login", "Usuarios");
         }
 
 
-        /*
-        [NonAction]
-        public void SendVerificationLinkEmail(string email, string clave)
-        {
-            var fromEmail = new MailAddress("axel0lopez95@gmail.com", "Medico");
-            var toEmail = new MailAddress(email);
-            var fromEmailPassword = "estudiante-0";
-
-            var smtp = new SmtpClient
-            {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromEmail.Address, fromEmailPassword)
-            };
-
-            using (var message = new MailMessage(fromEmail, toEmail)
-            {
-                Subject = subject,
-                Body = body,
-                IsBodyHtml = true
-            })
-                smtp.Send(message);
-        }*/
-
-
         [SessionCheck]
         public ActionResult Perfiles(int? id)
         {
+            EliminarMensaje();
             ViewBag.ListaPerfilPermiso = null;
             var perfiles = db.Perfil.Where(p => p.Id >= 0);
             if (id != null)
@@ -383,27 +307,37 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Perfiles(int id, int permiso, int estado)
         {
-            if(estado == 1)
+            EliminarMensaje();
+
+            try
             {
-                PerfilPermiso perfil_p = db.PerfilPermiso.Where(p => p.PerfilId == id && p.PermisoId == permiso).First();
-                db.PerfilPermiso.Remove(perfil_p);
-                db.SaveChanges();
+                if (estado == 1)
+                {
+                    PerfilPermiso perfil_p = db.PerfilPermiso.Where(p => p.PerfilId == id && p.PermisoId == permiso).First();
+                    db.PerfilPermiso.Remove(perfil_p);
+                    db.SaveChanges();
+                    //return RedirectToAction("Perfiles", new { id = id });
+                }
+                else if (estado ==2)
+                {
+                    PerfilPermiso perfil_p = new PerfilPermiso();
+                    perfil_p.PerfilId = id;
+                    perfil_p.PermisoId = permiso;
+                    perfil_p.Perfil = db.Perfil.First(p => p.Id == id);
+                    perfil_p.Permiso = db.Permiso.First(p => p.Id == permiso);
+                    db.PerfilPermiso.Add(perfil_p);
+                    db.SaveChanges();
+                    //return RedirectToAction("Perfiles", new { id = id });
+                }
                 return RedirectToAction("Perfiles", new { id = id });
+
             }
-            else if (estado ==2)
+            catch (Exception e)
             {
-                PerfilPermiso perfil_p = new PerfilPermiso();
-                perfil_p.PerfilId = id;
-                perfil_p.PermisoId = permiso;
-                perfil_p.Perfil = db.Perfil.First(p => p.Id == id);
-                perfil_p.Permiso = db.Permiso.First(p => p.Id == permiso);
-                db.PerfilPermiso.Add(perfil_p);
-                db.SaveChanges();
-                return RedirectToAction("Perfiles", new { id = id });
+                MandarMensaje(e.Message, "Error");
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Perfiles", new { id = id });
         }
-
-
+            
     }
 }

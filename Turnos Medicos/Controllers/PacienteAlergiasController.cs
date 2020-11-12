@@ -11,7 +11,7 @@ using Turnos_Medicos.Models;
 namespace Turnos_Medicos.Controllers
 {
     [SessionCheck]
-    public class PacienteAlergiasController : Controller
+    public class PacienteAlergiasController : BaseController
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
@@ -19,6 +19,7 @@ namespace Turnos_Medicos.Controllers
         // GET: PacienteAlergias/Create
         public ActionResult Create(int id)
         {
+            EliminarMensaje();
             ViewBag.PacienteId = new SelectList(from paciente in db.Paciente
                                                 join persona in db.Persona on paciente.PersonaId equals persona.Id
                                                 where paciente.Id == id
@@ -33,24 +34,33 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,PacienteId,Descripcion")] PacienteAlergia pacienteAlergia)
         {
-            if (ModelState.IsValid)
+            EliminarMensaje();
+            try {
+                if (ModelState.IsValid)
+                {
+                    pacienteAlergia.Fecha = DateTime.Now;
+                    db.PacienteAlergia.Add(pacienteAlergia);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "PacienteHistoriales", new { id = pacienteAlergia.PacienteId });
+                }
+
+                ViewBag.PacienteId = new SelectList(from paciente in db.Paciente
+                                                    join persona in db.Persona on paciente.PersonaId equals persona.Id
+                                                    where paciente.Id == pacienteAlergia.Id
+                                                    select new { Id = paciente.Id, Nombre = persona.DNI + " - " + persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
+                return View(pacienteAlergia);
+            }
+            catch (Exception e)
             {
-                pacienteAlergia.Fecha = DateTime.Now;
-                db.PacienteAlergia.Add(pacienteAlergia);
-                db.SaveChanges();
+                MandarMensaje(e.Message, "Error");
                 return RedirectToAction("Index", "PacienteHistoriales", new { id = pacienteAlergia.PacienteId });
             }
-
-            ViewBag.PacienteId = new SelectList(from paciente in db.Paciente
-                                                join persona in db.Persona on paciente.PersonaId equals persona.Id
-                                                where paciente.Id == pacienteAlergia.Id
-                                                select new { Id = paciente.Id, Nombre = persona.DNI + " - " + persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
-            return View(pacienteAlergia);
         }
 
         // GET: PacienteAlergias/Edit/5
         public ActionResult Edit(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -74,23 +84,33 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,PacienteId,Descripcion,Fecha")] PacienteAlergia pacienteAlergia)
         {
-            if (ModelState.IsValid)
+            EliminarMensaje();
+            try
             {
-                //pacienteAlergia.Fecha = DateTime.Now;
-                db.Entry(pacienteAlergia).State = EntityState.Modified;
-                db.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    //pacienteAlergia.Fecha = DateTime.Now;
+                    db.Entry(pacienteAlergia).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "PacienteHistoriales", new { id = pacienteAlergia.PacienteId });
+                }
+                ViewBag.PacienteId = new SelectList(from paciente in db.Paciente
+                                                    join persona in db.Persona on paciente.PersonaId equals persona.Id
+                                                    where paciente.Id == pacienteAlergia.Id
+                                                    select new { Id = paciente.Id, Nombre = persona.DNI + " - " + persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
+                return View(pacienteAlergia);
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
                 return RedirectToAction("Index", "PacienteHistoriales", new { id = pacienteAlergia.PacienteId });
             }
-            ViewBag.PacienteId = new SelectList(from paciente in db.Paciente
-                                                join persona in db.Persona on paciente.PersonaId equals persona.Id
-                                                where paciente.Id == pacienteAlergia.Id
-                                                select new { Id = paciente.Id, Nombre = persona.DNI + " - " + persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
-            return View(pacienteAlergia);
         }
 
         // GET: PacienteAlergias/Delete/5
         public ActionResult Delete(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -108,10 +128,19 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            PacienteAlergia pacienteAlergia = db.PacienteAlergia.Find(id);
-            db.PacienteAlergia.Remove(pacienteAlergia);
-            db.SaveChanges();
-            return RedirectToAction("Index", "PacienteHistoriales", new { id = pacienteAlergia.PacienteId });
+            EliminarMensaje();
+            try
+            {
+                PacienteAlergia pacienteAlergia = db.PacienteAlergia.Find(id);
+                db.PacienteAlergia.Remove(pacienteAlergia);
+                db.SaveChanges();
+                return RedirectToAction("Index", "PacienteHistoriales", new { id = pacienteAlergia.PacienteId });
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
+                return RedirectToAction("Index", new { id = db.PacienteAlergia.First(p => p.Id == id).PacienteId });
+            }
         }
 
     }

@@ -11,13 +11,14 @@ using Turnos_Medicos.Models;
 namespace Turnos_Medicos.Controllers
 {
     [SessionCheck]
-    public class PersonasController : Controller
+    public class PersonasController : BaseController
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
         // GET: Personas
         public ActionResult Index(int? dni, string apellido, string nombre)
         {
+            EliminarMensaje();
             var persona = db.Persona.Where(p => p.Id >= 0);
             string nuevo_dni = dni.ToString();
             if (!(nuevo_dni == "") || !(apellido == "") || !(nombre == ""))
@@ -30,6 +31,7 @@ namespace Turnos_Medicos.Controllers
         // GET: Personas/Details/5
         public ActionResult Details(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -45,6 +47,7 @@ namespace Turnos_Medicos.Controllers
         // GET: Personas/Create
         public ActionResult Create()
         {
+            EliminarMensaje();
             return View(new Persona());
         }
 
@@ -55,27 +58,36 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,DNI,Apellido,Nombre,FechaNacimiento,Calle,Numero,Email,Telefono,Celular")] Persona persona)
         {
-            var perso = db.Persona.Where(p => p.DNI == persona.DNI).ToList();
-            Paciente paciente = new Paciente();
-
-            if (ModelState.IsValid)
+            EliminarMensaje();
+            try
             {
-                if (perso.Count < 1)
+                var perso = db.Persona.Where(p => p.DNI == persona.DNI).ToList();
+
+                if (ModelState.IsValid)
                 {
-                    db.Persona.Add(persona);
-                    db.SaveChanges();
+                    if (perso.Count < 1)
+                    {
+                        db.Persona.Add(persona);
+                        db.SaveChanges();
+                    }
+                    return RedirectToAction("Index");
                 }
+
+                ViewBag.PersonaId = new SelectList(db.Persona, "Id", "DNI", persona.Id);
+                return View(persona);
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
                 return RedirectToAction("Index");
             }
-
-            ViewBag.PersonaId = new SelectList(db.Persona, "Id", "DNI", paciente.PersonaId);
-            return View(paciente);
         }
 
 
         // GET: Personas/Edit/5
         public ActionResult Edit(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -97,20 +109,30 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,DNI,Apellido,Nombre,FechaNacimiento,Calle,Numero,Email,Telefono,Celular")] Persona persona)
         {
-            if (ModelState.IsValid)
+            EliminarMensaje();
+            try
             {
-                db.Entry(persona).State = EntityState.Modified;
-                db.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    db.Entry(persona).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.PersonaId = new SelectList(db.Persona, "Id", "DNI", persona.Id);
+                return View(persona);
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
                 return RedirectToAction("Index");
             }
-            ViewBag.PersonaId = new SelectList(db.Persona, "Id", "DNI", persona.Id);
-            return View(persona);
         }
 
 
         // GET: Personas/Delete/5
         public ActionResult Delete(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -128,19 +150,20 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Persona persona = db.Persona.Find(id);
-            db.Persona.Remove(persona);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            EliminarMensaje();
+            try
+            {
+                Persona persona = db.Persona.Find(id);
+                db.Persona.Remove(persona);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
+                return RedirectToAction("Index");
+            }
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

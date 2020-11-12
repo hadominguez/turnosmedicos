@@ -290,7 +290,30 @@ else
                     @item.Fecha.ToString("dd-MM-yyyy")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Observacion)
+                    @if (item.Observacion.Length > 50)
+                    {
+                        @item.Observacion.Substring(0, 50)<span>...</span>
+
+                        <button type="button" class="btn btn-xs glyphicon glyphicon-search" data-toggle="modal" data-target="#myModal_@item.Id" style="float: right !important;"></button>
+                        <div class="modal fade" id="myModal_@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <p>@item.Observacion</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    }
+                    else
+                    {
+                        @item.Observacion
+                    }
                 </td>
                 @if (item.TurnoId != null)
                 {

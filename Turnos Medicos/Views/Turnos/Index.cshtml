@@ -151,30 +151,55 @@
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
+                        @{
+                            Turnos_Medicos.Models.Perfil perfil = (Turnos_Medicos.Models.Perfil)Session["perfil"];
+                        }
                         @if (item.PacienteId.Equals(null))
                         {
-                            <li>
-                                <a href="/Turnos/Asignar/@item.Id">Asignar</a>
-                            </li>
+                            if (perfil.PerfilPermiso.Where(p => p.Permiso.Controller == "Turnos" && p.Permiso.Action == "Asignar").ToList().Count >= 1)
+                            {
+                                <li>
+                                    <a href="/Turnos/Asignar/@item.Id">Asignar</a>
+                                </li>
+                            }
                         }
                         else
                         {
+                            if (perfil.PerfilPermiso.Where(p => p.Permiso.Controller == "Turnos" && p.Permiso.Action == "Cancelar").ToList().Count >= 1)
+                            {
+                                <li>
+                                    <a href="/Turnos/Cancelar/@item.Id">Cancelar Turno</a>
+                                </li>
+                            }
+                        }
+                        @if (perfil.PerfilPermiso.Where(p => p.Permiso.Controller == "PacienteHistoriales" && p.Permiso.Action == "Index").ToList().Count >= 1)
+                        {
                             <li>
-                                <a href="/Turnos/Cancelar/@item.Id">Cancelar Turno</a>
+                                <a href="/PacienteHistoriales/Index/@item.PacienteId">Ver Historia Clinica</a>
                             </li>
                         }
-                        <li>
-                            <a href="/PacienteHistoriales/Index/@item.PacienteId">Ver Historia Clinica</a>
-                        </li>
-                        <li>
-                            <a href="/Turnos/Historial/@item.Id">Cargar Comentario</a>
-                        </li>
-                        <li>
-                            <a href="/Turnos/Details/@item.Id">Ver</a>
-                        </li>
-                        <li>
-                            <a href="/Turnos/Edit/@item.Id">Modificar</a>
-                        </li>
+
+                        @if (perfil.PerfilPermiso.Where(p => p.Permiso.Controller == "Turnos" && p.Permiso.Action == "Historial").ToList().Count >= 1)
+                        {
+                            <li>
+                                <a href="/Turnos/Historial/@item.Id">Cargar Comentario</a>
+                            </li>
+
+                        }
+                        @if (perfil.PerfilPermiso.Where(p => p.Permiso.Controller == "Turnos" && p.Permiso.Action == "Details").ToList().Count >= 1)
+                        {
+                            <li>
+                                <a href="/Turnos/Details/@item.Id">Ver</a>
+                            </li>
+
+                        }
+                        @if (perfil.PerfilPermiso.Where(p => p.Permiso.Controller == "Turnos" && p.Permiso.Action == "Edit").ToList().Count >= 1)
+                        {
+                            <li>
+                                <a href="/Turnos/Edit/@item.Id">Modificar</a>
+                            </li>
+
+                        }
                     </ul>
                 </div>
             </td>

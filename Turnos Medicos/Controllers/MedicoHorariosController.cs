@@ -11,13 +11,14 @@ using Turnos_Medicos.Models;
 namespace Turnos_Medicos.Controllers
 {
     [SessionCheck]
-    public class MedicoHorariosController : Controller
+    public class MedicoHorariosController : BaseController
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
         // GET: MedicoHorarios
         public ActionResult Index(int id)
         {
+            EliminarMensaje();
             ViewBag.Medico = db.Medico.Where(p => p.Id == id).First();
             var medicoHorario = db.MedicoHorario.Include(m => m.Consultorio).Include(m => m.Medico).Where(p => p.MedicoId == id);
             return View(medicoHorario.ToList());
@@ -26,6 +27,7 @@ namespace Turnos_Medicos.Controllers
         // GET: MedicoHorarios/Create
         public ActionResult Create(int id)
         {
+            EliminarMensaje();
             ViewBag.ConsultorioId = new SelectList(db.Consultorio, "Id", "Nombre");
             ViewBag.MedicoId = new SelectList(from medico in db.Medico
                                               join persona in db.Persona on medico.PersonaId equals persona.Id
@@ -43,24 +45,35 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,MedicoId,ConsultorioId,Dia,Inicio,Fin")] MedicoHorario medicoHorario)
         {
-            medicoHorario.Medico = db.Medico.Where(p => p.Id == medicoHorario.MedicoId).First();
-            var medicos = db.MedicoHorario.Where(p => p.ConsultorioId == medicoHorario.ConsultorioId && p.Dia == medicoHorario.Dia 
-                                                && ((p.Inicio <= medicoHorario.Inicio && p.Fin > medicoHorario.Inicio) || (p.Inicio <= medicoHorario.Fin && p.Fin > medicoHorario.Fin))).ToList();
-            if (ModelState.IsValid && medicos.Count < 1)
+            EliminarMensaje();
+            try
             {
-                db.MedicoHorario.Add(medicoHorario);
-                db.SaveChanges();
-                return RedirectToAction("Index", new { Id = medicoHorario.MedicoId });
-            }
+                medicoHorario.Medico = db.Medico.Where(p => p.Id == medicoHorario.MedicoId).First();
+                var medicos = db.MedicoHorario.Where(p => p.ConsultorioId == medicoHorario.ConsultorioId && p.Dia == medicoHorario.Dia 
+                                                    && ((p.Inicio <= medicoHorario.Inicio && p.Fin > medicoHorario.Inicio) || (p.Inicio <= medicoHorario.Fin && p.Fin > medicoHorario.Fin))).ToList();
+                if (ModelState.IsValid && medicos.Count < 1)
+                {
+                    db.MedicoHorario.Add(medicoHorario);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", new { Id = medicoHorario.MedicoId });
+                }
 
-            ViewBag.ConsultorioId = new SelectList(db.Consultorio, "Id", "Nombre", medicoHorario.ConsultorioId);
-            ViewBag.MedicoId = new SelectList(db.Medico, "Id", "Id", medicoHorario.MedicoId);
-            return RedirectToAction("Index", new { Id = medicoHorario.MedicoId });
+                ViewBag.ConsultorioId = new SelectList(db.Consultorio, "Id", "Nombre", medicoHorario.ConsultorioId);
+                ViewBag.MedicoId = new SelectList(db.Medico, "Id", "Id", medicoHorario.MedicoId);
+                return RedirectToAction("Index", new { Id = medicoHorario.MedicoId });
+
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
+                return RedirectToAction("Index", new { id = medicoHorario.MedicoId});
+            }
         }
 
         // GET: MedicoHorarios/Delete/5
         public ActionResult Delete(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -78,10 +91,19 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            MedicoHorario medicoHorario = db.MedicoHorario.Find(id);
-            db.MedicoHorario.Remove(medicoHorario);
-            db.SaveChanges();
-            return RedirectToAction("Index", new { Id = medicoHorario.MedicoId });
+            EliminarMensaje();
+            try
+            {
+                MedicoHorario medicoHorario = db.MedicoHorario.Find(id);
+                db.MedicoHorario.Remove(medicoHorario);
+                db.SaveChanges();
+                return RedirectToAction("Index", new { Id = medicoHorario.MedicoId });
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
+                return RedirectToAction("Index", new { id = db.MedicoHorario.First(p => p.Id == id).MedicoId });
+            }
         }
     }
 }

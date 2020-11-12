@@ -11,13 +11,14 @@ using Turnos_Medicos.Models;
 namespace Turnos_Medicos.Controllers
 {
     [SessionCheck]
-    public class PacientePatologiasController : Controller
+    public class PacientePatologiasController : BaseController
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
         // GET: PacientePatologias/Create
         public ActionResult Create(int id)
         {
+            EliminarMensaje();
             ViewBag.PacienteId = new SelectList(from paciente in db.Paciente
                                                 join persona in db.Persona on paciente.PersonaId equals persona.Id
                                                 where paciente.Id == id
@@ -32,24 +33,34 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,PacienteId,Descripcion")] PacientePatologia pacientePatologia)
         {
-            if (ModelState.IsValid)
+            EliminarMensaje();
+            try
             {
-                pacientePatologia.Fecha = DateTime.Now;
-                db.PacientePatologia.Add(pacientePatologia);
-                db.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    pacientePatologia.Fecha = DateTime.Now;
+                    db.PacientePatologia.Add(pacientePatologia);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "PacienteHistoriales", new { id = pacientePatologia.PacienteId });
+                }
+
+                ViewBag.PacienteId = new SelectList(from paciente in db.Paciente
+                                                    join persona in db.Persona on paciente.PersonaId equals persona.Id
+                                                    where paciente.Id == pacientePatologia.Id
+                                                    select new { Id = paciente.Id, Nombre = persona.DNI + " - " + persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
+                return View(pacientePatologia);
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
                 return RedirectToAction("Index", "PacienteHistoriales", new { id = pacientePatologia.PacienteId });
             }
-
-            ViewBag.PacienteId = new SelectList(from paciente in db.Paciente
-                                                join persona in db.Persona on paciente.PersonaId equals persona.Id
-                                                where paciente.Id == pacientePatologia.Id
-                                                select new { Id = paciente.Id, Nombre = persona.DNI + " - " + persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
-            return View(pacientePatologia);
         }
 
         // GET: PacientePatologias/Edit/5
         public ActionResult Edit(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -73,23 +84,33 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,PacienteId,Descripcion,Fecha")] PacientePatologia pacientePatologia)
         {
-            if (ModelState.IsValid)
+            EliminarMensaje();
+            try
             {
-                //pacientePatologia.Fecha = DateTime.Now;
-                db.Entry(pacientePatologia).State = EntityState.Modified;
-                db.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    //pacientePatologia.Fecha = DateTime.Now;
+                    db.Entry(pacientePatologia).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "PacienteHistoriales", new { id = pacientePatologia.PacienteId });
+                }
+                ViewBag.PacienteId = new SelectList(from paciente in db.Paciente
+                                                    join persona in db.Persona on paciente.PersonaId equals persona.Id
+                                                    where paciente.Id == pacientePatologia.Id
+                                                    select new { Id = paciente.Id, Nombre = persona.DNI + " - " + persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
+                return View(pacientePatologia);
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
                 return RedirectToAction("Index", "PacienteHistoriales", new { id = pacientePatologia.PacienteId });
             }
-            ViewBag.PacienteId = new SelectList(from paciente in db.Paciente
-                                                join persona in db.Persona on paciente.PersonaId equals persona.Id
-                                                where paciente.Id == pacientePatologia.Id
-                                                select new { Id = paciente.Id, Nombre = persona.DNI + " - " + persona.Apellido + ", " + persona.Nombre }, "Id", "Nombre");
-            return View(pacientePatologia);
         }
 
         // GET: PacientePatologias/Delete/5
         public ActionResult Delete(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -107,10 +128,19 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            PacientePatologia pacientePatologia = db.PacientePatologia.Find(id);
-            db.PacientePatologia.Remove(pacientePatologia);
-            db.SaveChanges();
-            return RedirectToAction("Index", "PacienteHistoriales", new { id = pacientePatologia.PacienteId });
+            EliminarMensaje();
+            try
+            {
+                PacientePatologia pacientePatologia = db.PacientePatologia.Find(id);
+                db.PacientePatologia.Remove(pacientePatologia);
+                db.SaveChanges();
+                return RedirectToAction("Index", "PacienteHistoriales", new { id = pacientePatologia.PacienteId });
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
+                return RedirectToAction("Index", new { id = db.PacienteAlergia.First(p => p.Id == id).PacienteId });
+            }
         }
 
     }

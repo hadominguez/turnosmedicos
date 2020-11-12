@@ -11,13 +11,14 @@ using Turnos_Medicos.Models;
 namespace Turnos_Medicos.Controllers
 {
     [SessionCheck]
-    public class PacienteObraSocialesController : Controller
+    public class PacienteObraSocialesController : BaseController
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
         // GET: PacienteObraSociales
         public ActionResult Index(int id)
         {
+            EliminarMensaje();
             ViewBag.Paciente = db.Paciente.Where(p => p.Id == id).First();
             var pacienteObraSocial = db.PacienteObraSocial.Where(p => p.PacienteId == id);
             return View(pacienteObraSocial.ToList());
@@ -26,6 +27,7 @@ namespace Turnos_Medicos.Controllers
         // GET: PacienteObraSociales/Create
         public ActionResult Create(int? id, string obra_social, int? id_obra_social)
         {
+            EliminarMensaje();
             PacienteObraSocial pa_obra = new PacienteObraSocial();
             if (id != null)
             {
@@ -66,16 +68,24 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,PacienteId,ObraSocialId,NumeroAfiliado")] PacienteObraSocial pacienteObraSocial)
         {
-            if (ModelState.IsValid)
+            EliminarMensaje();
+            try {
+                if (ModelState.IsValid)
+                {
+                    db.PacienteObraSocial.Add(pacienteObraSocial);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", new { id = pacienteObraSocial.PacienteId });
+                }
+
+                ViewBag.ObraSocialId = new SelectList(db.ObraSocial, "Id", "Nombre", pacienteObraSocial.ObraSocialId);
+                ViewBag.PacienteId = new SelectList(db.Paciente, "Id", "Id", pacienteObraSocial.PacienteId);
+                return View(pacienteObraSocial);
+            }
+            catch (Exception e)
             {
-                db.PacienteObraSocial.Add(pacienteObraSocial);
-                db.SaveChanges();
+                MandarMensaje(e.Message, "Error");
                 return RedirectToAction("Index", new { id = pacienteObraSocial.PacienteId });
             }
-
-            ViewBag.ObraSocialId = new SelectList(db.ObraSocial, "Id", "Nombre", pacienteObraSocial.ObraSocialId);
-            ViewBag.PacienteId = new SelectList(db.Paciente, "Id", "Id", pacienteObraSocial.PacienteId);
-            return View(pacienteObraSocial);
         }
 
 
@@ -83,6 +93,7 @@ namespace Turnos_Medicos.Controllers
         // GET: PacienteObraSociales/Edit/5
         public ActionResult Edit(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -111,15 +122,23 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,PacienteId,ObraSocialId,NumeroAfiliado")] PacienteObraSocial pacienteObraSocial)
         {
-            if (ModelState.IsValid)
+            EliminarMensaje();
+            try {
+                if (ModelState.IsValid)
+                {
+                    db.Entry(pacienteObraSocial).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index", new { id = pacienteObraSocial.PacienteId });
+                }
+                ViewBag.ObraSocialId = new SelectList(db.ObraSocial, "Id", "Nombre", pacienteObraSocial.ObraSocialId);
+                ViewBag.PacienteId = new SelectList(db.Paciente, "Id", "Nombre", pacienteObraSocial.PacienteId);
+                return View(pacienteObraSocial);
+            }
+            catch (Exception e)
             {
-                db.Entry(pacienteObraSocial).State = EntityState.Modified;
-                db.SaveChanges();
+                MandarMensaje(e.Message, "Error");
                 return RedirectToAction("Index", new { id = pacienteObraSocial.PacienteId });
             }
-            ViewBag.ObraSocialId = new SelectList(db.ObraSocial, "Id", "Nombre", pacienteObraSocial.ObraSocialId);
-            ViewBag.PacienteId = new SelectList(db.Paciente, "Id", "Nombre", pacienteObraSocial.PacienteId);
-            return View(pacienteObraSocial);
         }
 
 
@@ -127,6 +146,7 @@ namespace Turnos_Medicos.Controllers
         // GET: PacienteObraSocia.les/Delete/5
         public ActionResult Delete(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -144,10 +164,19 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            PacienteObraSocial pacienteObraSocial = db.PacienteObraSocial.Find(id);
-            db.PacienteObraSocial.Remove(pacienteObraSocial);
-            db.SaveChanges();
-            return RedirectToAction("Index", new { id = pacienteObraSocial.PacienteId });
+            EliminarMensaje();
+            try
+            {
+                PacienteObraSocial pacienteObraSocial = db.PacienteObraSocial.Find(id);
+                db.PacienteObraSocial.Remove(pacienteObraSocial);
+                db.SaveChanges();
+                return RedirectToAction("Index", new { id = pacienteObraSocial.PacienteId });
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
+                return RedirectToAction("Index", new { id = db.PacienteObraSocial.First(p => p.Id == id).PacienteId });
+            }
         }
     }
 }

@@ -13,13 +13,14 @@ using Turnos_Medicos.Models.Extended;
 namespace Turnos_Medicos.Controllers
 {
     [SessionCheck]
-    public class MedicosController : Controller
+    public class MedicosController : BaseController
     {
         private TurnosMedicosEntities db = new TurnosMedicosEntities();
 
         // GET: Medicos
         public ActionResult Index(int? dni, string apellido, string nombre)
         {
+            EliminarMensaje();
             var medico = db.Medico.Include(p => p.Persona);
             string nuevo_dni = dni.ToString();
             if (!(nuevo_dni == "") || !(apellido == "") || !(nombre == ""))
@@ -33,6 +34,7 @@ namespace Turnos_Medicos.Controllers
         // GET: Medicos/Details/5
         public ActionResult Details(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -48,6 +50,7 @@ namespace Turnos_Medicos.Controllers
         // GET: Medicos/Create
         public ActionResult Create(string especialidad, int? id_especialidad)
         {
+            EliminarMensaje();
             MedicoPersona medico = new MedicoPersona();
             if (id_especialidad != null)
             {
@@ -75,85 +78,108 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,DNI,Apellido,Nombre,FechaNacimiento,Calle,Numero,Email,Telefono,Celular,Matricula,EspecialidadId")] MedicoPersona medicopersona)
         {
-            Persona persona = new Persona();
-            persona.DNI = medicopersona.DNI;
-            persona.Apellido = medicopersona.Apellido;
-            persona.Nombre = medicopersona.Nombre;
-            persona.FechaNacimiento = medicopersona.FechaNacimiento;
-            persona.Calle = medicopersona.Calle;
-            persona.Numero = medicopersona.Numero;
-            persona.Email = medicopersona.Email;
-            persona.Telefono = medicopersona.Telefono;
-            persona.Celular = medicopersona.Celular;
-
-            Medico medico = new Medico();
-            medico.Matricula = medicopersona.Matricula;
-            medico.EspecialidadId = medicopersona.EspecialidadId;
-
-            var perso = db.Persona.Where(p => p.DNI == medicopersona.DNI).ToList();
-
-            if (ModelState.IsValid)
+            EliminarMensaje();
+            try
             {
-                if(perso.Count < 1)
+                Persona persona = new Persona();
+                persona.DNI = medicopersona.DNI;
+                persona.Apellido = medicopersona.Apellido;
+                persona.Nombre = medicopersona.Nombre;
+                persona.FechaNacimiento = medicopersona.FechaNacimiento;
+                persona.Calle = medicopersona.Calle;
+                persona.Numero = medicopersona.Numero;
+                persona.Email = medicopersona.Email;
+                persona.Telefono = medicopersona.Telefono;
+                persona.Celular = medicopersona.Celular;
+
+                Medico medico = new Medico();
+                medico.Matricula = medicopersona.Matricula;
+                medico.EspecialidadId = medicopersona.EspecialidadId;
+
+                var perso = db.Persona.Where(p => p.DNI == medicopersona.DNI).ToList();
+
+                if (ModelState.IsValid)
                 {
-                    db.Persona.Add(persona);
-                    db.SaveChanges();
-
-                }
-
-                var usuarios = db.Usuario.Where(p => p.Identificador == medicopersona.DNI).ToList();
-
-                if(usuarios.Count < 1)
-                {
-                    Usuario user = new Usuario();
-                    string clave = medicopersona.DNI;
-
-                    char[] letras = "qwertyuiopasdfghjklñzxcvbnm1234567890".ToCharArray();
-                    Random rand = new Random();
-                    string random_string = "";
-                    for (int i = 0; i < 10; i++)
+                    if(perso.Count < 1)
                     {
-                        random_string += letras[rand.Next(0, 36)].ToString();
+                        db.Persona.Add(persona);
+                        db.SaveChanges();
+
                     }
 
-                    user.Password = Crypto.Hash(random_string);
-                    user.Bloqueado = false;
-                    user.PersonaId = persona.Id;
-                    user.PerfilId = db.Perfil.Where(p => p.Nombre == "Medico").First().Id;
-                    user.Recuperacion = Guid.NewGuid().ToString();
+                    var usuarios = db.Usuario.Where(p => p.Identificador == medicopersona.DNI).ToList();
 
-                    db.Usuario.Add(user);
-                    db.SaveChanges();
+                    if(usuarios.Count < 1)
+                    {
+                        Usuario user = new Usuario();
+                        string clave = medicopersona.DNI;
+
+                        char[] letras = "qwertyuiopasdfghjklñzxcvbnm1234567890".ToCharArray();
+                        Random rand = new Random();
+                        string random_string = "";
+                        for (int i = 0; i < 10; i++)
+                        {
+                            random_string += letras[rand.Next(0, 36)].ToString();
+                        }
+
+                        user.Password = Crypto.Hash(random_string);
+                        user.Bloqueado = false;
+                        user.PersonaId = persona.Id;
+                        user.PerfilId = db.Perfil.Where(p => p.Nombre == "Medico").First().Id;
+                        user.Recuperacion = Guid.NewGuid().ToString();
+
+                        db.Usuario.Add(user);
+                        db.SaveChanges();
+
+                        const string path = "~/Content/Template/EmailCreacionUsuario.html";
+                        var contents = System.IO.File.ReadAllText(Server.MapPath(path));
+
+                        contents = contents.Replace("$fecha", DateTime.Now.ToString("dd-MM-yyyy"));
+                        contents = contents.Replace("$usuario", user.Identificador);
+                        contents = contents.Replace("$clave", random_string);
+                        string nombre = persona.Apellido + ", " + persona.Nombre;
+                        contents = contents.Replace("$nombre", nombre);
+
+                        SendEmail(contents, user.Email, "Creacion de Usuario de MedOffices");
+
+                    }
+                    else
+                    {
+                        var usuario = db.Usuario.Where(p => p.Identificador == medicopersona.DNI).First();
+                        usuario.PerfilId = db.Perfil.Where(p => p.Nombre == "Medico").First().Id;
+                        db.Entry(usuario).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+
+                    var medicos = db.Medico.Where(p => p.Persona.DNI == medicopersona.DNI).ToList();
+
+                    if (medicos.Count < 1)
+                    {
+                        medico.Persona = db.Persona.Where(p => p.DNI == medicopersona.DNI).First();
+                        medico.PersonaId = persona.Id;
+
+                        db.Medico.Add(medico);
+                        db.SaveChanges();
+                    }
+                    return RedirectToAction("Index");
                 }
-                else
-                {
-                    var usuario = db.Usuario.Where(p => p.Identificador == medicopersona.DNI).First();
-                    usuario.PerfilId = db.Perfil.Where(p => p.Nombre == "Medico").First().Id;
-                    db.Entry(usuario).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
 
-                var medicos = db.Medico.Where(p => p.Persona.DNI == medicopersona.DNI).ToList();
+                ViewBag.EspecialidadId = new SelectList(db.Especialidad, "Id", "Nombre", medico.EspecialidadId);
+                ViewBag.PersonaId = new SelectList(db.Persona, "Id", "DNI", medico.PersonaId);
+                return RedirectToAction("Create");
 
-                if (medicos.Count < 1)
-                {
-                    medico.Persona = db.Persona.Where(p => p.DNI == medicopersona.DNI).First();
-                    medico.PersonaId = persona.Id;
-
-                    db.Medico.Add(medico);
-                    db.SaveChanges();
-                }
+            }
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
                 return RedirectToAction("Index");
             }
-
-            ViewBag.EspecialidadId = new SelectList(db.Especialidad, "Id", "Nombre", medico.EspecialidadId);
-            ViewBag.PersonaId = new SelectList(db.Persona, "Id", "DNI", medico.PersonaId);
-            return RedirectToAction("Create");
         }
 
         // GET: Medicos/Edit/5
         public ActionResult Edit(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -193,38 +219,47 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,PersonaId,DNI,Apellido,Nombre,FechaNacimiento,Calle,Numero,Email,Telefono,Celular,Matricula,EspecialidadId")] MedicoPersona medicopersona)
         {
-            Medico medico = db.Medico.Find(medicopersona.Id);
-            Persona persona = db.Persona.Find(medicopersona.PersonaId);
+            EliminarMensaje();
+            try {
+                Medico medico = db.Medico.Find(medicopersona.Id);
+                Persona persona = db.Persona.Find(medicopersona.PersonaId);
 
-            persona.DNI = medicopersona.DNI;
-            persona.Apellido = medicopersona.Apellido;
-            persona.Nombre = medicopersona.Nombre;
-            persona.FechaNacimiento = medicopersona.FechaNacimiento;
-            persona.Calle = medicopersona.Calle;
-            persona.Numero = medicopersona.Numero;
-            persona.Email = medicopersona.Email;
-            persona.Telefono = medicopersona.Telefono;
-            persona.Celular = medicopersona.Celular;
+                persona.DNI = medicopersona.DNI;
+                persona.Apellido = medicopersona.Apellido;
+                persona.Nombre = medicopersona.Nombre;
+                persona.FechaNacimiento = medicopersona.FechaNacimiento;
+                persona.Calle = medicopersona.Calle;
+                persona.Numero = medicopersona.Numero;
+                persona.Email = medicopersona.Email;
+                persona.Telefono = medicopersona.Telefono;
+                persona.Celular = medicopersona.Celular;
 
-            medico.Matricula = medicopersona.Matricula;
-            medico.EspecialidadId = medicopersona.EspecialidadId;
+                medico.Matricula = medicopersona.Matricula;
+                medico.EspecialidadId = medicopersona.EspecialidadId;
 
-            if (ModelState.IsValid)
-            {
-                db.Entry(medico).State = EntityState.Modified;
-                db.SaveChanges();
-                db.Entry(persona).State = EntityState.Modified;
-                db.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    db.Entry(medico).State = EntityState.Modified;
+                    db.SaveChanges();
+                    db.Entry(persona).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.EspecialidadId = new SelectList(db.Especialidad, "Id", "Nombre", medico.EspecialidadId);
+                ViewBag.PersonaId = new SelectList(db.Persona, "Id", "DNI", medico.PersonaId);
                 return RedirectToAction("Index");
             }
-            ViewBag.EspecialidadId = new SelectList(db.Especialidad, "Id", "Nombre", medico.EspecialidadId);
-            ViewBag.PersonaId = new SelectList(db.Persona, "Id", "DNI", medico.PersonaId);
-            return RedirectToAction("Index");
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
+                return RedirectToAction("Index");
+            }
         }
 
         // GET: Medicos/Delete/5
         public ActionResult Delete(int? id)
         {
+            EliminarMensaje();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -242,19 +277,18 @@ namespace Turnos_Medicos.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Medico medico = db.Medico.Find(id);
-            db.Medico.Remove(medico);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
+            EliminarMensaje();
+            try {
+                Medico medico = db.Medico.Find(id);
+                db.Medico.Remove(medico);
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            base.Dispose(disposing);
+            catch (Exception e)
+            {
+                MandarMensaje(e.Message, "Error");
+                return RedirectToAction("Index");
+            }   
         }
     }
 }

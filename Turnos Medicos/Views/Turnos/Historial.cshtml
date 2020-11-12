@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>PacienteHistorial</h4>
+    <h4>Paciente Historial</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group" hidden>
@@ -31,12 +31,19 @@
         </div>
     </div>
 
-
+    <!--
     <div class="form-group">
         @Html.LabelFor(model => model.Observacion, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Observacion, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
+        </div>
+    </div>-->
+    <div class="form-group">
+        <label class="control-label col-md-2" for="Observacion">Observacion</label>
+        <div class="col-md-10">
+            <textarea class="form-control text-box single-line" id="Observacion" name="Observacion" rows="4" cols="50" maxlength = "450"></textarea>
+            <span class="field-validation-valid text-danger" data-valmsg-for="Observacion" data-valmsg-replace="true"></span>
         </div>
     </div>
 
@@ -50,7 +57,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+            <input type="submit" value="Crear" class="btn btn-default" />
         </div>
     </div>
 </div>

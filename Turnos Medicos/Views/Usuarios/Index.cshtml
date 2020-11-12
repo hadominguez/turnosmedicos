@@ -4,7 +4,7 @@
     ViewBag.Title = "Listado de Usuarios";
 }
 
-<h2>ViewBag.Title</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
     <a href="/Usuarios/Create/" class="btn btn-success">
@@ -46,7 +46,7 @@
             @Html.DisplayFor(modelItem => item.Perfil.Nombre)
         </td>
         <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.Id })
+            @Html.ActionLink("Editar", "Edit", new { id=item.Id }, new { @class = "btn btn-info" })
         </td>
     </tr>
 }

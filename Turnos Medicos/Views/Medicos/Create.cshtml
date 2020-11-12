@@ -110,7 +110,7 @@ using (Html.BeginForm())
     </div>
 
     <div class="form-group">
-        <label class="control-label col-md-2" for="FechaNacimiento">Fecha Nacimiento</label>
+        <label class="control-label col-md-2" for="FechaNacimiento">Fecha de Nacimiento</label>
         <div class="col-md-10">
             <input class="form-control datepicker text-box single-line" data-val="true" data-val-date="The field Fecha must be a date." data-val-required="El campo Fecha Nacimiento es obligatorio." id="FechaNacimiento" name="FechaNacimiento" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" max="@DateTime.Now.ToString("yyyy-MM-dd")">
             <span class="field-validation-valid text-danger" data-valmsg-for="FechaNacimiento" data-valmsg-replace="true"></span>
@@ -126,7 +126,7 @@ using (Html.BeginForm())
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Numero, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Numero, "Número", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Numero, "Número", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "99999999", @required = "required" } })
             @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
@@ -142,7 +142,7 @@ using (Html.BeginForm())
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Telefono, "Teléfono", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "99999999999", @required = "required" } })
             @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
@@ -161,7 +161,7 @@ using (Html.BeginForm())
 
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Matricula, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Matricula, "Matrícula", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Matricula, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
             @Html.ValidationMessageFor(model => model.Matricula, "", new { @class = "text-danger" })

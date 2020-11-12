@@ -35,7 +35,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Persona.FechaNacimiento)
+           @Html.Label("Fecha de Nacimiento")
         </dt>
 
         <dd>
@@ -51,7 +51,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Persona.Numero)
+            @Html.Label("Número")
         </dt>
 
         <dd>
@@ -67,7 +67,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Persona.Telefono)
+          @Html.Label("Teléfono")
         </dt>
 
         <dd>
@@ -82,7 +82,7 @@
             @Html.DisplayFor(model => model.Persona.Celular)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Matricula)
+           @Html.Label("Matrícula")
         </dt>
 
         <dd>
@@ -100,5 +100,5 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) 
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Id }, new { @class = "btn btn-info" }) 
 </p>
